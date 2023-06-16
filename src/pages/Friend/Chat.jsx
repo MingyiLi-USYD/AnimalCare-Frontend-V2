@@ -1,8 +1,8 @@
-import {Avatar, Button, Col, Divider, List, Row, Skeleton} from 'antd';
+import {Avatar, Button, List} from 'antd';
 import {useEffect, useRef, useState} from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import {connect} from "../../.umi/exports";
 import {getChatListByUser} from "../../utils/ChatUtils";
+
 const Chat = (props) => {
     const ini = [
         {
@@ -65,7 +65,7 @@ const Chat = (props) => {
         >
                 <Button>History</Button>
                 <List
-                    dataSource={getChatListByUser(chatRecord, contact)?.messageLists}
+                    dataSource={getChatListByUser(chatRecord, contact)}
                     renderItem={(item, index) => (
                         <List.Item>
                              <OneRecord index={index} me={true} data={item} me={me}/>
@@ -81,15 +81,14 @@ export default connect(
     },
 )(Chat);
 const OneRecord = ({index,data,me})=>{
+  console.log(data.user.id===me.id)
 
     return(
-        <div className={`oneMessage ${data.user.id===me.id?'revere':''}`}>
-
+        <div className={`oneMessage ${data.user.id===me.id?'reverse':''}`}>
                 <div span={2}>
                     <Avatar size={50} src={data.user.avatar}/>
                 </div>
-                <div span={22}style={{borderRadius:10,backgroundColor:'green',padding:15}}dangerouslySetInnerHTML={{ __html: data.message.content }}>
-                </div>
+                <div span={22}style={{borderRadius:10,backgroundColor:'green',padding:15}}dangerouslySetInnerHTML={{ __html: data.message.content }}/>
 
         </div>
     )

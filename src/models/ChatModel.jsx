@@ -3,7 +3,7 @@ import {onChatReceive, onChatSend} from "../utils/ChatUtils";
 export default {
     namespace:'ChatModel',
     state:{
-        chatRecord:[],
+        chatRecord:new Map(),
         friendLists:[],
         contact:{},
         me:{}
@@ -15,7 +15,7 @@ export default {
             const newChatRecord = onChatSend(chatRecord,msg,contact.id)
             return {
                 ...state,
-                chatRecord:[...newChatRecord]
+                chatRecord:newChatRecord
             }
         }
         ,
@@ -24,7 +24,7 @@ export default {
             const newChatRecord = onChatReceive(chatRecord,payload);
             return {
                 ...state,
-                chatRecord:[...newChatRecord]
+                chatRecord:newChatRecord
             }
         },
 

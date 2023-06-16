@@ -1,4 +1,4 @@
-export function onChatReceive(state,data){
+/*export function onChatReceive(state,data){
     console.log("收到消息")
     for (let i = 0; i < state.length; i++) {
 
@@ -20,8 +20,30 @@ export function onChatReceive(state,data){
     state.unshift(newUser)
     return state
 
+}*/
+
+export function onChatReceive(state, data) {
+    console.log("收到消息");
+
+    const newState = new Map(state);
+
+    if (newState.has(data.fromId)) {
+        const user = newState.get(data.fromId);
+        const updatedUser = {
+            ...user,
+            messageLists: user.messageLists ? [...user.messageLists, data.message.message] : [data.message.message],
+        };
+        newState.set(user.id, updatedUser);
+    } else {
+        const newUser = {
+            id: data.fromId,
+            messageLists: [data.message.message],
+        };
+        newState.set(newUser.id, newUser);
+    }
+    return newState.toJS();
 }
-export function onChatSend(chatRecord,data,targetId){
+/*export function onChatSend(chatRecord,data,targetId){
     console.log("发送消息")
     for (let i = 0; i < chatRecord.length; i++) {
         let user = chatRecord[i];
@@ -41,8 +63,25 @@ export function onChatSend(chatRecord,data,targetId){
     }
     chatRecord.unshift(newUser)
     return chatRecord
+}*/
+
+export function onChatSend(chatRecord, data, targetId) {
+
+
+    // 创建一个新的Map对象
+    const newChatRecord = new Map(chatRecord)
+
+    if (newChatRecord.has(targetId)) {
+       newChatRecord.get(targetId).push(data);
+    } else {
+        console.log("第一次发")
+        newChatRecord.set(targetId, [data])
+    }
+
+    return newChatRecord;
 }
-export function getChatListByUser(allChat,user){
+
+/*export function getChatListByUser(allChat,user){
     for (let i = 0; i < allChat.length; i++) {
         if(allChat[i].id===user.id){
             return allChat[i]
@@ -50,4 +89,7 @@ export function getChatListByUser(allChat,user){
 
     }
 
+}*/
+export function getChatListByUser(allChat,user) {
+    return allChat.get(user.id)
 }
