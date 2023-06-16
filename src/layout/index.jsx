@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import { ProLayout } from '@ant-design/pro-components';
-import { HomeOutlined,ScissorOutlined,DeleteOutlined } from '@ant-design/icons';
+import { HomeOutlined,ScissorOutlined,DeleteOutlined,CommentOutlined,UserOutlined  } from '@ant-design/icons';
 import './index.less'
 import {history,useModel,Outlet} from 'umi'
 import RightContent from "../components/Avatar";
@@ -16,6 +16,18 @@ const BasicLayout = () => {
       name: '首页',
       path: '/home',
       icon: <HomeOutlined/>,
+    },
+    {
+      key:'15',
+      name: '聊天',
+      path: '/chat',
+      icon: <CommentOutlined />,
+    },
+    {
+      key:'5',
+      name: '好友',
+      path: '/friend',
+      icon: <UserOutlined />,
     },
     {
       key:'2',
@@ -36,12 +48,6 @@ const BasicLayout = () => {
           icon: <HomeOutlined/>,
         },
       ],
-    },
-    {
-      key:'5',
-      name: '好友',
-      path: '/friend',
-      icon: <HomeOutlined/>,
     },
     {
       key:'6',

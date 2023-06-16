@@ -1,53 +1,69 @@
-export function onChatReceive(state,data){
-    console.log("收到消息")
-    for (let i = 0; i < state.length; i++) {
 
-        let user = state[i];
-           if(user.id===data.fromId){
-                if(user.messageLists){
-                    user.messageLists=[...user.messageLists,data.message.message]
-                }else {
-                    user.messageLists=[data.message.message]
-                }
-                console.log(state)
-                return state
-            }
-    }
-    const newUser = {
-        id:data.fromId,
-        messageLists:[data.message.message]
-    }
-    state.unshift(newUser)
-    return state
+export function onChatReceive(chatRecord, data,fromUser) {
+    console.log(data);
+    const newChatRecord = new Map(chatRecord)
 
+    if (newChatRecord.has(fromUser.id)) {
+        let record = newChatRecord.get(fromUser.id)
+        record.chatList.push(data)
+        record.chatUser=fromUser
+        record.latestTime=data.date,
+        record.latestMsg=data.content,
+        newChatRecord.set(fromUser.id,record)
+    } else {
+        newChatRecord.set(fromUser.id,{
+            chatList:[data],
+            chatUser:fromUser,
+            latestTime:data.date,
+            latestMsg:data.content,
+        })
+    }
+    return newChatRecord
 }
-export function onChatSend(chatRecord,data,targetId){
-    console.log("发送消息")
-    for (let i = 0; i < chatRecord.length; i++) {
-        let user = chatRecord[i];
-        if(user.id===targetId){
-            if(user.messageLists){
-                user.messageLists=[...user.messageLists,data]
-            }else {
-                user.messageLists=[data]
-            }
-            return chatRecord
-        }
+
+export function onChatSend(chatRecord, data, contact) {
+    console.log(data);
+    const targetId= contact.id
+    // 创建一个新的Map对象
+    const newChatRecord = new Map(chatRecord)
+
+    if (newChatRecord.has(targetId)) {
+      newChatRecord.get(targetId).chatList.push(data)
+      newChatRecord.get(targetId).chatUser=contact
+      newChatRecord.get(targetId).latestTime=data.date
+      newChatRecord.get(targetId).latestMsg=data.content
+    } else {
+        newChatRecord.set(targetId, {
+            chatList:[data],
+            chatUser:contact,
+            latestTime:data.date,
+            latestMsg:data.content,
+        })
     }
 
-    const newUser = {
-        id:targetId,
-        messageLists:[data]
-    }
-    chatRecord.unshift(newUser)
-    return chatRecord
+    return newChatRecord;
 }
-export function getChatListByUser(allChat,user){
-    for (let i = 0; i < allChat.length; i++) {
-        if(allChat[i].id===user.id){
-            return allChat[i]
-        }
 
-    }
+export function getChat(allChat,user) {
+    return allChat.get(user.id)
+}
+export function onNewSession(chatRecord,contact){
+    const newChatRecord = new Map(chatRecord)
+    newChatRecord.set(contact.id,{
+        chatList:[],
+        chatUser:contact,
+        latestTime:new Date().getTime(),
+        latestMsg: '',
+    })
+   return newChatRecord
+}
+
+export function convertMapToList(chatRecord){
+
+   return  Array.from(chatRecord.values()).sort(
+       (a, b) => {
+           return b.latestTime-a.latestTime
+       }
+   )
 
 }

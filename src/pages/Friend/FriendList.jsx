@@ -1,11 +1,10 @@
-import {Avatar, Card, Divider, List, Skeleton} from 'antd';
+import {Avatar, List} from 'antd';
 import {connect} from "umi";
-import { useEffect, useState } from 'react';
-/*import InfiniteScroll from 'react-infinite-scroll-component';*/
+import {useState} from 'react';
 
 
 const FriendList = (props) => {
-    const {chatRecord,friendLists,contact,dispatch}=props
+    const {friendLists,contact,dispatch}=props
     const [hoveredIndex,setHoveredIndex] = useState(-1);
     const handleMouseEnter =(index)=>{
         setHoveredIndex(index)
@@ -15,39 +14,31 @@ const FriendList = (props) => {
     }
     const handleClick= (contact)=>{
         dispatch({
-            type:'ChatModel/onChangeContact',
+            type:'FriendModel/onChangeContact',
             payload: contact
         })
     }
 
     return (
         <div
-            id="scrollableDiv"
-            style={{
-                height: '100%',
-                overflow: 'auto',
-                padding: '0 16px',
-                border: '4px solid rgba(140, 140, 140, 0.35)',
-            }}
+            id="myScrollableDiv"
         >
-                <List
+            <List
 
-                    dataSource={friendLists}
-                    renderItem={(item,index) => (
-                        <List.Item key={item.id} style={{ background:item.id===contact.id? '#adb7c7' :index === hoveredIndex ? '#d8dee8' :'transparent' }}
-                                   onMouseEnter={()=>handleMouseEnter(index)} onMouseLeave={handleMouseLeave} onClick={()=>handleClick(item)} >
-                            <List.Item.Meta
-                                avatar={<Avatar src={item.avatar} />}
-                                title={<a>{item.nickname}</a>}
-                                description={item.description}
-                            />
-                            <div>Content</div>
-                        </List.Item>
-                    )}
-                />
+                dataSource={[...friendLists,...friendLists,...friendLists,...friendLists]}
+                renderItem={(item,index) => (
+                    <List.Item key={item.id} style={{ background:item.id===contact.id? '#adb7c7' :index === hoveredIndex ? '#d8dee8' :'transparent' }}
+                               onMouseEnter={()=>handleMouseEnter(index)} onMouseLeave={handleMouseLeave} onClick={()=>handleClick(item)} >
+                        <div>
+                            <Avatar size={60} src={item.avatar} />
+                            <span style={{fontSize:20,marginLeft:10,verticalAlign:"middle"}}>{item.nickname}</span>
+                        </div>
+                    </List.Item>
+                )}
+            />
         </div>
     );
 };
-export default connect(({ChatModel:{chatRecord,friendLists,contact}})=>{
+export default connect(({ChatModel:{chatRecord,friendLists},FriendModel:{contact}})=>{
 
     return {chatRecord,friendLists,contact}})(FriendList);

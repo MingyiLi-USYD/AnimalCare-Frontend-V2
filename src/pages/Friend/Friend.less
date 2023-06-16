@@ -1,48 +1,86 @@
 @containerHeight: calc(100vh - 64px);
 
 .friendsContainer {
-  height: @containerHeight;
-  //min-height: 400px;
-}
-
-.messageContainer {
-  height: calc(@containerHeight * 0.6);
-}
-
-.oneMessage {
-  width: 100%;
-  background-color: lightblue;
   display: flex;
-  //flex-direction: row-reverse;
-}
-
-.reverse {
-  flex-direction: row-reverse;
-}
-
-.myRow {
   height: @containerHeight;
 }
 
-.chatHeader {
-  height: calc(@containerHeight * 0.1);
+.friend-fixed-div {
+  width: 300px;
 }
 
-.chatInput {
-  height: calc(@containerHeight * 0.3);
-  background-color: purple;
-  overflow: hidden;
+.friend-flexible-div {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .detail-info{
+    border-radius: 10px;
+    background-color: lightcyan;
+    width: 500px;
+    height: 300px;
+    .detail-info-top{
+      height: 200px;
+      width: 500px;
+      display: flex;
+      justify-content: space-around;
+      .text-info{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        width: 300px;
+        height: 150px;
+        .nickname{
+          color: black;
+          font-size: 30px;
+        }
+      }
+    }
+    .detail-info-bottom{
+      height: 100px;
+      width: 500px;
+      position: relative;
+      .send-button{
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        transform: translateX(-50%);
+        width: 140px;
+        height: 40px;
+        font-size: 18px;
+        color: white;
+        background-color: green;
+      }
+    }
+
+  }
+}
+
+
+#myScrollableDiv {
+  width: 300px; /* 根据需要调整容器的宽度 */
+  height: 100%;
+  border-right: gray solid 1px;
+  overflow: hidden; /* 初始状态下隐藏超出内容 */
   position: relative;
 }
 
-.toolBar {
-  display: flex;
-  background-color: white;
-  height: calc(@containerHeight * 0.15 * 0.3);
+#myScrollableDiv:hover {
+  overflow: auto; /* 鼠标悬停时显示滚动条 */
 }
 
-.myInput {
-  background-color: white;
-  overflow: auto;
-  height: calc(@containerHeight * 0.7 * 0.3);
+#myScrollableDiv::-webkit-scrollbar {
+  width: 8px; /* 调整滚动条的宽度 */
+}
+
+#myScrollableDiv::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* 滚动条背景色 */
+}
+
+#myScrollableDiv::-webkit-scrollbar-thumb {
+  background-color: #888; /* 滚动条滑块颜色 */
+}
+
+#myScrollableDiv::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* 鼠标悬停时滚动条滑块颜色 */
 }

@@ -6,7 +6,6 @@ export default defineConfig({
     '@umijs/plugins/dist/model',
     '@umijs/plugins/dist/request',
     '@umijs/plugins/dist/dva',
-
   ],
   model: {},
   request: {},
@@ -29,19 +28,21 @@ export default defineConfig({
           component: '@/pages/Home/index',
         },
         {
+          path: '/chat',
+          component: '@/pages/Chat/Chat',
+        },
+        {
           path: '/new',
           routes: [
             {
               name: 'Post',
               path: '/new/post',
               component: '@/pages/New/NewPost',
-              icon: 'ScissorOutlined',
             },
             {
               name: 'Pet',
               path: '/new/pet',
               component: '@/pages/New/NewPet',
-              icon: 'DeleteOutlined',
             },
 
           ],
@@ -91,12 +92,12 @@ export default defineConfig({
       target: 'http://localhost:8080', // 服务端域名
       changeOrigin: true, // 允许域名进行转换
     },
-    '/chat': {
+/*    '/chat': {
       target: 'ws://localhost:8080', // 将目标设置为 WebSocket 服务器地址
       ws: true,
       changeOrigin: true,
-      /*    'pathRewrite': {'^/ws': '' },*/
-    },
+      /!*    'pathRewrite': {'^/ws': '' },*!/
+    },*/
 /*    '/server/socket.io': {
       target: 'ws://localhost:8888',
       ws: true,

@@ -1,0 +1,73 @@
+@containerHeight: calc(100vh - 64px);
+
+.chatContainer {
+  display: flex;
+  height: @containerHeight;
+}
+
+.messageContainer {
+  height: calc(@containerHeight * 0.6);
+}
+
+.oneMessage {
+  width: 100%;
+  display: flex;
+  //flex-direction: row-reverse;
+
+  .text {
+    position: relative;
+    border-radius: 10px;
+    background-color: green;
+    padding: 0px 15px;
+    margin-right: 20px;
+  }
+  .text::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -10px;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-left: 10px solid green;
+    border-bottom: 10px solid transparent;
+  }
+}
+
+.reverse {
+  flex-direction: row-reverse;
+}
+.chatHeader {
+  height: calc(@containerHeight * 0.1);
+}
+
+.chatInput {
+  height: calc(@containerHeight * 0.3);
+  background-color: purple;
+  overflow: hidden;
+  position: relative;
+}
+
+.toolBar {
+  display: flex;
+  background-color: white;
+  height: calc(@containerHeight * 0.15 * 0.3);
+}
+
+.myInput {
+  background-color: white;
+  overflow: auto;
+  height: calc(@containerHeight * 0.7 * 0.3);
+}
+
+
+.fixed-div {
+  width: 300px;
+}
+
+.flexible-div {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
