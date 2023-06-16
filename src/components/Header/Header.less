@@ -1,0 +1,24 @@
+@width:400px;
+@height:200px;
+.my-card {
+  height: @height;
+  width: @width;
+  background-color: lightblue;
+  position: absolute;
+  left: calc(50vw - @width / 2);
+  top: -200px;
+/*  animation: goDown 5s;*/
+}
+/*.my-card-animation {
+
+}*/
+
+@keyframes goDown
+{
+  0%   { top:-200px;}
+  20%  {top:0px;}
+  80%  {top:0px;}
+  100%  {top:-200px;}
+}
+
+

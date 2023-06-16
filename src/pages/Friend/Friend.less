@@ -1,0 +1,48 @@
+@containerHeight: calc(100vh - 64px);
+
+.friendsContainer {
+  height: @containerHeight;
+  //min-height: 400px;
+}
+
+.messageContainer {
+  height: calc(@containerHeight * 0.6);
+}
+
+.oneMessage {
+  width: 100%;
+  background-color: lightblue;
+  display: flex;
+  //flex-direction: row-reverse;
+}
+
+.reverse {
+  flex-direction: row-reverse;
+}
+
+.myRow {
+  height: @containerHeight;
+}
+
+.chatHeader {
+  height: calc(@containerHeight * 0.1);
+}
+
+.chatInput {
+  height: calc(@containerHeight * 0.3);
+  background-color: purple;
+  overflow: hidden;
+  position: relative;
+}
+
+.toolBar {
+  display: flex;
+  background-color: white;
+  height: calc(@containerHeight * 0.15 * 0.3);
+}
+
+.myInput {
+  background-color: white;
+  overflow: auto;
+  height: calc(@containerHeight * 0.7 * 0.3);
+}
