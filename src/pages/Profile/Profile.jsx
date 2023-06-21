@@ -1,5 +1,5 @@
-import {Avatar, Button, Spin, Typography} from 'antd';
-import { useRequest } from 'umi';
+import {Avatar, Button, Modal, Spin, Typography} from 'antd';
+import {connect, useRequest} from 'umi';
 import PetCardList from './Components/PetCardList';
 import {getProfileById} from '../../services/userService';
 import PostCardList from "./Components/PostList";
@@ -8,11 +8,12 @@ import PostDetail from "./Components/PostDetail";
 import {useEffect, useState} from "react";
 import {getFriendshipStatus} from "../../services/friendService";
 import BackForward from "../../components/BackForward";
-
+import RelationDetail from "./Components/RelationDetail";
+import './Profile.less'
 
 const { Title, Paragraph } = Typography;
 
-const Profile = () => {
+const Profile = (props) => {
     const params = useParams();
     const { id } = params;
     const [relation,setRelation] = useState(0);
@@ -31,16 +32,28 @@ const Profile = () => {
        const res= await getFriendshipStatus(toId)
        setRelation(res.data)
     }
-    const relationList = [null,<Button key={1} danger>Delete</Button>
+
+
+    const  handleAdd = () => {
+        props.dispatch({
+            type: 'RelationModel/openModal',
+        });
+    }
+    const  handleDelete = () => {
+        props.dispatch({
+            type: 'RelationModel/openModal',
+        });
+    }
+
+    const relationList = [null,<Button key={1} danger onClick={handleDelete} >Delete</Button>
         ,<Button key={2} type={"primary"} disabled={true}>Pending</Button>
-        ,<Button key={3} type={"primary"}>Add</Button> ]
+        ,<Button key={3} type={"primary"} onClick={handleAdd}>Add</Button> ]
   if(!data){
       return <Spin>loading</Spin>
   }
-  console.log(id,userId)
   return (
 
-    <div>
+    <div className={'my-profile'}>
         <BackForward/>
         <div style={{display:"flex",alignItems:"center"}}>
             <Avatar src={data?.avatar} size={64} />
@@ -54,8 +67,11 @@ const Profile = () => {
       <PetCardList data={data?.petList} />
       <PostCardList data={data?.postList}/>
       <PostDetail/>
+      <RelationDetail userId={data.id} relation={relation} avatar={data.avatar} nickname={data.nickname} setRelation={setRelation}  />
     </div>
   );
 };
 
-export default Profile;
+export default connect(() => {
+    return {};
+})(Profile);

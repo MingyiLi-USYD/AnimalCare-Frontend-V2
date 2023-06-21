@@ -13,8 +13,8 @@ export const updatePetById = async (petId,pet)=>await request(`/api/pet/${petId}
     data:pet
 })
 
-export const newPet = (params) => {
-    const { petName, petDescription, category, avatar } = params;
+export const newPet = (params,onUploadProgress) => {
+    const { petName, petDescription, category, avatar,petVisible } = params;
     console.log(params);
     let fileData = new FormData();
     if (avatar) {
@@ -31,7 +31,9 @@ export const newPet = (params) => {
             petName,
             petDescription,
             category,
+            petVisible
         },
+        onUploadProgress
     });
 };
 

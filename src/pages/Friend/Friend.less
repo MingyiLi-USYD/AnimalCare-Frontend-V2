@@ -7,6 +7,11 @@
 
 .friend-fixed-div {
   width: 300px;
+  .new-friend-request{
+     width: 300px;
+     height: 100px;
+    background-color: lightblue;
+  }
 }
 
 .friend-flexible-div {
@@ -28,11 +33,21 @@
         display: flex;
         flex-direction: column;
         justify-content: space-around;
-        width: 300px;
+        width: 260px;
         height: 150px;
         .nickname{
           color: black;
           font-size: 30px;
+        }
+      }
+      .button-info{
+        svg {
+          width: 50px;
+          height: 30px;
+        }
+        &:hover{
+          background-color: darkgrey;
+          border-radius: 5px;
         }
       }
     }
@@ -56,7 +71,54 @@
   }
 }
 
-
+.one-friend-request{
+  display: flex;
+  .last-info{
+    width: 200px;
+    >div{
+      text-align: left;
+      margin: 0;
+      padding: 0;
+    }
+    .nickname{
+      font-size: 25px;
+    }
+    .last-msg{
+      font-size: 15px;
+      color: darkgrey;
+      overflow: hidden; // 隐藏溢出的内容
+      text-overflow: ellipsis; // 使用省略号代替溢出的内容
+      white-space: nowrap; // 强制在一行内显示文本
+    }
+  }
+  .last-avatar{
+    width: 80px;
+  }
+  .operation{
+    margin-left: 20px;
+    width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    button{
+      width: 80px;
+    }
+    .reject{
+      &:hover{
+        background-color: red;
+        scale: 1.1;
+        color: white;
+      }
+    }
+    .approve{
+      background-color: green;
+      &:hover{
+        scale: 1.1;
+        color: white;
+      }
+    }
+  }
+}
 #myScrollableDiv {
   width: 300px; /* 根据需要调整容器的宽度 */
   height: 100%;

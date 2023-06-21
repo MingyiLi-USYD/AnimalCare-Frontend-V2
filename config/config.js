@@ -20,6 +20,11 @@ export default defineConfig({
       component: './Login',
     },
     {
+      name: 'SignUp',
+      path: '/signup',
+      component: './SignUp/SignUp',
+    },
+    {
       path: '/',
       component: '@/layout/index',
       routes: [
@@ -76,6 +81,7 @@ export default defineConfig({
           path: '/setting',
           component: './Setting/Setting',
         },
+        { path: '/*', redirect:'/home'},
       ],
     },
 
@@ -98,11 +104,10 @@ export default defineConfig({
       changeOrigin: true,
       /!*    'pathRewrite': {'^/ws': '' },*!/
     },*/
-/*    '/server/socket.io': {
-      target: 'ws://localhost:8888',
+    '/socket.io': {
+      target: 'http://localhost:8888',
       ws: true,
       changeOrigin: true,
-      pathRewrite: { '^/server': '' }, // 将请求url里的ci去掉
-    },*/
+    },
   },
 });

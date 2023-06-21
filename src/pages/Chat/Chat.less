@@ -12,16 +12,20 @@
 .oneMessage {
   width: 100%;
   display: flex;
-  //flex-direction: row-reverse;
-
   .text {
+    max-width: 500px;
     position: relative;
+    display: flex;
+    align-items: center;
     border-radius: 10px;
     background-color: green;
-    padding: 0px 15px;
-    margin-right: 20px;
+    padding: 0 15px;
+    margin: 0 20px;
+    word-break: break-all; /* 超过最大宽度后自动换行 */
   }
-  .text::after {
+
+
+  .after-triangle::after {
     content: "";
     position: absolute;
     top: 50%;
@@ -33,41 +37,107 @@
     border-left: 10px solid green;
     border-bottom: 10px solid transparent;
   }
+
+  .before-triangle::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -10px;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-right: 10px solid green;
+    border-bottom: 10px solid transparent;
+  }
 }
 
 .reverse {
   flex-direction: row-reverse;
 }
-.chatHeader {
-  height: calc(@containerHeight * 0.1);
-}
-
-.chatInput {
-  height: calc(@containerHeight * 0.3);
-  background-color: purple;
-  overflow: hidden;
-  position: relative;
-}
-
-.toolBar {
-  display: flex;
-  background-color: white;
-  height: calc(@containerHeight * 0.15 * 0.3);
-}
-
-.myInput {
-  background-color: white;
-  overflow: auto;
-  height: calc(@containerHeight * 0.7 * 0.3);
-}
 
 
 .fixed-div {
   width: 300px;
+  .last-info{
+    width: 150px;
+    >div{
+      text-align: left;
+      margin: 0;
+      padding: 0;
+    }
+    .nickname{
+      font-size: 20px;
+    }
+    .last-msg{
+      font-size: 15px;
+      color: darkgrey;
+      overflow: hidden; // 隐藏溢出的内容
+      text-overflow: ellipsis; // 使用省略号代替溢出的内容
+      white-space: nowrap; // 强制在一行内显示文本
+    }
+  }
+  .last-avatar{
+    width: 80px;
+  }
 }
 
 .flexible-div {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  .child-one {
+    height: 200px
+  }
+  .child-two{
+    flex: 1;
+  }
+  .child-three{
+    height: 300px;
+    position: relative;
+    .toolBar {
+      display: flex;
+      background-color: white;
+      height: 50px;
+    }
+    .myInput {
+      background-color: white;
+      overflow: auto;
+      height: 200px;
+      width: 100%;
+    }
+    .myButtonDiv{
+      display: flex;
+      justify-content: space-between;
+      height:50px ;
+    }
+  }
+}
+
+#ScrollableChatHistory,#scrollableDivRecent {
+  width: 100%;
+  border-right: gray solid 1px;
+  overflow: hidden; /* 初始状态下隐藏超出内容 */
+  position: relative;
+  text-align: center;
+
+  &:hover {
+    overflow: auto; /* 鼠标悬停时显示滚动条 */
+  }
+
+  &::-webkit-scrollbar {
+    width: 8px; /* 调整滚动条的宽度 */
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* 滚动条背景色 */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #888; /* 滚动条滑块颜色 */
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* 鼠标悬停时滚动条滑块颜色 */
+  }
 }

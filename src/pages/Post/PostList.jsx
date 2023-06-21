@@ -16,8 +16,6 @@ function PostList() {
     },[])
 
     const confirm = (id) => {
-
-        console.log(id);
         const newData = [...data].filter(item=> item.postId!==id)
         setData(newData)
         deletePostById(id)

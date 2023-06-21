@@ -35,7 +35,6 @@ const MyModal = ({postId,open,close}) => {
     const handleCancel = () => {
         close();
     };
-   /* if(loading)return <Spin>loading</Spin>*/
     return (
 
             <Modal
@@ -53,13 +52,3 @@ const MyModal = ({postId,open,close}) => {
 };
 export default MyModal;
 
-{/*                <div>
-                    <Input.TextArea
-                        value={"1"}
-                        placeholder="请输入评论内容"
-                        autoSize={{ minRows: 3, maxRows: 6 }}
-                    />
-                    <Button type="primary" >
-                        Comment
-                    </Button>
-                </div>*/}

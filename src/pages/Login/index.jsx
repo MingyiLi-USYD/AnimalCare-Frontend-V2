@@ -17,15 +17,6 @@ const Login = () => {
       console.log('登录失败');
     }
   };
-/*  function asyncTask() {
-    return new Promise((resolve, reject) => {
-      // 异步任务的代码
-      // 可能是一个Ajax请求、读取文件、或者其他异步操作
-
-      // 异步任务完成后调用resolve()，并传递结果（如果有）
-
-    });
-  }*/
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.();
     if (userInfo) {
@@ -87,7 +78,7 @@ const Login = () => {
              >
                Log in
              </Button>
-             Or <a href="">register now!</a>
+             Or <a onClick={()=>history.push('/signup')}>register now!</a>
            </Form.Item>
          </Form>
        </Card>

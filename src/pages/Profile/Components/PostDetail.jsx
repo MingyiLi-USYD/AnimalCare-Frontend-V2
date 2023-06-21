@@ -2,7 +2,6 @@ import {Avatar, Carousel, Modal} from 'antd';
 import { useEffect } from 'react';
 import { useRequest } from 'umi';
 import { connect} from 'dva';
-
 import {getPostById} from "../../../services/postService";
 import {parseStringToList} from "../../../utils/arrayUtils";
 
@@ -62,5 +61,4 @@ const PostDetail = (props) => {
 export default connect(({ PostModel }) => {
     return { ...PostModel };
 })(PostDetail);
-/*
-               src={"/common/download?name="+parseStringToList(data.images)[0]}*/
+

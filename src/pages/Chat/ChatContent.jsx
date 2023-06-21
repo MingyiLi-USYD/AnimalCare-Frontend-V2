@@ -10,17 +10,12 @@ const ChatContent = (props) => {
         if (listRef.current) {
             listRef.current.scrollTop = listRef.current.scrollHeight;
         }
-    }, [chatRecord]);
+    }, [chatRecord.get(contact.id).chatList.length]);
     const chat = getChat(chatRecord,contact);
     return (
         <div
-            className={'messageContainer'}
-            id="scrollableDiv"
-            style={{
-                overflow: 'auto',
-                border: '2px solid rgba(140, 140, 140, 0.35)',
-                textAlign: 'center',
-            }}
+            className={'child-two'}
+            id="ScrollableChatHistory"
             ref={listRef}
         >
                 <Button>History</Button>
@@ -44,10 +39,14 @@ const OneRecord = ({data,me,target})=>{
     const isMe = data.userId===me.id
     return(
         <div className={`oneMessage ${isMe?'reverse':''}`}>
-                <div span={2}>
+                <div>
                     <Avatar size={50} src={isMe?me.avatar:target.avatar}/>
                 </div>
-                <div className={'text'} span={22}dangerouslySetInnerHTML={{ __html: data.content }}/>
+                <div className={`text ${isMe ? 'after-triangle' : 'before-triangle'}`}>
+                    {
+                        data.content
+                    }
+                </div>
         </div>
     )
 }

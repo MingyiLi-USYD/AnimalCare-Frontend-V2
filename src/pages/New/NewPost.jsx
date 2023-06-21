@@ -1,7 +1,10 @@
-import { Button, Form, Input, Select, Spin } from 'antd';
+import {Button, Form, Input, Progress, Select, Spin, Switch} from 'antd';
 import { useRequest } from 'umi';
 import {newPost} from '../../services/postService';
 import MultipleImageUpload from './GroupUpload';
+import {useState} from "react";
+import DoneUpload from "../../components/DoneUpload";
+import UploadingProgress from "../../components/UploadingProgress";
 
 const { TextArea } = Input;
 const clearFormValues = (form) => {
@@ -10,13 +13,34 @@ const clearFormValues = (form) => {
 
 const NewPost = () => {
   const [form] = Form.useForm();
-  const { run, loading, data } = useRequest(newPost, { manual: true });
-    const finish = (values) => {
-    run(values);
-    clearFormValues(form);
-  };
+  const [loading,setLoading] = useState(false)
+  const [done,setDone] = useState(false);
+  const [percent,setPercent] = useState(0)
+ const progress = (progressEvent) => {
+    const { loaded, total } = progressEvent;
+    setPercent( Math.round((loaded / total) * 100))
 
-  return (
+  }
+    const finish = async (values) => {
+      console.log(values)
+      setLoading(true)
+     const {code}=await newPost(values,progress)
+      if(code===1){
+        setDone(true)
+      }
+      setLoading(false)
+  };
+    if(loading){
+      return           (
+          <UploadingProgress percent={percent}/>
+      )
+    }
+    if(done){
+      return <DoneUpload path={"/post"}/>
+    }
+
+
+    return (
 
     <div style={{display: 'flex',
       flexDirection:'column',
@@ -24,7 +48,6 @@ const NewPost = () => {
       alignItems: 'center',}}>
       <div style={{marginBottom:100}}>New Post</div>
       <Form
-        form={form}
         labelCol={{
           span: 4,
         }}
@@ -62,6 +85,15 @@ const NewPost = () => {
           </Select>
         </Form.Item>
         <MultipleImageUpload limit={3} name={"images"} round = {false}/>
+        <Form.Item
+            valuePropName="checked"
+            getValueProps={value=> value}
+            label="Visible"
+            name={'visible'}
+            initialValue={true}
+        >
+       <Switch defaultChecked={true} />
+        </Form.Item>
         <Form.Item>
           <div  style={{display: 'flex',
             justifyContent: 'space-between',
@@ -75,8 +107,8 @@ const NewPost = () => {
           </div>
         </Form.Item>
       </Form>
-      {loading && <Spin />}
     </div>
   );
 };
 export default () => <NewPost />;
+

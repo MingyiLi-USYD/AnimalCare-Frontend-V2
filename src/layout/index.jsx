@@ -1,15 +1,20 @@
-import React, {useEffect} from 'react';
-import { ProLayout } from '@ant-design/pro-components';
-import { HomeOutlined,ScissorOutlined,DeleteOutlined,CommentOutlined,UserOutlined  } from '@ant-design/icons';
+import React from 'react';
+import {ProLayout} from '@ant-design/pro-components';
+import {CommentOutlined, DeleteOutlined, HomeOutlined, ScissorOutlined, UserOutlined} from '@ant-design/icons';
 import './index.less'
-import {history,useModel,Outlet} from 'umi'
-import RightContent from "../components/Avatar";
-import Header from "../components/Header/Header";
-import {socketIOStart} from "../utils/websocket";
+import {history, Outlet, useModel} from 'umi'
+import MyAvatar from "../components/Avatar";
+import Socket from "./socket";
+import {Badge} from "antd";
+import {connect} from "../.umi/exports";
+import {allUnread} from "../utils/ChatUtils";
+
 const loginPath = '/login';
 
-const BasicLayout = () => {
-  const {initialState } = useModel('@@initialState');
+const BasicLayout = (props) => {
+  const {chatRecordArray,friendRequest}=props
+  const {initialState} = useModel('@@initialState');
+  const {currentUser}=initialState;
   const customMenuData= [
     {
       key:'1',
@@ -21,13 +26,13 @@ const BasicLayout = () => {
       key:'15',
       name: '聊天',
       path: '/chat',
-      icon: <CommentOutlined />,
+      icon:  <Badge size={"small"} count={allUnread(chatRecordArray)}><CommentOutlined /></Badge>,
     },
     {
       key:'5',
       name: '好友',
       path: '/friend',
-      icon: <UserOutlined />,
+      icon:<Badge size={"small"} count={friendRequest}> <UserOutlined /></Badge>,
     },
     {
       key:'2',
@@ -94,16 +99,20 @@ const BasicLayout = () => {
     },
   ];
 
-
-  socketIOStart(initialState)
   return (
     <ProLayout
-   /*   layout={"mix"}*/
+      layout={"side"}
       fixSiderbar
       title="Umi App"
       navTheme="dark"
       menuDataRender={()=>customMenuData}
-     /* rightContentRender={() => <RightContent />}*/
+      avatarProps={{
+        //src: 'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
+        icon:<MyAvatar avatar={currentUser.avatar}/>,
+        size: 'large',
+        title: `${currentUser.nickname}`,
+      }}
+      //rightContentRender={() => <RightContent />}
       menuItemRender={(props,dom)=>{
        const {path,name} = props;
         return <div className={'menu-link'}
@@ -115,8 +124,6 @@ const BasicLayout = () => {
         </div>
       }}
       logo={ 'https://img.alicdn.com/tfs/TB1YHEpwUT1gK0jSZFhXXaAtVXa-28-27.svg'}
-      //headerRender={()=><Header/>}
-     /*   headerContentRender={()=><Header/>}*/
       onPageChange={() => {
         const { location } = history;
         console.log(initialState);
@@ -127,9 +134,13 @@ const BasicLayout = () => {
       }
       }}
     >
-      <Outlet/>
+      <Socket currentUser={initialState.currentUser}>
+       <Outlet/>
+      </Socket>
     </ProLayout>
   );
 };
 
-export default BasicLayout;
+export default connect(({ChatModel:{chatRecordArray},FriendModel:{friendRequest}})=>{
+
+  return {chatRecordArray,friendRequest}})( BasicLayout);

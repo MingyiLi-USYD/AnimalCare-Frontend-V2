@@ -1,6 +1,7 @@
-import {Avatar, List} from 'antd';
+import {Avatar, Badge, List} from 'antd';
 import {connect} from "umi";
 import {useState} from 'react';
+import {formatTimestamp} from "../../utils/TimeUtils";
 
 
 const RecentChatFriendList = (props) => {
@@ -21,13 +22,8 @@ const RecentChatFriendList = (props) => {
 
     return (
         <div
-            id="scrollableDiv"
-            style={{
-                height: '100%',
-                overflow: 'auto',
-                padding: '0 0px',
-                border: '4px solid rgba(140, 140, 140, 0.35)',
-            }}
+            id="scrollableDivRecent"
+            style={{borderRight:'3px solid black',height:'100%'}}
         >
                 <List
 
@@ -47,9 +43,27 @@ export default connect(({ChatModel:{chatRecordArray,contact}})=>{
     return {chatRecordArray,contact}})(RecentChatFriendList);
 const OneRecord = ({data})=>{
     return(
-        <div>
-            <Avatar src={data.chatUser.avatar}/>
-            <span>{data.latestMsg}</span>
+        <div style={{display:"flex"}}>
+            <div className={'last-avatar'}>
+                <Badge count={data.unRead?data.unRead:0}>
+                <Avatar shape={'square'} size={60} src={data.chatUser.avatar}/>
+                </Badge>
+            </div>
+            <div className={'last-info'}>
+                <div className={'nickname'}>
+                    {data.chatUser.nickname}
+                </div>
+                <div className={'last-msg'}>
+                    {data.latestMsg}
+                </div>
+            </div>
+            <div className={'last-time'}>
+                {
+                    formatTimestamp(data.latestTime)
+                }
+            </div>
+
+
         </div>
     )
 

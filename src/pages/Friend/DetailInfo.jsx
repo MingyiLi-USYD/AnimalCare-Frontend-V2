@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {connect} from "../../.umi/exports";
-import {Avatar, Button} from "antd";
-import { EllipsisOutlined} from '@ant-design/icons';
+import {Avatar, Button, Dropdown, Modal} from "antd";
+import {DeleteOutlined, EllipsisOutlined} from '@ant-design/icons';
 import {history} from "umi";
+import RequestedFriendList from "./RequestedFriendList";
+import {deleteFriend} from "../../services/friendService";
 
 function DetailInfo(props) {
     const {contact,dispatch} = props;
@@ -13,8 +15,42 @@ function DetailInfo(props) {
         })
         history.push('/chat')
     }
-    return (
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const handleOk = async () => {
+        await deleteFriend(contact.id)
+        dispatch({
+            type:'ChatModel/onDeleteFriend',
+            payload: contact
+        })
+        setIsModalOpen(false);
+    };
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
 
+    const items = [
+        {
+            key: '1',
+            danger: true,
+            label: 'Delete',
+            icon:<DeleteOutlined />,
+            onClick:()=>{setIsModalOpen(true)}
+        },
+    ];
+    const nicknameStyle = {
+        fontSize: '1.2em',  // 放大字体
+        color: 'red',  // 设置颜色为红色
+    };
+    if(contact.id===-2){
+        return (
+            <div className={'detail-info'}>
+                 <RequestedFriendList dispatch={dispatch}/>
+            </div>
+        )
+    }
+    return (
+        <div>
+            {Object.keys(contact).length !== 0 &&
             <div className={'detail-info'}>
                 <div className={'detail-info-top'}>
                     <Avatar style={{borderRadius:30}} src={contact.avatar}  size={150} shape={"square"}/>
@@ -34,7 +70,14 @@ function DetailInfo(props) {
                         </div>
                     </div>
                     <div>
-                        <EllipsisOutlined onClick={()=>{}} />
+                        <Dropdown
+                            menu={{
+                                items,
+                            }}
+                            trigger={['click']}
+                        >
+                            <EllipsisOutlined className={'button-info'} />
+                        </Dropdown>
                     </div>
 
                 </div>
@@ -43,6 +86,15 @@ function DetailInfo(props) {
                 </div>
 
             </div>
+            }
+            <Modal title="Delete Friend" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                <p>
+                    Are you sure to delete your friend: {' '}
+                    <span style={nicknameStyle}>{contact.nickname}</span>
+                </p>
+                <p>It will be unrecoverable</p>
+            </Modal>
+        </div>
 
 
     );

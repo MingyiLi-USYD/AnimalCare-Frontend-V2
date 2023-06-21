@@ -1,14 +1,16 @@
 
-export function onChatReceive(chatRecord, data,fromUser) {
-    console.log(data);
+export function onChatReceive(chatRecord, data,fromUser,contact) {
     const newChatRecord = new Map(chatRecord)
 
     if (newChatRecord.has(fromUser.id)) {
         let record = newChatRecord.get(fromUser.id)
         record.chatList.push(data)
         record.chatUser=fromUser
-        record.latestTime=data.date,
-        record.latestMsg=data.content,
+        record.latestTime=data.date
+        record.latestMsg=data.content
+        if(contact.id!==fromUser.id)
+        record.unRead++
+
         newChatRecord.set(fromUser.id,record)
     } else {
         newChatRecord.set(fromUser.id,{
@@ -16,13 +18,13 @@ export function onChatReceive(chatRecord, data,fromUser) {
             chatUser:fromUser,
             latestTime:data.date,
             latestMsg:data.content,
+            unRead:1
         })
     }
     return newChatRecord
 }
 
 export function onChatSend(chatRecord, data, contact) {
-    console.log(data);
     const targetId= contact.id
     // 创建一个新的Map对象
     const newChatRecord = new Map(chatRecord)
@@ -38,6 +40,7 @@ export function onChatSend(chatRecord, data, contact) {
             chatUser:contact,
             latestTime:data.date,
             latestMsg:data.content,
+            unRead:0
         })
     }
 
@@ -54,6 +57,7 @@ export function onNewSession(chatRecord,contact){
         chatUser:contact,
         latestTime:new Date().getTime(),
         latestMsg: '',
+        unRead:0
     })
    return newChatRecord
 }
@@ -66,4 +70,20 @@ export function convertMapToList(chatRecord){
        }
    )
 
+}
+
+export function resetUnread(chatRecord,contact){
+    const newChatRecord = new Map(chatRecord)
+    const record = newChatRecord.get(contact.id)
+    record.unRead=0
+    newChatRecord.set(contact.id,record)
+    return newChatRecord
+}
+
+export function allUnread(chatRecordArray){
+     let count = 0;
+    for (let i = 0; i < chatRecordArray.length; i++) {
+        count+=chatRecordArray[i].unRead
+    }
+    return count
 }

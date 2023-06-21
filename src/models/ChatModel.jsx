@@ -1,4 +1,4 @@
-import {convertMapToList, onChatReceive, onChatSend, onNewSession} from "../utils/ChatUtils";
+import {convertMapToList, onChatReceive, onChatSend, onNewSession, resetUnread} from "../utils/ChatUtils";
 
 export default {
     namespace: 'ChatModel',
@@ -21,9 +21,9 @@ export default {
             }
         },
         onReceive(state, {payload}) {
-            let {chatRecord} = state
+            let {chatRecord,contact} = state
             let {fromUser, message} = payload;
-            const newChatRecord = onChatReceive(chatRecord, message, fromUser);
+            const newChatRecord = onChatReceive(chatRecord, message, fromUser,contact);
             return {
                 ...state,
                 chatRecord: newChatRecord,
@@ -47,8 +47,13 @@ export default {
         },
 
         onChangeContact(state, {payload}) {
+            let {chatRecord} = state
+            const newChatRecord = resetUnread(chatRecord,payload);
+            console.log(newChatRecord)
             return {
                 ...state,
+                chatRecord:newChatRecord,
+                chatRecordArray: convertMapToList(newChatRecord),
                 contact: payload
             }
         },
@@ -57,8 +62,8 @@ export default {
             const contact = payload
             let {chatRecord} = state
             if(!chatRecord.has(contact.id)){
-
                 const newChatRecord = onNewSession(chatRecord,contact)
+                console.log(newChatRecord)
                 return{
                     ...state,
                     chatRecord: newChatRecord,
@@ -72,6 +77,22 @@ export default {
                 }
             }
 
+        },
+        onApproveFriend(state, {payload}) {
+            let {friendLists} = state
+            friendLists = [...friendLists, payload]
+            return {
+                ...state,
+                friendLists
+            }
+        },
+        onDeleteFriend(state, {payload}) {
+            let {friendLists} = state
+            friendLists = friendLists.filter(item=>item.id!==payload.id)
+            return {
+                ...state,
+                friendLists
+            }
         },
 
     }

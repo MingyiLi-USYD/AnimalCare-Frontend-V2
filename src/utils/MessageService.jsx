@@ -1,7 +1,7 @@
 import React from 'react';
 import {getDvaApp} from "umi"
 
-export default function messageService(data) {
+export  function messageService(data) {
     const dvaApp = getDvaApp;
     const {_store:{dispatch}}=dvaApp();
       if(data.system){
@@ -24,6 +24,16 @@ export default function messageService(data) {
 
       }
 }
+
+export  function friendRequestService() {
+    const dvaApp = getDvaApp;
+    const {_store:{dispatch}}=dvaApp();
+        dispatch({
+            type:"FriendModel/onReceiveFriendRequest",
+        })
+}
+
+
 export function putFriendsListOnStore(data){
     const dvaApp = getDvaApp;
     const {_store:{dispatch}}=dvaApp();

@@ -13,26 +13,23 @@ export const cancelLove = async (postId) =>
     method: 'DELETE',
   });
 
-export const newPost = async (params) => {
-  const { postTopic, postContent, postTag, images } = params;
-  console.log(params);
+export const newPost = async (params,onUploadProgress) => {
+  const { postTopic, postContent, postTag, images,visible} = params;
   let formData = new FormData();
 
   if (images) {
     images.map((element) => formData.append('images', element.originFileObj));
   }
-  return await request('/api/post', {
+  return  request('/api/post', {
     method: 'POST',
-/*    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-    requestType: 'form',*/
     data: formData,
     params: {
       postTopic,
       postContent,
       postTag,
+      visible
     },
+    onUploadProgress,
   });
 };
 
