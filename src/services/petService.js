@@ -13,27 +13,17 @@ export const updatePetById = async (petId,pet)=>await request(`/api/pet/${petId}
     data:pet
 })
 
-export const newPet = (params,onUploadProgress) => {
-    const { petName, petDescription, category, avatar,petVisible } = params;
-    console.log(params);
-    let fileData = new FormData();
-    if (avatar) {
-        avatar.map((element) => fileData.append('avatar', element.originFileObj));
-    }
+export const newPet = (params) => {
+    const { petName, petDescription, category,petVisible,image } = params;
     return request('/api/pet', {
         method: 'POST',
-/*        headers: {
-            'Content-Type': 'multipart/form-data',
-        },
-        requestType: 'form',*/
-        data: fileData,
         params: {
             petName,
             petDescription,
             category,
-            petVisible
+            petVisible,
+            image
         },
-        onUploadProgress
     });
 };
 

@@ -54,7 +54,7 @@ function PetModal({open,close,data,setData,selectedPet}) {
             <div style={{  display: 'flex',
                 flexDirection: "column",
                 alignItems: "center" }}>
-            <Avatar size={64} src={`/common/download?name=${data[selectedPet].petAvatar}`}/>
+            <Avatar size={64} src={data[selectedPet].petAvatar}/>
             <h2>{data[selectedPet].petName}</h2>
             <p>{data[selectedPet].petDescription}</p>
             <Form

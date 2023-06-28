@@ -3,15 +3,19 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import {history, useModel} from "umi";
 import {userLogin} from "../../services/userService";
 import {flushSync} from "react-dom";
+import FirebaseUI from "./firebaseUI";
+import {auth} from "../../firebaseConfig";
 
 const Login = () => {
+
   const { setInitialState, refresh, initialState } = useModel('@@initialState');
+  console.log(initialState)
   const onFinish = async (values) => {
     const res = await userLogin(values);
     if (res.code === 1) {
-      localStorage.setItem('token', res.data);
+      localStorage.setItem('token', res.data.serverToken);
+      localStorage.setItem('firebaseToken', res.data.firebaseToken);
       await fetchUserInfo();
-      //setTimeout(()=>{history.push('/');},2000)
       history.push('/');
     } else {
       console.log('登录失败');
@@ -81,6 +85,7 @@ const Login = () => {
              Or <a onClick={()=>history.push('/signup')}>register now!</a>
            </Form.Item>
          </Form>
+         <FirebaseUI initialState={initialState} setInitialState={setInitialState}/>
        </Card>
      </Col>
    </Row>

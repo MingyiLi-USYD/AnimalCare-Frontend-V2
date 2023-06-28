@@ -1,11 +1,18 @@
 import { defineConfig } from 'umi';
 
+
 export default defineConfig({
   plugins: [
     '@umijs/plugins/dist/initial-state',
     '@umijs/plugins/dist/model',
     '@umijs/plugins/dist/request',
     '@umijs/plugins/dist/dva',
+  ],
+  headScripts: [
+    'https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js',
+  ],
+  styles: [
+    'https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css',
   ],
   model: {},
   request: {},

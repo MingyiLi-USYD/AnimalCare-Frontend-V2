@@ -14,13 +14,18 @@
     "@emoji-mart/react": "^1.1.1",
     "antd": "^5.6.1",
     "emoji-mart": "^5.5.2",
+    "firebase": "^9.23.0",
+    "firebaseui": "^6.0.2",
     "immutable": "^4.3.0",
+    "react-firebaseui": "^6.0.0",
+    "react-google-login": "^5.2.2",
     "react-infinite-scroll-component": "^6.1.0",
     "react-jwchat": "^1.5.1",
     "react-quill": "^2.0.0",
     "socket.io-client": "^2.4.0",
     "umi": "^4.0.70",
-    "umi-plugin-react": "^1.15.9"
+    "umi-plugin-react": "^1.15.9",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.33",

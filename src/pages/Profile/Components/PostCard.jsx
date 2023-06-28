@@ -18,11 +18,11 @@ const PostCard = ({data,dispatch}) => {
                 width: 240,
                 height:240,
             }}
-            cover={<img alt="example" style={{height:150,width:240,objectFit:"cover"}} src={"/common/download?name="+parseStringToList(data.images)[0]}/>}
+            cover={<img alt="example" style={{height:150,width:240,objectFit:"cover"}} src={parseStringToList(data.images)[0]}/>}
         >
             <Meta style={{overflow:"hidden",height:80}}
-                avatar={<Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel" />}
-                title={data.topic}
+                  avatar={<Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel" />}
+                  title={data.topic}
             />
         </Card>
     );

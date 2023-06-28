@@ -14,11 +14,11 @@ const PetList = () => {
 
 
     const fetchData = async ()=>{
-      const res = await getPets();
-      setData(res.data)
+        const res = await getPets();
+        setData(res.data)
     }
     useEffect(()=>{
-       fetchData()
+        fetchData()
     },[])
     const confirm = (id) => {
         console.log(id);
@@ -38,47 +38,47 @@ const PetList = () => {
 
     return (
 
-<div>
-    <BackForward/>
-    <h2 style={{textAlign:"center"}}>Pet Management</h2>
-    <List
-        pagination={{
-            position:'bottom',
-            align:'center',
-        }}
-        dataSource={data}
-        renderItem={(item,index) => (
+        <div>
+            <BackForward/>
+            <h2 style={{textAlign:"center"}}>Pet Management</h2>
+            <List
+                pagination={{
+                    position:'bottom',
+                    align:'center',
+                }}
+                dataSource={data}
+                renderItem={(item,index) => (
 
-            <List.Item   actions={[
-                <Button type={"primary"}  className={style.button} key="list-loadmore-edit" onClick={()=>handleEdit(index)}>Edit</Button>,
-                <Popconfirm
-                    title="Delete pet"
-                    description="Are you sure to delete this pet?"
-                    onConfirm={()=>confirm(item.petId)}
-                    onCancel={cancel}
-                    okText="Yes"
-                    cancelText="No">
-                    <Button danger className={style.button} key="list-loadmore-more">Delete</Button>
-                </Popconfirm>
-               ]}>
-                <List.Item.Meta
-                    avatar={
-                        <Avatar style={{cursor:"pointer"}} size={64} src={`/common/download?name=${item.petAvatar}`} onClick={()=>{history.push(`/pet/${item.petId}`)}} />
-                    }
-                    title={<a onClick={()=>{history.push(`/pet/${item.petId}`)}}>{item.petName}</a>}
-                    description={item.petDescription}
-                />
-            </List.Item>
-        )}
-    />
+                    <List.Item   actions={[
+                        <Button type={"primary"}  className={style.button} key="list-loadmore-edit" onClick={()=>handleEdit(index)}>Edit</Button>,
+                        <Popconfirm
+                            title="Delete pet"
+                            description="Are you sure to delete this pet?"
+                            onConfirm={()=>confirm(item.petId)}
+                            onCancel={cancel}
+                            okText="Yes"
+                            cancelText="No">
+                            <Button danger className={style.button} key="list-loadmore-more">Delete</Button>
+                        </Popconfirm>
+                    ]}>
+                        <List.Item.Meta
+                            avatar={
+                                <Avatar style={{cursor:"pointer"}} size={64} src={item.petAvatar} onClick={()=>{history.push(`/pet/${item.petId}`)}} />
+                            }
+                            title={<a onClick={()=>{history.push(`/pet/${item.petId}`)}}>{item.petName}</a>}
+                            description={item.petDescription}
+                        />
+                    </List.Item>
+                )}
+            />
 
-    {
-        open&&<PetModal close={()=>{setOpen(false)}} open={open} data={data} setData={setData} selectedPet={selectedPet}  />
+            {
+                open&&<PetModal close={()=>{setOpen(false)}} open={open} data={data} setData={setData} selectedPet={selectedPet}  />
 
-    }
+            }
 
 
-</div>
+        </div>
 
 
     );

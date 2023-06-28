@@ -28,7 +28,7 @@ function PostList() {
         const newData = [...data].map(item=> {if(item.postId===postId){
             item.visible=visibility
         }
-        return item})
+            return item})
         setVisibility(postId,visibility)
         setData(newData)
     }
@@ -57,7 +57,7 @@ function PostList() {
                     ]}>
                         <List.Item.Meta
                             avatar={
-                                <Avatar shape={"square"}  size={64} style={{cursor:"pointer"}} src={"/common/download?name="+parseStringToList(item.images)[0]}/>
+                                <Avatar shape={"square"}  size={64} style={{cursor:"pointer"}} src={parseStringToList(item.images)[0]}/>
                             }
                             title={<a >{item.topic}</a>}
                             description={item.postContent}

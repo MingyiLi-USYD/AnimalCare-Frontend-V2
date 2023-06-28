@@ -1,10 +1,19 @@
 import {LogoutOutlined, ProfileOutlined, SmileOutlined} from '@ant-design/icons';
 import {Dropdown} from 'antd';
 import {useModel,history} from 'umi';
+import {auth} from "../../firebaseConfig";
 
 
 const MyDropdown = (props) => {
     const {initialState:{currentUser} } = useModel('@@initialState');
+
+    const  handleSignOut = async ()=> {
+        await auth.signOut()
+        localStorage.removeItem('token')
+        history.push('/login')
+
+    }
+
     const items = [
         {
             key: '1',
@@ -46,7 +55,7 @@ const MyDropdown = (props) => {
             key: '5',
             danger: true,
             label: (
-                <a onClick={()=>{}}>
+                <a onClick={handleSignOut}>
                     Logout
                 </a>
             ),

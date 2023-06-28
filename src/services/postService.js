@@ -1,35 +1,23 @@
 import { request } from 'umi';
 export const getPosts = async (url) =>
-  await request(url, {
-    method: 'GET',
-  }).catch((error) => console.log(error));
+    await request(url, {
+      method: 'GET',
+    }).catch((error) => console.log(error));
 export const love = async (postId) =>
-  await request(`/api/love/${postId}`, {
-    method: 'GET',
-  });
+    await request(`/api/love/${postId}`, {
+      method: 'GET',
+    });
 
 export const cancelLove = async (postId) =>
-  await request(`/api/love/${postId}`, {
-    method: 'DELETE',
-  });
+    await request(`/api/love/${postId}`, {
+      method: 'DELETE',
+    });
 
-export const newPost = async (params,onUploadProgress) => {
+export const newPost = async (params) => {
   const { postTopic, postContent, postTag, images,visible} = params;
-  let formData = new FormData();
-
-  if (images) {
-    images.map((element) => formData.append('images', element.originFileObj));
-  }
   return  request('/api/post', {
     method: 'POST',
-    data: formData,
-    params: {
-      postTopic,
-      postContent,
-      postTag,
-      visible
-    },
-    onUploadProgress,
+    data:params
   });
 };
 

@@ -1,8 +1,10 @@
 
 import {history} from 'umi'
 import {currentUser} from "./services/userService";
+import {auth} from "./firebaseConfig";
 
 const loginPath = '/login';
+
 export const request = {
   timeout: 60000,
   errorConfig: {
@@ -36,9 +38,14 @@ export const request = {
   ],
 };
 export async function getInitialState() {
+  console.log(auth)
+  console.log(auth.currentUser)
   const fetchUserInfo = async () => {
+
     try {
+
       const msg = await currentUser();
+
       return msg.data;
     } catch (error) {
       history.push(loginPath);

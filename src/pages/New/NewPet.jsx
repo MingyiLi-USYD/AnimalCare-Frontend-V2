@@ -6,6 +6,10 @@ import {useState} from "react";
 import {newPost} from "../../services/postService";
 import UploadingProgress from "../../components/UploadingProgress";
 import DoneUpload from "../../components/DoneUpload";
+import {ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import {auth, storage} from "../../firebaseConfig";
+import {useModel} from "../../.umi/exports";
+import { v4 as uuidv4 } from 'uuid';
 
 
 const { TextArea } = Input;
@@ -13,27 +17,64 @@ const clearFormValues = (form) => {
     form.resetFields();
 };
 
+
 const NewPet = () => {
+    const {initialState:{currentUser} } = useModel('@@initialState');
     const [form] = Form.useForm();
     const [loading,setLoading] = useState(false)
     const [done,setDone] = useState(false);
     const [percent,setPercent] = useState(0)
-    const progress = (progressEvent) => {
-        const { loaded, total } = progressEvent;
-        setPercent( Math.round((loaded / total) * 100))
 
+    const uploadCallback = (snapshot) => {
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        const progress =  Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+        setPercent(progress)
+        switch (snapshot.state) {
+            case 'paused':
+                break;
+            case 'running':
+                break;
+        }
+    }
+    const uploadError = (error) => {
+        // A full list of error codes is available at
+        // https://firebase.google.com/docs/storage/web/handle-errors
+        switch (error.code) {
+            case 'storage/unauthorized':
+                // User doesn't have permission to access the object
+                break;
+            case 'storage/canceled':
+                // User canceled the upload
+                break;
+            // ...
+
+            case 'storage/unknown':
+                // Unknown error occurred, inspect error.serverResponse
+                break;
+        }
     }
     const finish = async (values) => {
-        console.log(values)
         setLoading(true)
-        const {code}=await newPet(values,progress)
-        if(code===1){
-            setDone(true)
-        }
-        setLoading(false)
+        console.log(auth)
+        const storageRef = ref(storage, currentUser.userName +'/'+ uuidv4());
+        const uploadTask = uploadBytesResumable(storageRef, values.avatar[0].originFileObj)
+        uploadTask.on('state_changed',
+            uploadCallback,
+            uploadError,
+            async () =>  {
+                // Upload completed successfully, now we can get the download URL
+                values.image = await getDownloadURL(uploadTask.snapshot.ref)
+                const {code} =await newPet(values)
+                if(code===1){
+                    setLoading(false)
+                    setDone(true)
+                }
+
+            }
+        );
     };
     if(loading){
-        return           (
+        return   (
             <UploadingProgress percent={percent}/>
         )
     }
@@ -46,6 +87,7 @@ const NewPet = () => {
         <div style={{display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',}}>
+            <Button onClick={()=>{console.log(auth)}}>查看auth</Button>
             <Form
                 form={form}
                 labelCol={{
@@ -60,7 +102,7 @@ const NewPet = () => {
                 }}
                 onFinish={finish}
             >
-              <MultipleImageUpload limit={1} name={"avatar"} round = {true}/>
+                <MultipleImageUpload limit={1} name={"avatar"} round = {true}/>
                 <Form.Item
                     label="Name"
                     name={'petName'}
@@ -73,7 +115,7 @@ const NewPet = () => {
                     name={'petDescription'}
                     rules={[{ required: true, message: 'Please input your content !' }]}
                 >
-                    <TextArea rows={4} />
+                    <TextArea rows={4} maxLength={250} showCount/>
                 </Form.Item>
                 <Form.Item
                     label="Category"

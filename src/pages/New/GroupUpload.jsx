@@ -32,9 +32,9 @@ const MultipleImageUpload = ({limit,name,round}) => {
         if (!isJpgOrPng) {
             message.error('只能上传 JPG/PNG 格式的文件!');
         }
-        const isLt2M = file.size / 1024 / 1024 < 2;
+        const isLt2M = file.size / 1024 / 1024 < 10;
         if (!isLt2M) {
-            message.error('图片大小不能超过 2MB!');
+            message.error('图片大小不能超过 10MB!');
         }
         return isJpgOrPng && isLt2M;
     };
@@ -60,7 +60,7 @@ const MultipleImageUpload = ({limit,name,round}) => {
             >
                 {fileList.length >= limit ? null : uploadButton}
             </Upload>
-       </Form.Item>
+        </Form.Item>
     );
 };
 

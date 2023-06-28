@@ -8,7 +8,7 @@ const ImageList = ({data}) => (
 
     >
         {
-            data.map(item=> <Image key={item} height={150} src={"/common/download?name="+item} />)
+            data.map(item=> <Image key={item} height={150} src={item} />)
         }
     </Image.PreviewGroup>
 

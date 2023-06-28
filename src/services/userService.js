@@ -30,3 +30,8 @@ export const updateUserProfile = async (user) =>
     method: 'PUT',
     data:user
   });
+export const thirdPartLogin = async (user) =>
+    await request('/api/login/thirdPart', {
+        method: 'POST',
+        data:user
+    });
