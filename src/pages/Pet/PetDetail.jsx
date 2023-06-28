@@ -9,6 +9,7 @@ import {deleteImageOfPet} from "../../services/petService";
 import {useModel} from "umi";
 import BackForward from "../../components/BackForward";
 import NotFoundPage from "../404";
+import Loading from "../../components/Loading";
 
 
 function PetDetail() {
@@ -28,16 +29,13 @@ function PetDetail() {
     const handleDelete = (image)=>{
         deleteImageOfPet(image)
         setPet({...pet,petImageList:[...pet.petImageList].filter(item=>item.id!==image.id)})
-
     }
     if (loading) {
-        return <Spin />; // 在加载中显示 Spin 或其他加载提示
+        return <Loading/>; // 在加载中显示 Spin 或其他加载提示
     }
     if(!pet){
         return <NotFoundPage/>
     }
-    /*    console.log(currentUser)
-        console.log(pet)*/
     return (
         <div>
             <BackForward/>

@@ -1,17 +1,23 @@
-import {Avatar, Button, Image, Input, List, message, Modal, Popconfirm, Switch} from 'antd';
+import {Avatar, Button, List, message, notification, Popconfirm} from 'antd';
 import BackForward from "../../components/BackForward";
 import style from './PetDetail.less'
 import React, {useEffect, useState} from "react";
 import {deletePetById, getPets} from "../../services/petService";
 import {history} from "umi";
-import PetImageUpload from "./Components/PetImageUpload";
 import PetModal from "./Components/PetModal";
 
 const PetList = () => {
     const [data,setData] = useState([]);
     const [open,setOpen] = useState(false)
     const [selectedPet,setSelectedPet]= useState(0)
-
+    const [api, contextHolder] = notification.useNotification();
+    const openNotification = (placement,name) => {
+        api.info({
+            message: 'Update Notification',
+            description:  `Update Pet ${name} successfully`,
+            placement,
+        });
+    };
 
     const fetchData = async ()=>{
         const res = await getPets();
@@ -38,9 +44,13 @@ const PetList = () => {
         setOpen(true)
     }
 
+
     return (
 
         <div>
+            {
+                contextHolder
+            }
             <BackForward/>
             <h2 style={{textAlign:"center"}}>Pet Management</h2>
             <List
@@ -75,7 +85,7 @@ const PetList = () => {
             />
 
             {
-                open&&<PetModal close={()=>{setOpen(false)}} open={open} data={data} setData={setData} selectedPet={selectedPet}  />
+                open&&<PetModal close={()=>{setOpen(false)}} open={open} data={data} setData={setData} selectedPet={selectedPet} notify={openNotification}  />
             }
 
 

@@ -3,60 +3,47 @@ import {Avatar, Button, Form, Input, Modal, Switch} from "antd";
 import {updatePetById} from "../../../services/petService";
 const { TextArea } = Input;
 
-function PetModal({open,close,data,setData,selectedPet}) {
-    const [petName,setPetName]= useState("")
-    const [petDescription,setPetDescription]= useState("")
-    const [checked,setChecked] = useState(false)
+function PetModal({open,close,data,setData,selectedPet,notify}) {
+    const pet = data[selectedPet]
+    const petName = pet.petName
+    const petDescription = pet.petDescription
+    const checked = pet.petVisible
+    const [form] = Form.useForm();
+    const handleOk=  async ()=>{
 
-    useEffect(()=>{
-        //setPet(selectedPet)
-        setPetName(data[selectedPet].petName)
-        setPetDescription(data[selectedPet].petDescription)
-        setChecked(data[selectedPet].petVisible)
+        const newPet={...pet,...form.getFieldsValue()}
+        console.log(newPet)
+        const {code}=await updatePetById(pet.petId,newPet)
+            if(code===1){
+                const newData = [...data]
+                newData[selectedPet]=newPet
+                setData(newData)
+                notify('topRight',newPet.petName)
+                close()
+            }else {
 
-    },[open])
-    const handleNameChange = (e)=>{
-        setPetName(e.target.value)
-    }
+            }
 
-    const handleDescriptionChange = (e)=>{
-        setPetDescription(e.target.value)
-    }
-    const onChange = (e)=>{
-        setChecked(e)
-    }
-    const handleOk=  ()=>{
-        const newPet = {
-            ...data[selectedPet],
-            petName,
-            petDescription,
-            petVisible:checked
-        }
-
-        const newData = [...data]
-        newData[selectedPet]=newPet
-        updatePetById(data[selectedPet].petId,newPet).then(()=>setData(newData))
-        close()
     }
     const handleCancel=()=>{
         close()
     }
     return (
         <Modal
-
             title="Edit Pet"
             open={open}
             onCancel={handleCancel}
-            footer={[  <Button type={'primary'} key={"Save"} onClick={handleOk}>
+            footer={[  <Button type={'primary'} key={"Save"}  onClick={handleOk}>
                 Save
             </Button>]}
         >
             <div style={{  display: 'flex',
                 flexDirection: "column",
                 alignItems: "center" }}>
-            <Avatar size={64} src={data[selectedPet].petAvatar}/>
-            <h2>{data[selectedPet].petName}</h2>
-            <p>{data[selectedPet].petDescription}</p>
+            <Avatar size={64} src={pet.petAvatar}/>
+            <h2>{pet.petName}</h2>
+            <p>{pet.petDescription}</p>
+
             <Form
                 labelCol={{
                     span: 8,
@@ -68,34 +55,24 @@ function PetModal({open,close,data,setData,selectedPet}) {
                 style={{
                     maxWidth: 800,
                 }}
+                form={form}
             >
-                <Form.Item label="Name">
-                    <Input value ={petName} onChange={handleNameChange}/>
+                <Form.Item label="Name" name={'petName'} initialValue={petName}>
+                    <Input />
                 </Form.Item>
-                <Form.Item label="Description">
-                    <TextArea rows={4} value ={petDescription} onChange={handleDescriptionChange} />
+                <Form.Item label="Description"  name={'petDescription'} initialValue={petDescription}>
+                    <TextArea rows={4} />
                 </Form.Item>
-                <Form.Item label="Public">
-                    <Switch checked={checked} onChange={onChange}/>
+                <Form.Item
+                    valuePropName="checked"
+                    getValueProps={value=> value}
+                    label="Public"
+                    name={'petVisible'}
+                    initialValue={checked}
+                >
+                    <Switch defaultChecked={checked} />
                 </Form.Item>
-{/*                <Form.Item label="Upload" valuePropName="fileList" getValueFromEvent={normFile}>
-                    <Upload action="/upload.do" listType="picture-card">
-                        <div>
-                            <PlusOutlined />
-                            <div
-                                style={{
-                                    marginTop: 8,
-                                }}
-                            >
-                                Upload
-                            </div>
-                        </div>
-                    </Upload>
-                </Form.Item>
-                <Form.Item label="Button">
-                    <Button>Button</Button>
-                </Form.Item>*/}
-            </Form>
+            </Form >
             </div>
         </Modal>
     );

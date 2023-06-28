@@ -14,15 +14,13 @@ const PetCard = ({data}) => {
                 width: 240,
                 height:240,
             }}
-            cover={<img alt="example" style={{height:150}} src={"/common/download?name="+data.petAvatar}/>}
+            cover={<img alt="example" style={{height:150,objectFit:"cover"}} src={data.petAvatar}/>}
         >
 
             <Meta
                 //avatar={<Avatar icon={data.category==='cat'?<Logo/>:<DogLogo/>} />}
                 title={data.petName}
             />
-
-
         </Card>
     );
 }

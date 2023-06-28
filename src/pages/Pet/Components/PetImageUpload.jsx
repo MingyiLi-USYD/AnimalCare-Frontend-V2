@@ -16,7 +16,7 @@ const PetImageUpload = ({petId,setPet,pet}) => {
     const [loading, setLoading] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
     const handleChange = (info) => {
-
+        console.log(info)
         if (info.event){
             setUploadProgress(info.event.percent)
         }
