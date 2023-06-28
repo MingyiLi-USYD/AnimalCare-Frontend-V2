@@ -65,7 +65,7 @@ const Profile = (props) => {
       <Title level={3}>{data.nickname}</Title>
       <Paragraph>{data?.description}</Paragraph>
       <PetCardList data={data?.petList} />
-      <PostCardList data={data?.postList}/>
+      <PostCardList data={data?.postList} avatar={currentUser.avatar}/>
       <PostDetail/>
       <RelationDetail userId={data.id} relation={relation} avatar={data.avatar} nickname={data.nickname} setRelation={setRelation}  />
     </div>

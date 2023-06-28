@@ -10,7 +10,6 @@ export function onChatReceive(chatRecord, data,fromUser,contact) {
         record.latestMsg=data.content
         if(contact.id!==fromUser.id)
         record.unRead++
-
         newChatRecord.set(fromUser.id,record)
     } else {
         newChatRecord.set(fromUser.id,{
@@ -86,4 +85,11 @@ export function allUnread(chatRecordArray){
         count+=chatRecordArray[i].unRead
     }
     return count
+}
+
+export function onChatFetch(chatRecord,data,contact){
+    const newChatRecord = new Map(chatRecord)
+    let record  = newChatRecord.get(contact.id)
+    record.chatList=data
+    return newChatRecord
 }

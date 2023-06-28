@@ -166,9 +166,7 @@ const HomePage = () => {
                                 <Avatar
                                     style={{cursor:"pointer"}}
                                     src={
-                                        item.userAvatar.startsWith('http')
-                                            ? item.userAvatar
-                                            : '/common/download?name=' + item.userAvatar
+                                        item.userAvatar
                                     }
                                     onClick={()=>{history.push(`/profile/${item.userId}`)}}
                                 />

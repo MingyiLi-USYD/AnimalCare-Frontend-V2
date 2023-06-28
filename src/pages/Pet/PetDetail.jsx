@@ -50,7 +50,7 @@ function PetDetail() {
                     <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                         {pet.petImageList.map((item) => (
                             <div key={item.id} className={'image-wrapper'}>
-                                <Image  className={'imageStyle'}   src={`/common/download?name=${item.url}`}/>
+                                <Image  className={'imageStyle'}   src={item.url}/>
                                 {      currentUser.id===pet.userId&&
                                     <Popconfirm
                                         title="Delete image"

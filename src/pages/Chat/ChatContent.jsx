@@ -2,9 +2,11 @@ import {Avatar, Button, List} from 'antd';
 import {useEffect, useRef, useState} from 'react';
 import {connect} from "../../.umi/exports";
 import {getChat} from "../../utils/ChatUtils";
+import {retrieveMessageFromServer} from "../../services/chatService";
+
 
 const ChatContent = (props) => {
-    const { chatRecord, contact, me } = props;
+    const { chatRecord, contact, me,dispatch } = props;
     const listRef = useRef(null);
     useEffect(() => {
         if (listRef.current) {
@@ -12,13 +14,24 @@ const ChatContent = (props) => {
         }
     }, [chatRecord.get(contact.id).chatList.length]);
     const chat = getChat(chatRecord,contact);
+
+    async function handleFetchHistory() {
+       const {code,data}=await retrieveMessageFromServer(contact.id);
+       if(code===1){
+           dispatch({
+               type: 'ChatModel/onFetchHistory',
+               payload: {data},
+           })
+       }
+    }
+
     return (
         <div
             className={'child-two'}
             id="ScrollableChatHistory"
             ref={listRef}
         >
-                <Button>History</Button>
+                <Button onClick={handleFetchHistory}>History</Button>
                 <List
                     dataSource={chat?chat.chatList:[]}
                     renderItem={(item) => (

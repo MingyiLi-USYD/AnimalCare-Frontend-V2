@@ -31,3 +31,7 @@ export const deleteImageOfPet = async (image)=>await request("/api/pet/image",{
     method:"DELETE",
     data:image
 })
+export const addImageOfPet = async (petId,imageUrl)=>await request(`/api/pet/image/${petId}`,{
+    method:"POST",
+    params: {imageUrl}
+})

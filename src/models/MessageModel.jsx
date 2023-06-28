@@ -1,4 +1,3 @@
-import {onChatReceive, onChatSend} from "../utils/ChatUtils";
 
 export default {
     namespace:'MessageModel',

@@ -1,6 +1,7 @@
 import {Avatar, Card} from 'antd';
 import {parseStringToList} from "../../../utils/arrayUtils";
 import {connect} from "umi";
+import {useModel} from "../../../.umi/exports";
 const { Meta } = Card;
 const showPostDetail = (dispatch,id)=>{
     dispatch({
@@ -8,8 +9,7 @@ const showPostDetail = (dispatch,id)=>{
         payload:id
     })
 }
-const PostCard = ({data,dispatch}) => {
-
+const PostCard = ({data,dispatch,avatar}) => {
     return (
         <Card
             onClick={()=>{showPostDetail(dispatch,data.postId)}}
@@ -21,7 +21,7 @@ const PostCard = ({data,dispatch}) => {
             cover={<img alt="example" style={{height:150,width:240,objectFit:"cover"}} src={parseStringToList(data.images)[0]}/>}
         >
             <Meta style={{overflow:"hidden",height:80}}
-                  avatar={<Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel" />}
+                  avatar={<Avatar src={avatar} />}
                   title={data.topic}
             />
         </Card>

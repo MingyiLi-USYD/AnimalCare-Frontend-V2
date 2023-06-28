@@ -7,3 +7,9 @@ export const sendMessageToServer = async (data)=>
             data
         }
 )
+export const retrieveMessageFromServer = async (id)=>
+    await request(`/api/chat/retrieve/${id}`,
+        {
+            method:"GET",
+        }
+    )

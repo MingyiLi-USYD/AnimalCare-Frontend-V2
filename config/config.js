@@ -9,10 +9,7 @@ export default defineConfig({
     '@umijs/plugins/dist/dva',
   ],
   headScripts: [
-    'https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js',
-  ],
-  styles: [
-    'https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css',
+    '../src/assets/fonts/iconfont.js'
   ],
   model: {},
   request: {},

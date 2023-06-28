@@ -1,0 +1,30 @@
+{
+  "id": "4116457",
+  "name": "no name",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "4439996",
+      "name": "加好友",
+      "font_class": "jiahaoyou",
+      "unicode": "e656",
+      "unicode_decimal": 58966
+    },
+    {
+      "icon_id": "11982970",
+      "name": "Dog",
+      "font_class": "Dog",
+      "unicode": "e9e8",
+      "unicode_decimal": 59880
+    },
+    {
+      "icon_id": "11982980",
+      "name": "Cat",
+      "font_class": "Cat",
+      "unicode": "e9e7",
+      "unicode_decimal": 59879
+    }
+  ]
+}

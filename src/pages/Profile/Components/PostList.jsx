@@ -4,7 +4,7 @@ import PostCard from "./PostCard";
 
 
 const { Title } = Typography;
-const PostCardList = ({data=[]}) => {
+const PostCardList = ({data=[],avatar}) => {
     const [startIdx, setStartIdx] = useState(0);
 
     const handlePrev = () => {
@@ -35,7 +35,7 @@ const PostCardList = ({data=[]}) => {
                     <Row>
                         {visibleCards.map((card,index) => (
                             <Col key={index }span={8}>
-                                <PostCard data={card}/>
+                                <PostCard data={card} avatar={avatar} />
                             </Col>
                         ))}
                     </Row>

@@ -45,7 +45,7 @@ const PostDetail = (props) => {
                                 {parseStringToList(data.images).map((url, index) => (
                                     <div className={"111"} key={index} style={{ height: '300px' }}>
                                         <img
-                                            src={`/common/download?name=${url}`}
+                                            src={url}
                                             style={carouselImageStyle}
                                         />
                                     </div>

@@ -1,4 +1,4 @@
-import {convertMapToList, onChatReceive, onChatSend, onNewSession, resetUnread} from "../utils/ChatUtils";
+import {convertMapToList, onChatFetch, onChatReceive, onChatSend, onNewSession, resetUnread} from "../utils/ChatUtils";
 
 export default {
     namespace: 'ChatModel',
@@ -24,6 +24,16 @@ export default {
             let {chatRecord,contact} = state
             let {fromUser, message} = payload;
             const newChatRecord = onChatReceive(chatRecord, message, fromUser,contact);
+            return {
+                ...state,
+                chatRecord: newChatRecord,
+                chatRecordArray: convertMapToList(newChatRecord)
+            }
+        },
+        onFetchHistory(state, {payload}){
+            let {chatRecord,contact} = state
+            const {data} =payload;
+           const newChatRecord =onChatFetch(chatRecord,data,contact)
             return {
                 ...state,
                 chatRecord: newChatRecord,
