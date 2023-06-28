@@ -20,13 +20,15 @@ const PetList = () => {
     useEffect(()=>{
         fetchData()
     },[])
-    const confirm = (id) => {
-        console.log(id);
-        const newData = [...data].filter(item=> item.petId!==id)
-        setData(newData)
-        //deletePetById in DB
-        //message.success('Click on Yes');
-        deletePetById(id).then(()=>message.success('Click on Yes'),()=>message.error("???"))
+    const confirm = async (id) => {
+        const {code} = await deletePetById(id)
+        if(code===1){
+            const newData = [...data].filter(item=> item.petId!==id)
+            setData(newData)
+            message.success('Click on Yes')
+        }else {
+            message.error("???")
+        }
     };
     const cancel = (e) => {
 
@@ -74,7 +76,6 @@ const PetList = () => {
 
             {
                 open&&<PetModal close={()=>{setOpen(false)}} open={open} data={data} setData={setData} selectedPet={selectedPet}  />
-
             }
 
 

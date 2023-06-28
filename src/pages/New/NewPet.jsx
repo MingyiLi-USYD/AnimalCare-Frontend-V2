@@ -1,22 +1,17 @@
 import {Button, Form, Input, Select, Spin, Switch} from 'antd';
-import { useRequest } from 'umi';
 import MultipleImageUpload from './GroupUpload';
 import {newPet} from "../../services/petService";
 import {useState} from "react";
-import {newPost} from "../../services/postService";
 import UploadingProgress from "../../components/UploadingProgress";
 import DoneUpload from "../../components/DoneUpload";
 import {ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import {auth, storage} from "../../firebaseConfig";
 import {useModel} from "../../.umi/exports";
 import { v4 as uuidv4 } from 'uuid';
-
-
 const { TextArea } = Input;
 const clearFormValues = (form) => {
     form.resetFields();
 };
-
 
 const NewPet = () => {
     const {initialState:{currentUser} } = useModel('@@initialState');
@@ -24,7 +19,6 @@ const NewPet = () => {
     const [loading,setLoading] = useState(false)
     const [done,setDone] = useState(false);
     const [percent,setPercent] = useState(0)
-
     const uploadCallback = (snapshot) => {
         // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
         const progress =  Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
