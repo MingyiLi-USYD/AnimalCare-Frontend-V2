@@ -1,4 +1,11 @@
-import {convertMapToList, onChatFetch, onChatReceive, onChatSend, onNewSession, resetUnread} from "../utils/ChatUtils";
+import {
+    convertMapToList,
+    onChatFetchService,
+    onChatReceiveService,
+    onChatSendService,
+    onNewSession, onNewSessionService,
+    resetUnread
+} from "../utils/ChatUtils";
 
 export default {
     namespace: 'ChatModel',
@@ -13,7 +20,7 @@ export default {
     reducers: {
         onSend(state, {payload: {message, contact}}) {
             let {chatRecord} = state
-            const newChatRecord = onChatSend(chatRecord, message, contact)
+            const newChatRecord = onChatSendService(chatRecord, message, contact)
             return {
                 ...state,
                 chatRecord: newChatRecord,
@@ -23,7 +30,7 @@ export default {
         onReceive(state, {payload}) {
             let {chatRecord,contact} = state
             let {fromUser, message} = payload;
-            const newChatRecord = onChatReceive(chatRecord, message, fromUser,contact);
+            const newChatRecord = onChatReceiveService(chatRecord, message, fromUser,contact);
             return {
                 ...state,
                 chatRecord: newChatRecord,
@@ -33,7 +40,7 @@ export default {
         onFetchHistory(state, {payload}){
             let {chatRecord,contact} = state
             const {data} =payload;
-           const newChatRecord =onChatFetch(chatRecord,data,contact)
+           const newChatRecord =onChatFetchService(chatRecord,data,contact)
             return {
                 ...state,
                 chatRecord: newChatRecord,
@@ -72,7 +79,7 @@ export default {
             const contact = payload
             let {chatRecord} = state
             if(!chatRecord.has(contact.id)){
-                const newChatRecord = onNewSession(chatRecord,contact)
+                const newChatRecord = onNewSessionService(chatRecord,contact)
                 console.log(newChatRecord)
                 return{
                     ...state,

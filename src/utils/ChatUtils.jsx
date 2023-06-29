@@ -1,5 +1,5 @@
 
-export function onChatReceive(chatRecord, data,fromUser,contact) {
+export function onChatReceiveService(chatRecord, data,fromUser,contact) {
     const newChatRecord = new Map(chatRecord)
 
     if (newChatRecord.has(fromUser.id)) {
@@ -23,16 +23,17 @@ export function onChatReceive(chatRecord, data,fromUser,contact) {
     return newChatRecord
 }
 
-export function onChatSend(chatRecord, data, contact) {
+export function onChatSendService(chatRecord, data, contact) {
     const targetId= contact.id
     // 创建一个新的Map对象
     const newChatRecord = new Map(chatRecord)
 
     if (newChatRecord.has(targetId)) {
-      newChatRecord.get(targetId).chatList.push(data)
-      newChatRecord.get(targetId).chatUser=contact
-      newChatRecord.get(targetId).latestTime=data.date
-      newChatRecord.get(targetId).latestMsg=data.content
+        let record = newChatRecord.get(targetId)
+        record.chatList.push(data)
+        record.chatUser=contact
+        record.latestTime=data.date
+        record.latestMsg=data.content
     } else {
         newChatRecord.set(targetId, {
             chatList:[data],
@@ -49,7 +50,7 @@ export function onChatSend(chatRecord, data, contact) {
 export function getChat(allChat,user) {
     return allChat.get(user.id)
 }
-export function onNewSession(chatRecord,contact){
+export function onNewSessionService(chatRecord,contact){
     const newChatRecord = new Map(chatRecord)
     newChatRecord.set(contact.id,{
         chatList:[],
@@ -75,7 +76,6 @@ export function resetUnread(chatRecord,contact){
     const newChatRecord = new Map(chatRecord)
     const record = newChatRecord.get(contact.id)
     record.unRead=0
-    newChatRecord.set(contact.id,record)
     return newChatRecord
 }
 
@@ -87,7 +87,7 @@ export function allUnread(chatRecordArray){
     return count
 }
 
-export function onChatFetch(chatRecord,data,contact){
+export function onChatFetchService(chatRecord,data,contact){
     const newChatRecord = new Map(chatRecord)
     let record  = newChatRecord.get(contact.id)
     record.chatList=data

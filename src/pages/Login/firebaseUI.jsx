@@ -1,10 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {auth} from "../../firebaseConfig";
-import {GoogleAuthProvider,FacebookAuthProvider,EmailAuthProvider} from 'firebase/auth'
+import {EmailAuthProvider, FacebookAuthProvider, GoogleAuthProvider} from 'firebase/auth'
 import {StyledFirebaseAuth} from "react-firebaseui";
 import {history} from "umi";
-import signUp from "../SignUp/SignUp";
-import {currentUser, thirdPartLogin} from "../../services/userService";
+import {thirdPartLogin} from "../../services/userService";
 import {flushSync} from "react-dom";
 
 const uiConfig = {
@@ -20,11 +19,34 @@ const uiConfig = {
     ],
     callbacks: {
         // Avoid redirects after sign-in.
-        signInSuccessWithAuthResult: () => false,
+        signInSuccessWithAuthResult: () => {
+
+        },
     },
 };
 
 function FirebaseUi({initialState,setInitialState}) {
+
+/*    const init = async ()=>{
+        try {
+            await new Promise((resolve, reject) => {
+                const unsubscribe = auth.onAuthStateChanged((user) => {
+                    unsubscribe(); // 注销监听器，确保只执行一次
+                    if (user) {
+                        // 用户已经登录
+                        console.log("当前用户不为空");
+                        resolve(user);
+                    } else {
+                        // 用户已经退出登录
+                        reject("User is null");
+                    }
+                });
+            });
+        }catch (e){
+            console.log(e)
+        }
+    }*/
+
        const login = async (data)=>{
          const  res = await thirdPartLogin(data)
            if (res.code === 1) {
@@ -48,30 +70,17 @@ function FirebaseUi({initialState,setInitialState}) {
             });
         }
     };
-    useEffect(() => {
-        const unregisterAuthObserver = auth.onAuthStateChanged(user => {
-            console.log('firebase user is',user)
-            if(user==null){
-                history.push('/login')
-            }else {
-           const{uid,email,displayName,photoURL} = user;
-           const data = {
-               userName:uid,
-               nickname:displayName,
-               avatar:photoURL,
-               uuid:uid,
-               email,
+/*    useEffect(()=>{
+           if(auth.currentUser){
+               console.log("已经登录了")
+               return
            }
-                login(data)
+           init()
+       },[])*/
 
-            }
-
-        });
-        return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
-    }, []);
 
     return (
-        <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />
+        <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} uiCallback={ui => ui.disableAutoSignIn()} />
     );
 }
 

@@ -4,11 +4,11 @@ import {history, useModel} from "umi";
 import {userLogin} from "../../services/userService";
 import {flushSync} from "react-dom";
 import FirebaseUI from "./firebaseUI";
-import {auth} from "../../firebaseConfig";
+
 
 const Login = () => {
 
-  const { setInitialState, refresh, initialState } = useModel('@@initialState');
+  const { setInitialState, initialState } = useModel('@@initialState');
   console.log(initialState)
   const onFinish = async (values) => {
     const res = await userLogin(values);
@@ -36,7 +36,7 @@ const Login = () => {
    <Row align="middle" style={{ height: '100vh', background: '#f6f6f6' }}>
      <Col span={8} offset={8}>
        <Card>
-         <Form
+{/*         <Form
            name="normal_login"
            className="login-form"
            initialValues={{
@@ -84,7 +84,7 @@ const Login = () => {
              </Button>
              Or <a onClick={()=>history.push('/signup')}>register now!</a>
            </Form.Item>
-         </Form>
+         </Form>*/}
          <FirebaseUI initialState={initialState} setInitialState={setInitialState}/>
        </Card>
      </Col>
