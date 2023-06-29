@@ -23,32 +23,19 @@ function FirebaseUi({initialState,setInitialState}) {
         ],
     };
 
-       const login = async (data)=>{
-         const  res = await thirdPartLogin(data)
-           if (res.code === 1) {
-               localStorage.setItem('token', res.data.serverToken);
-               localStorage.setItem('firebaseToken', res.data.firebaseToken);
-               await fetchUserInfo();
-               console.log(1111)
-               history.push('/home');
-           } else {
-               console.log('登录失败');
-           }
-       }
-    const fetchUserInfo = async () => {
-        const userInfo = await initialState?.fetchUserInfo?.();
-        console.log(userInfo)
-        if (userInfo) {
-            flushSync(() => {
-                setInitialState((s) => ({
-                    ...s,
-                    currentUser: userInfo,
-                }));
-            });
-        }
-    };
 
+    useEffect(() => {
+        const unregisterAuthObserver = auth.onAuthStateChanged(user => {
+           console.log(user)
+            //console.log(user.accessToken)
+            if(user){
+               localStorage.setItem('auth',user.accessToken)
+            }else {
 
+            }
+        });
+        return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
+    }, []);
 
     return (
         <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} uiCallback={ui => ui.disableAutoSignIn()} />

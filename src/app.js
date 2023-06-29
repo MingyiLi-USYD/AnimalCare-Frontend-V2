@@ -42,20 +42,6 @@ export async function getInitialState() {
   const fetchUserInfo = async () => {
 
     try {
-      await new Promise((resolve, reject) => {
-        const unsubscribe = auth.onAuthStateChanged((user) => {
-          unsubscribe(); // 注销监听器，确保只执行一次
-          if (user) {
-            // 用户已经登录
-            console.log("当前用户不为空");
-            resolve(user);
-          } else {
-            // 用户已经退出登录
-            console.log("当前用户为空");
-            reject("当前用户为空");
-          }
-        });
-      });
       const msg = await currentUser();
       return msg.data;
     } catch (error) {
