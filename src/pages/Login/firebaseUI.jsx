@@ -6,46 +6,22 @@ import {history} from "umi";
 import {thirdPartLogin} from "../../services/userService";
 import {flushSync} from "react-dom";
 
-const uiConfig = {
-    // Popup signin flow rather than redirect flow.
-    signInFlow: 'popup',
-    // Redirect to /signedIn after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
-    signInSuccessUrl: '/signedIn',
-    // We will display Google and Facebook as auth providers.
-    signInOptions: [
-        EmailAuthProvider.PROVIDER_ID,
-       GoogleAuthProvider.PROVIDER_ID,
-        FacebookAuthProvider.PROVIDER_ID,
-    ],
-    callbacks: {
-        // Avoid redirects after sign-in.
-        signInSuccessWithAuthResult: () => {
 
-        },
-    },
-};
 
 function FirebaseUi({initialState,setInitialState}) {
 
-/*    const init = async ()=>{
-        try {
-            await new Promise((resolve, reject) => {
-                const unsubscribe = auth.onAuthStateChanged((user) => {
-                    unsubscribe(); // 注销监听器，确保只执行一次
-                    if (user) {
-                        // 用户已经登录
-                        console.log("当前用户不为空");
-                        resolve(user);
-                    } else {
-                        // 用户已经退出登录
-                        reject("User is null");
-                    }
-                });
-            });
-        }catch (e){
-            console.log(e)
-        }
-    }*/
+    const uiConfig = {
+        // Popup signin flow rather than redirect flow.
+        signInFlow: 'popup',
+        // Redirect to /signedIn after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
+        signInSuccessUrl: '/signedIn',
+        // We will display Google and Facebook as auth providers.
+        signInOptions: [
+            EmailAuthProvider.PROVIDER_ID,
+            GoogleAuthProvider.PROVIDER_ID,
+            FacebookAuthProvider.PROVIDER_ID,
+        ],
+    };
 
        const login = async (data)=>{
          const  res = await thirdPartLogin(data)
@@ -53,6 +29,7 @@ function FirebaseUi({initialState,setInitialState}) {
                localStorage.setItem('token', res.data.serverToken);
                localStorage.setItem('firebaseToken', res.data.firebaseToken);
                await fetchUserInfo();
+               console.log(1111)
                history.push('/home');
            } else {
                console.log('登录失败');
@@ -70,13 +47,7 @@ function FirebaseUi({initialState,setInitialState}) {
             });
         }
     };
-/*    useEffect(()=>{
-           if(auth.currentUser){
-               console.log("已经登录了")
-               return
-           }
-           init()
-       },[])*/
+
 
 
     return (
