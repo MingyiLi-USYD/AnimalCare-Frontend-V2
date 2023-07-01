@@ -3,11 +3,13 @@ import MultipleImageUpload from './GroupUpload';
 import {useState} from "react";
 import DoneUpload from "../../components/DoneUpload";
 import UploadingProgress from "../../components/UploadingProgress";
-import {getDownloadURL, ref, uploadBytes, uploadBytesResumable} from "firebase/storage";
-import {storage} from "../../firebaseConfig";
-import {useModel} from "../../.umi/exports";
+import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
+import {auth, storage} from "../../firebaseConfig";
 import {v4 as uuidv4} from "uuid";
 import {newPost} from "../../services/postService";
+import {getFirebaseIdToken} from "../../services/userService";
+import {signInWithCustomToken} from "firebase/auth";
+import {useModel} from "umi";
 
 const { TextArea } = Input;
 const clearFormValues = (form) => {
@@ -59,6 +61,10 @@ const NewPost = () => {
     };
 
     const finish = async (values) => {
+        if(!auth.currentUser){
+            const {data} = await getFirebaseIdToken()
+            await signInWithCustomToken(auth,data)
+        }
         setLoading(true)
         values.images=JSON.stringify(await uploadMultipleImages(values.images))
         const {code}=await newPost(values)

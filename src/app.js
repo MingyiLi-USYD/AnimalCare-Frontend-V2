@@ -1,7 +1,6 @@
 
 import {history} from 'umi'
 import {currentUser} from "./services/userService";
-import {auth} from "./firebaseConfig";
 
 const loginPath = '/login';
 
@@ -17,7 +16,7 @@ export const request = {
   },
   requestInterceptors: [
     (url, options) => {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('serverToken');
       const isLoginRequest = url.includes('/api/login');
       if (token && !isLoginRequest) {
         options.headers = {

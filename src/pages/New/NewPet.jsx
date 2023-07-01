@@ -6,8 +6,10 @@ import UploadingProgress from "../../components/UploadingProgress";
 import DoneUpload from "../../components/DoneUpload";
 import {ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import {auth, storage} from "../../firebaseConfig";
-import {useModel} from "../../.umi/exports";
 import { v4 as uuidv4 } from 'uuid';
+import {getFirebaseIdToken} from "../../services/userService";
+import {signInWithCustomToken} from "firebase/auth"
+import {useModel} from "umi";
 const { TextArea } = Input;
 const clearFormValues = (form) => {
     form.resetFields();
@@ -48,8 +50,11 @@ const NewPet = () => {
         }
     }
     const finish = async (values) => {
+        if(!auth.currentUser){
+           const {data} = await getFirebaseIdToken()
+            await signInWithCustomToken(auth,data)
+        }
         setLoading(true)
-        console.log(auth)
         const storageRef = ref(storage, currentUser.userName +'/'+ uuidv4());
         const uploadTask = uploadBytesResumable(storageRef, values.avatar[0].originFileObj)
         uploadTask.on('state_changed',
@@ -81,7 +86,8 @@ const NewPet = () => {
         <div style={{display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',}}>
-            <Button onClick={()=>{console.log(auth)}}>查看auth</Button>
+            <Button onClick={()=>{console.log(auth.currentUser)}}>查看auth</Button>
+            <Button onClick={()=>{auth.signOut()}}>退出auth</Button>
             <Form
                 form={form}
                 labelCol={{

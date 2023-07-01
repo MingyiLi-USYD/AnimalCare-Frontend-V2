@@ -16,6 +16,7 @@ import { getAnalytics } from "firebase/analytics";
 const firebaseConfig = {
     apiKey: "AIzaSyD0ajGMy5b9kG9200W6FKq4LymQzdOFh-g",
     authDomain: "petbook-react-springboot.firebaseapp.com",
+    databaseURL: "https://petbook-react-springboot-default-rtdb.asia-southeast1.firebasedatabase.app",
     projectId: "petbook-react-springboot",
     storageBucket: "petbook-react-springboot.appspot.com",
     messagingSenderId: "1067998688265",

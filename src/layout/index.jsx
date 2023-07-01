@@ -129,7 +129,7 @@ const BasicLayout = (props) => {
         const { location } = history;
         console.log(initialState);
         // 如果没有登录，重定向到 login
-        if ((!initialState?.currentUser||!auth.currentUser) && location.pathname !== loginPath) {
+        if (!initialState?.currentUser && location.pathname !== loginPath) {
         console.log("被重定向到登录页")
         history.push(loginPath);
       }

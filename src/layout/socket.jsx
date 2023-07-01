@@ -8,22 +8,22 @@ import {getFriends} from "../services/friendService";
 function Socket({currentUser,children}) {
     let websocketInstance = null;
     useEffect(() => {
+        getFriends().then((res) => putFriendsListOnStore(res.data));
+        putProfileOnStore(currentUser);
         if (!websocketInstance) {
-            // 连接服务器的WebSocket代码${currentUser.id}
-            //"http://localhost:8888"
             websocketInstance = io('', {
                 reconnectionDelayMax: 10000,
                 path: '/socket.io',
                 transports: ['websocket'],
                 query: {
                     userId: currentUser.id,
-                    token: localStorage.getItem("token")
+                    token: localStorage.getItem("serverToken")
                 }
             });
             websocketInstance.on('connect', () => {
                 console.log('连接上了')
-                getFriends().then((res) => putFriendsListOnStore(res.data));
-                putProfileOnStore(currentUser);
+     /*           getFriends().then((res) => putFriendsListOnStore(res.data));
+                putProfileOnStore(currentUser);*/
             });
             websocketInstance.on('friendEvent', (data) => {
                 console.log(data);

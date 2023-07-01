@@ -9,7 +9,7 @@ const MyDropdown = (props) => {
 
     const  handleSignOut = async ()=> {
         await auth.signOut()
-        localStorage.removeItem('token')
+        localStorage.removeItem('serverToken')
         history.push('/login')
 
     }

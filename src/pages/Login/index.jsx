@@ -4,6 +4,7 @@ import {history, useModel} from "umi";
 import {userLogin} from "../../services/userService";
 import {flushSync} from "react-dom";
 import FirebaseUI from "./firebaseUI";
+import EmailSignUp from "./EmailSignUp";
 
 
 const Login = () => {
@@ -13,10 +14,9 @@ const Login = () => {
   const onFinish = async (values) => {
     const res = await userLogin(values);
     if (res.code === 1) {
-      localStorage.setItem('token', res.data.serverToken);
-      localStorage.setItem('firebaseToken', res.data.firebaseToken);
+      localStorage.setItem('serverToken', res.data.serverToken);
       await fetchUserInfo();
-      history.push('/');
+      history.push('/home');
     } else {
       console.log('登录失败');
     }
@@ -84,7 +84,8 @@ const Login = () => {
              </Button>
              Or <a onClick={()=>history.push('/signup')}>register now!</a>
            </Form.Item>
-         </Form>*/}
+         </Form>
+         <EmailSignUp/>*/}
          <FirebaseUI initialState={initialState} setInitialState={setInitialState}/>
        </Card>
      </Col>

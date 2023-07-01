@@ -15,7 +15,7 @@ const Chat = (props) => {
     const {contact, dispatch, me} = props;
     const [emo, setEmo] = useState(false)
     const [text, setText] = useState('')
-    const handleSend = () => {
+    const handleSend =  () => {
 
         if (text.trim() === '') {
             // 内容为空
@@ -32,6 +32,7 @@ const Chat = (props) => {
             content: text,
         }
         sendMessageToServer({toId: contact.id, message})
+
         dispatch({
             type: 'ChatModel/onSend',
             payload: {message, contact},

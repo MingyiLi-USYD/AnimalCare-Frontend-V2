@@ -35,3 +35,7 @@ export const thirdPartLogin = async (user) =>
         method: 'POST',
         data:user
     });
+export const getFirebaseIdToken = async () =>
+    await request('/api/token', {
+        method: 'GET',
+    });
