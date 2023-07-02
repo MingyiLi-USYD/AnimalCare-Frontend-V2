@@ -1,7 +1,7 @@
 import {Modal} from 'antd';
 import React, {useEffect, useState} from 'react';
-import {getCommentsById} from "../../../services/commentService";
-import Comment from "../../Comment/Comment";
+import {getCommentsById} from "../../services/commentService";
+import Comment from "./Comment";
 
 const MyModal = ({postId,open,close}) => {
     const [page, setPage] = useState(0);
@@ -9,7 +9,7 @@ const MyModal = ({postId,open,close}) => {
     const [loading, setLoading] = useState(false);
     const [commentList, setCommentList] = useState([]);
 
-    const loadMoreData =  () => {
+/*    const loadMoreData =  () => {
         console.log("调用一次")
         if (loading) {
             return;
@@ -28,7 +28,7 @@ const MyModal = ({postId,open,close}) => {
     };
     useEffect(() => {
         loadMoreData()
-    }, []);
+    }, []);*/
     const handleOk = () => {
         close();
     };
@@ -38,6 +38,7 @@ const MyModal = ({postId,open,close}) => {
     return (
 
             <Modal
+                maskClosable={false}
                 footer={[]}
                 title="Comments"
                 open={open}
@@ -46,6 +47,7 @@ const MyModal = ({postId,open,close}) => {
             >
 
               <Comment/>
+                <div style={{height:150,backgroundColor:"lightblue"}}></div>
            </Modal>
 
     );

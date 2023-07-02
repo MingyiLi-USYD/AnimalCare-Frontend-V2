@@ -3,7 +3,7 @@ import {
     onChatFetchService,
     onChatReceiveService,
     onChatSendService,
-    onNewSession, onNewSessionService,
+    onNewSessionService,
     resetUnread
 } from "../utils/ChatUtils";
 
@@ -49,8 +49,7 @@ export default {
         },
 
         onFetchFriendsList(state, {payload}) {
-            let {friendLists} = state
-            friendLists = [...friendLists, ...payload]
+          const  friendLists = [ ...payload]
             return {
                 ...state,
                 friendLists

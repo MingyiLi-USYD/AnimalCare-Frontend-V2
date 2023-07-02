@@ -3,9 +3,14 @@ import {Avatar} from "antd";
 
 function ChatHeader({contact}) {
     return (
-        <div >
-            <Avatar size={64} src={contact.avatar}/>
-            <span>{contact.nickname}</span>
+        <div className={"chat-header"}>
+            <div className={""}>
+                <Avatar size={64} src={contact.avatar}/>
+                <span>{contact.nickname}</span>
+            </div>
+            <div>
+                取回全部数据
+            </div>
         </div>
     );
 }

@@ -9,7 +9,7 @@ import ImageList from "./Components/ImageList";
 import {history} from 'umi';
 import MySelector from "./Components/MySelector";
 import InfiniteScroll from 'react-infinite-scroll-component';
-import MyModal from "../Profile/Components/MyModal";
+import MyModal from "../Comment/MyModal";
 
 
 const IconText = ({ icon, text }) => (

@@ -8,7 +8,9 @@
 .messageContainer {
   height: calc(@containerHeight * 0.6);
 }
-
+.chat-header {
+  display: flex;
+}
 .oneMessage {
   width: 100%;
   display: flex;
@@ -23,6 +25,8 @@
     margin: 0 20px;
     word-break: break-all; /* 超过最大宽度后自动换行 */
   }
+
+
 
 
   .after-triangle::after {
@@ -140,4 +144,6 @@
   &::-webkit-scrollbar-thumb:hover {
     background-color: #555; /* 鼠标悬停时滚动条滑块颜色 */
   }
+
+
 }

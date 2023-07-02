@@ -1,50 +1,71 @@
-import { Avatar, List, message } from 'antd';
-import VirtualList from 'rc-virtual-list';
+import { Avatar, Divider, List, Skeleton } from 'antd';
 import { useEffect, useState } from 'react';
-const fakeDataUrl =
-    'https://randomuser.me/api/?results=20&inc=name,gender,email,nat,picture&noinfo';
-const ContainerHeight = 400;
+import InfiniteScroll from 'react-infinite-scroll-component';
 const Comment = () => {
+    const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
-    const appendData = () => {
-        fetch(fakeDataUrl)
+    const loadMoreData = () => {
+        console.log("load")
+        if (loading) {
+            return;
+        }
+        setLoading(true);
+        fetch('https://randomuser.me/api/?results=10&inc=name,gender,email,nat,picture&noinfo')
             .then((res) => res.json())
             .then((body) => {
-                setData(data.concat(body.results));
-                message.success(`${body.results.length} more items loaded!`);
+                setData([...data, ...body.results]);
+                setLoading(false);
+            })
+            .catch(() => {
+                setLoading(false);
             });
     };
     useEffect(() => {
-        appendData();
+        loadMoreData();
     }, []);
-    const onScroll = (e) => {
-        console.log(e.currentTarget.scrollHeight)
-        console.log(e.currentTarget.scrollTop)
-        if (e.currentTarget.scrollHeight - e.currentTarget.scrollTop === ContainerHeight) {
-            appendData();
-        }
-    };
     return (
-        <List>
-            <VirtualList
-                data={data}
-                height={ContainerHeight}
-                itemHeight={47}
-                itemKey="email"
-                onScroll={onScroll}
+        <div
+            id="scrollableTarget"
+            style={{
+                height: 400,
+                overflow: 'auto',
+                padding: '0 16px',
+                border: '1px solid rgba(140, 140, 140, 0.35)',
+                zIndex:9999
+            }}
+        >
+            <InfiniteScroll
+                dataLength={data.length}
+                next={loadMoreData}
+                hasMore={data.length < 50}
+                loader={
+                    <Skeleton
+                        avatar
+                        paragraph={{
+                            rows: 1,
+                        }}
+                        active
+                    />
+                }
+                endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
+                scrollableTarget="scrollableTarget"
             >
-                {(item) => (
-                    <List.Item key={item.email}>
-                        <List.Item.Meta
-                            avatar={<Avatar src={item.picture.large} />}
-                            title={<a href="https://ant.design">{item.name.last}</a>}
-                            description={item.email}
-                        />
-                        <div>Content</div>
-                    </List.Item>
-                )}
-            </VirtualList>
-        </List>
+                <List
+                    dataSource={data}
+                    renderItem={(item) => (
+                        <List.Item key={item.email}>
+                            <List.Item.Meta
+                                avatar={<Avatar src={item.picture.large} />}
+                                title={<a href="https://ant.design">{item.name.last}</a>}
+                                description={item.email}
+                            />
+                            <div>Content</div>
+                        </List.Item>
+                    )}
+                />
+            </InfiniteScroll>
+
+        </div>
     );
 };
 export default Comment;

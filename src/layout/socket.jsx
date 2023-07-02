@@ -22,8 +22,6 @@ function Socket({currentUser,children}) {
             });
             websocketInstance.on('connect', () => {
                 console.log('连接上了')
-     /*           getFriends().then((res) => putFriendsListOnStore(res.data));
-                putProfileOnStore(currentUser);*/
             });
             websocketInstance.on('friendEvent', (data) => {
                 console.log(data);

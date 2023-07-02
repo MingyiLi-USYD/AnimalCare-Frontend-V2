@@ -102,6 +102,7 @@ const NewPost = () => {
                     width: 800,
                 }}
                 onFinish={finish}
+                form={form}
             >
                 <Form.Item
                     label="Title"
