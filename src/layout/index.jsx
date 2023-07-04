@@ -7,7 +7,7 @@ import MyAvatar from "../components/Avatar";
 import Socket from "./socket";
 import {Badge} from "antd";
 import {connect} from "../.umi/exports";
-import {allUnread} from "../utils/ChatUtils";
+import {allUnread} from "../utils/chatUtils";
 import {auth} from "../firebaseConfig";
 
 const loginPath = '/login';

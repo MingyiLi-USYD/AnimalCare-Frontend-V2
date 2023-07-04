@@ -1,7 +1,7 @@
 import {Avatar, Badge, List} from 'antd';
 import {connect} from "umi";
 import {useState} from 'react';
-import {formatTimestamp} from "../../utils/TimeUtils";
+import {formatTimestamp} from "../../utils/timeUtils";
 
 
 const RecentChatFriendList = (props) => {

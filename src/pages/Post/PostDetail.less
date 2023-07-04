@@ -19,10 +19,11 @@
     display: flex;
     flex-direction: column;
     width: 350px;
-    .header{
+    .author-info{
       height: 70px;
       display: flex;
       justify-content: space-between;
+      margin-bottom: 30px;
       .user-info{
         .nickname{
           color: darkgrey;
@@ -30,24 +31,36 @@
         }
       }
     }
-    .content{
-       flex-grow: 1;
-       display: flex;
-       flex-direction: column;
-      .topic{
-        height: 50px;
-        font-size: 20px;
-        color: black;
+    .note-scroller{
+      flex-grow: 1;
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      /* 隐藏滚动条 */
+      &::-webkit-scrollbar {
+        display: none;
       }
-      .description{
-        flex-grow: 1;
-        padding: 10px;
-        font-size: 16px;
-        color: gray;
-        overflow: hidden;
+      .note-content{
+        .topic{
+          height: 50px;
+          font-size: 20px;
+          color: black;
+        }
+        .description{
+          padding: 10px;
+          font-size: 16px;
+          color: gray;
+          overflow: hidden;
+        }
       }
+      .comment-container{
+
+      }
+
     }
+
     .actions{
+      margin-top: 20px;
       height: 50px;
       font-size: 20px;
       .my-icon{

@@ -1,7 +1,7 @@
 import {Avatar, Button, List} from 'antd';
 import {useEffect, useRef, useState} from 'react';
 import {connect} from "../../.umi/exports";
-import {getChat} from "../../utils/ChatUtils";
+import {getChat} from "../../utils/chatUtils";
 import {retrieveMessageFromServer} from "../../services/chatService";
 
 

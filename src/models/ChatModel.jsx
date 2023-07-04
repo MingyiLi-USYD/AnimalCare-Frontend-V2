@@ -5,7 +5,7 @@ import {
     onChatSendService,
     onNewSessionService,
     resetUnread
-} from "../utils/ChatUtils";
+} from "../utils/chatUtils";
 
 export default {
     namespace: 'ChatModel',

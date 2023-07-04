@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import io from "socket.io-client";
-import {friendRequestService, messageService, putFriendsListOnStore, putProfileOnStore} from "../utils/MessageService";
+import {friendRequestService, messageService, putFriendsListOnStore, putProfileOnStore} from "../utils/messageService";
 import {getFriends} from "../services/friendService";
 
 
