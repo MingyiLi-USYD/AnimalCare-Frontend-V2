@@ -67,7 +67,7 @@ export default defineConfig({
         },
         {
           path: '/post/:postId',
-          component: '@/pages/Comment/Comment',
+          component: '@/pages/Post/PostDetail',
         },
         {
           path: '/pet/:petId',

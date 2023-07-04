@@ -1,0 +1,87 @@
+.post-container{
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  .carousel{
+    width: 60%;
+    .image-container{
+       height: 80vh;
+      display: flex;
+      align-items: center;
+      background-position: 50%;
+      background-repeat: no-repeat;
+      //background-size: contain;
+      //background-image: url("https://fastly.picsum.photos/id/400/200/300.jpg?hmac=FD74WIE42b0qUFf-QggfWsoHPJqcGgjSatRvUM9dAws");
+    }
+
+  }
+  .content-info{
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    .header{
+      height: 70px;
+      display: flex;
+      justify-content: space-between;
+      .user-info{
+        .nickname{
+          color: darkgrey;
+          margin-left: 10px;
+        }
+      }
+    }
+    .content{
+       flex-grow: 1;
+       display: flex;
+       flex-direction: column;
+      .topic{
+        height: 50px;
+        font-size: 20px;
+        color: black;
+      }
+      .description{
+        flex-grow: 1;
+        padding: 10px;
+        font-size: 16px;
+        color: gray;
+        overflow: hidden;
+      }
+    }
+    .actions{
+      height: 50px;
+      font-size: 20px;
+      .my-icon{
+        padding: 0 10px;
+        vertical-align: middle;
+        font-size: 30px;
+      }
+    }
+    .bottom{
+      height: 40px;
+      .comment-wrapper{
+        overflow: hidden;
+        display: flex;
+        .input-buttons{
+
+          span{
+            margin: 0 5px;
+          }
+          button{
+            width: 70px;
+            margin-left: 5px;
+          }
+          display: flex;
+          font-size: 20px;
+        }
+        .active{
+          transform: translateX(0px);
+          transition: transform 0.3s ease;
+        }
+        .inactive{
+          transform: translateX(72px);
+          transition: transform 0.3s ease;
+        }
+      }
+    }
+  }
+}

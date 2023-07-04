@@ -17,6 +17,7 @@
     "firebase": "^9.23.0",
     "firebaseui": "^6.0.2",
     "immutable": "^4.3.0",
+    "rc-virtual-list": "^3.5.2",
     "react-firebaseui": "^6.0.0",
     "react-google-login": "^5.2.2",
     "react-infinite-scroll-component": "^6.1.0",
