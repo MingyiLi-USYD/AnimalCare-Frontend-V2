@@ -5,7 +5,10 @@ export const getCommentsById = (id,page,pageSize) =>
         method: 'GET',
     });
 
-export const newGetCommentsById = (url) =>
-    request(url, {
-        method: 'GET',
+export const postComment = (postId,commentContent) =>
+    request(`/api/comment/${postId}`, {
+        method: 'Post',
+        data:{
+            commentContent
+        }
     });

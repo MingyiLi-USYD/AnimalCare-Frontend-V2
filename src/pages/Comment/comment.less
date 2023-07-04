@@ -1,0 +1,38 @@
+.comment-item {
+  display: flex;
+  margin: 15px 0;
+
+  .left {
+    margin-right: 5px;
+    span{
+      &:hover{
+         cursor: pointer;
+      }
+    }
+
+  }
+
+  .right {
+    flex-grow: 1;
+    .author-nickname {
+      color: darkgrey;
+    }
+
+    .content {
+       color: black;
+    }
+
+    .info {
+      display: flex;
+      justify-content: space-between;
+      .time{
+        font-size: 12px;
+        color: darkgrey;
+      }
+      .interactions {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+  }
+}

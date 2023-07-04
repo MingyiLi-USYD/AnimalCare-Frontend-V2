@@ -1,73 +1,62 @@
 import React, {useEffect, useRef, useState} from 'react';
-import BackForward from "../../components/BackForward";
 import {useParams} from "../../.umi/exports";
 import "./PostDetail.less"
-import {Avatar, Button, Carousel, Col, Divider, Input, List, Row, Skeleton} from "antd";
+import {Avatar, Button, Carousel, Divider, Input, List, Skeleton} from "antd";
 import {parseStringToList} from "../../utils/arrayUtils";
 import {getPostById} from "../../services/postService";
 import Loading from "../../components/Loading";
 import {MessageOutlined, StarOutlined, HeartOutlined, SmileOutlined,PaperClipOutlined} from '@ant-design/icons';
 import InfiniteScroll from "react-infinite-scroll-component";
+import {getCommentsById, postComment} from "../../services/commentService";
+import Comment from "../Comment/comment";
 
-const imageUrl = "https://fastly.picsum.photos/id/400/200/300.jpg?hmac=FD74WIE42b0qUFf-QggfWsoHPJqcGgjSatRvUM9dAws";
 
-const divStyle = {
-    height: '80vh',
-    display: 'flex',
-    alignItems: 'center',
-    backgroundPosition: '50%',
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'contain',
-    backgroundImage: `url(${imageUrl})`,
-};
 
 function PostDetail() {
     const   commentContainerRef =useRef(null)
-    const [data, setData] = useState([]);
     const [commentLoading,setCommentLoading] = useState(false)
-    const loadMoreData = () => {
-        if (commentLoading) {
-            return;
-        }
-        setCommentLoading(true);
-        fetch('https://randomuser.me/api/?results=10&inc=name,gender,email,nat,picture&noinfo')
-            .then((res) => res.json())
-            .then((body) => {
-                setData([...data, ...body.results]);
-                setCommentLoading(false);
-            })
-            .catch(() => {
-                setCommentLoading(false);
-            });
-    };
-
-    useEffect(() => {
-        loadMoreData();
-    }, []);
-
+    const [page,setPage]=useState(0)
+    const [total,setTotal] = useState(0)
+    const [comments,setComments] = useState([])
     const params = useParams();
     const {postId} = params
     const [loading,setLoading] = useState(false)
     const [post,setPost] = useState({})
     const [text,setText] = useState("");
     const [active,setActive] = useState(false)
+
+
+
     useEffect(()=>{
         initData()
-
     },[])
 
     const  initData = async ()=>{
+        await fetchPost()
+        await loadComment()
+    }
+    const fetchPost = async ()=>{
         setLoading(true)
-     const {data,code} = await getPostById(postId)
+        const {data,code} = await getPostById(postId)
         if(code===1){
             console.log(parseStringToList(data.images))
             setPost(data)
             setLoading(false)
         }
     }
-    if(loading){
-        return <Loading/>
+    const   loadComment = async ()=>{
+        if (commentLoading) {
+            return;
+        }
+        setCommentLoading(true);
+       const { data: { records,total },code} = await getCommentsById(postId,page,10);
+        setPage(page+1)
+        setComments([...comments,...records]);
+        setTotal(total)
+        setCommentLoading(false);
+
     }
+
     const handleInput = (e)=>{
         const input = e.target.value;
         setText(input)
@@ -89,6 +78,21 @@ function PostDetail() {
             }
         }
     }
+    if(loading||commentLoading){
+        return <Loading/>
+    }
+    console.log(comments)
+
+    function handleLove() {
+
+    }
+
+    const handleSend = async ()=> {
+        const {code} = await postComment(postId,text)
+        if(code===1){
+            setText('')
+        }
+    }
 
     return (
 
@@ -99,9 +103,8 @@ function PostDetail() {
                   <Carousel >
                           {parseStringToList(post.images).map((url, index) =>
                                (
-                                  <div>
-                                  <div key={index} className={"image-container"} style={{backgroundSize:"contain",backgroundImage:`url(${url})`}}/>
-
+                                  <div  key={index} >
+                                  <div className={"image-container"} style={{backgroundSize:"contain",backgroundImage:`url(${url})`}}/>
                                   </div>
                               )
 
@@ -132,28 +135,21 @@ function PostDetail() {
                         </div>
                         <div className={"comment-container"}  ref={commentContainerRef}>
                             <div className={"total"}>
-                                {"一共500条"}
+                                {`Totally ${total} comments`}
                             </div>
                             <div className={"list-container"}>
                                 <InfiniteScroll
-                                    dataLength={data.length}
-                                    next={loadMoreData}
-                                    hasMore={data.length < 50}
+                                    dataLength={comments.length}
+                                    next={loadComment}
+                                    hasMore={comments.length < total}
                                     loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
                                     endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
                                     scrollableTarget="scrollableDiv"
                                 >
                                     <List
-                                        dataSource={data}
+                                        dataSource={comments}
                                         renderItem={(item) => (
-                                            <List.Item key={item.email}>
-                                                <List.Item.Meta
-                                                    avatar={<Avatar src={item.picture.large} />}
-                                                    title={<a href="https://ant.design">{item.name.last}</a>}
-                                                    description={item.email}
-                                                />
-                                                <div>Content</div>
-                                            </List.Item>
+                                            <Comment key={item.id} data={item}/>
                                         )}
                                     />
                                 </InfiniteScroll>
@@ -161,12 +157,12 @@ function PostDetail() {
                         </div>
                     </div>
                     <div className={"actions"}>
-                        <HeartOutlined className={"my-icon"}/>
+                        <HeartOutlined className={"my-icon"} onClick={handleLove}/>
                         <span>{post.love}</span>
                         <StarOutlined className={"my-icon"}/>
                         <span>{post.love}</span>
                         <MessageOutlined className={"my-icon"} onClick={showComments}/>
-                        <span>{post.love}</span>
+                        <span>{total}</span>
                     </div>
                     <div className={"bottom"}>
                         <div className={"comment-wrapper"}>
@@ -174,7 +170,7 @@ function PostDetail() {
                             <div className={`input-buttons ${active?'active':'inactive'}`}>
                                 <PaperClipOutlined />
                                 <SmileOutlined />
-                                <Button size={"middle"} type={"primary"}>Send</Button>
+                                <Button size={"middle"} type={"primary"} onClick={handleSend}>Send</Button>
                             </div>
                         </div>
                     </div>

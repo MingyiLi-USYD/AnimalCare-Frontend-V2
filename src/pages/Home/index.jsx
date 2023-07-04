@@ -1,17 +1,13 @@
-import {LikeOutlined, MessageOutlined, StarOutlined,HeartOutlined} from '@ant-design/icons';
-import {Avatar, Card, Col, Divider, List, Row, Skeleton, Space} from 'antd';
-import {useEffect, useRef, useState} from 'react';
+import {HeartOutlined} from '@ant-design/icons';
+import {Avatar, Divider, Skeleton, Space} from 'antd';
+import {useEffect, useState} from 'react';
 import {cancelLove, getPosts, love} from '../../services/postService';
 import {getLovedPosts} from '../../services/userService';
 import {parseStringToList, removeItem} from '../../utils/arrayUtils';
-import {getImageList} from '../../utils/imageUtils';
-import ImageList from "./Components/ImageList";
 import {history} from 'umi';
 import MySelector from "./Components/MySelector";
 import InfiniteScroll from 'react-infinite-scroll-component';
-import MyModal from "../Comment/MyModal";
 import "./index.less"
-import PostCard from "../Profile/Components/PostCard";
 
 const IconText = ({ icon, text }) => (
     <Space>
@@ -23,8 +19,6 @@ const IconText = ({ icon, text }) => (
 const HomePage = () => {
     const [loveList, setLoveList] = useState([]);
     const [postList, setPostList] = useState([]);
-    const [open, setOpen] = useState(false);
-    const [postId, setPostId] = useState(0);
     const [page,setPage]=useState(0)
     const [total,setTotal] = useState(0)
     const [loading, setLoading] = useState(false);
@@ -136,15 +130,7 @@ const HomePage = () => {
                     </div>
                 </InfiniteScroll>
             </div>
-            {open && (
-                <MyModal
-                    open={open}
-                    close={() => {
-                        setOpen(false);
-                    }}
-                    postId={postId}
-                />
-            )}
+
 
 
         </div>
