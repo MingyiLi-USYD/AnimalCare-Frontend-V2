@@ -1,7 +1,7 @@
 export const TimeDate = (now)=>{
     return new Date(now).toLocaleString().replace(/:\d{1,2}$/,' ');
 }
-export const formatTimestamp = (timestamp)=> {
+export const formatTimestamp = (timestamp) => {
     const now = new Date();
     const date = new Date(timestamp);
 
@@ -11,7 +11,7 @@ export const formatTimestamp = (timestamp)=> {
     if (diffInHours < 24) {
         // Within 24 hours, display hours and minutes
         const hours = date.getHours();
-        const minutes = date.getMinutes();
+        const minutes = date.getMinutes().toString().padStart(2, '0'); // Add leading zero if minutes is less than 10
         return `${hours}:${minutes}`;
     } else if (diffInHours < 48) {
         // Within 48 hours, display "Yesterday"
@@ -23,4 +23,4 @@ export const formatTimestamp = (timestamp)=> {
         const day = String(date.getDate()).padStart(2, '0');
         return `${day}/${month}/${year.toString().slice(-2)}`;
     }
-}
+};

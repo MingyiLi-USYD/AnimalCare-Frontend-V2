@@ -12,3 +12,8 @@ export const postComment = (postId,commentContent) =>
             commentContent
         }
     });
+
+export const loveComment = (commentId) =>
+    request(`/api/comment/love/${commentId}`, {
+        method: 'GET',
+    });

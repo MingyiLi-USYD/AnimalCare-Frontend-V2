@@ -1,12 +1,22 @@
 import React from 'react';
 import './comment.less'
 import {Avatar} from "antd";
-import {MessageOutlined, StarOutlined, HeartOutlined, SmileOutlined,PaperClipOutlined} from '@ant-design/icons';
+import {HeartOutlined, MessageOutlined} from '@ant-design/icons';
 import Interaction from "../../components/Interations/interaction";
 import {history} from "umi";
+import {formatTimestamp} from "../../utils/timeUtils";
 
-function Comment({data}) {
-    const {nickName,userAvatar,commentContent,commentTime,postId,userId} = data;
+function Comment({data,focus}) {
+    const {nickName,userAvatar,commentContent,commentTime,postId,userId,commentLove} = data;
+    const subCommentLength = 10;
+
+    const handleLove = ()=>{
+
+    }
+    const handleComment = ()=>{
+          focus(nickName)
+    }
+
     return (
         <div className={"comment-item"}>
             <div className={"left"}>
@@ -21,21 +31,26 @@ function Comment({data}) {
                 </div>
                 <div className={"info"}>
                       <div className={"time"}>
-                          06-30
+                          {formatTimestamp(commentTime)}
                       </div>
                     <div className={"interactions"}>
                          <div className={"like"}>
-                             <Interaction number={50}>
-                                 <HeartOutlined/>
+                             <Interaction number={commentLove}>
+                                 <HeartOutlined onClick={handleLove}/>
                              </Interaction>
                          </div>
                           <div className={"reply"}>
-                              <Interaction number={30}>
-                                  <MessageOutlined/>
+                              <Interaction number={subCommentLength}>
+                                  <MessageOutlined onClick={handleComment}/>
                               </Interaction>
                           </div>
                     </div>
                 </div>
+                {
+                    subCommentLength>0&&
+                    <a>View reply</a>
+                }
+
             </div>
         </div>
     );

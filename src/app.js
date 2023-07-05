@@ -1,6 +1,7 @@
 
 import {history} from 'umi'
 import {currentUser} from "./services/userService";
+import responseInterceptor from "../config/responseInterceptor";
 
 const loginPath = '/login';
 
@@ -30,11 +31,7 @@ export const request = {
       };
     },
   ],
-  responseInterceptors: [
-    (response, options) => {
-      return response;
-    },
-  ],
+  responseInterceptors: [responseInterceptor],
 };
 export async function getInitialState() {
 

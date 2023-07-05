@@ -1,19 +1,20 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {useParams} from "../../.umi/exports";
+import {useModel, useParams} from "../../.umi/exports";
 import "./PostDetail.less"
 import {Avatar, Button, Carousel, Divider, Input, List, Skeleton} from "antd";
-import {parseStringToList} from "../../utils/arrayUtils";
-import {getPostById} from "../../services/postService";
+import {parseStringToList, removeItem} from "../../utils/arrayUtils";
+import {cancelLove, getPostById, love} from "../../services/postService";
 import Loading from "../../components/Loading";
 import {MessageOutlined, StarOutlined, HeartOutlined, SmileOutlined,PaperClipOutlined} from '@ant-design/icons';
 import InfiniteScroll from "react-infinite-scroll-component";
 import {getCommentsById, postComment} from "../../services/commentService";
 import Comment from "../Comment/comment";
-
+import {history} from "umi";
 
 
 function PostDetail() {
-    const   commentContainerRef =useRef(null)
+    const commentContainerRef =useRef(null)
+    const inputRef = useRef(null);
     const [commentLoading,setCommentLoading] = useState(false)
     const [page,setPage]=useState(0)
     const [total,setTotal] = useState(0)
@@ -23,9 +24,9 @@ function PostDetail() {
     const [loading,setLoading] = useState(false)
     const [post,setPost] = useState({})
     const [text,setText] = useState("");
+    const [label,setLabel] = useState("Share your idea");
     const [active,setActive] = useState(false)
-
-
+    const [commentType,setCommentType] = useState(0)
 
     useEffect(()=>{
         initData()
@@ -39,7 +40,6 @@ function PostDetail() {
         setLoading(true)
         const {data,code} = await getPostById(postId)
         if(code===1){
-            console.log(parseStringToList(data.images))
             setPost(data)
             setLoading(false)
         }
@@ -72,7 +72,8 @@ function PostDetail() {
 
         if (commentContainer) {
             const commentContainerTop = commentContainer.getBoundingClientRect().top;
-
+            setLabel("Share your idea")
+            setCommentType(0)
             if (commentContainerTop > 0) {
                 commentContainer.scrollIntoView({ behavior: 'smooth' });
             }
@@ -81,18 +82,54 @@ function PostDetail() {
     if(loading||commentLoading){
         return <Loading/>
     }
-    console.log(comments)
 
-    function handleLove() {
-
-    }
+    const handleLove = async (postId) => {
+/*        if (loveList.includes(postId)) {
+            const res = await cancelLove(postId);
+            if (res.code === 1) {
+                const newLoveList = removeItem(loveList, postId);
+                setLoveList(newLoveList);
+                let newPostList = [...postList];
+                newPostList[index].love--;
+                setPostList(newPostList);
+            } else {
+                console.log('异常');
+            }
+        } else {
+            const res = await love(postId);
+            if (res.code === 1) {
+                setLoveList([...loveList, postId]);
+                let newPostList = [...postList];
+                newPostList[index].love++;
+                setPostList(newPostList);
+            } else {
+                console.log('异常');
+            }
+        }*/
+    };
 
     const handleSend = async ()=> {
-        const {code} = await postComment(postId,text)
-        if(code===1){
-            setText('')
+        if(commentType===0){
+            const {code} = await postComment(postId,text)
+            if(code===1){
+                setText('')
+            }
         }
+        if(commentType===1){
+
+        }
+        if(commentType===2){
+
+        }
+
     }
+    const handleFocus = (label) => {
+
+        if (inputRef.current) {
+            inputRef.current.focus();
+            setLabel("@"+label)
+        }
+    };
 
     return (
 
@@ -114,7 +151,7 @@ function PostDetail() {
                 <div className={"content-info"}>
                     <div className={"author-info"}>
                         <div className={"user-info"}>
-                            <Avatar size={40} src={post.userAvatar}/>
+                            <Avatar className={"avatar"} size={40} src={post.userAvatar} onClick={()=>{history.push(`/profile/${post.userId}`)}}/>
                             <span className={"nickname"}>{post.nickName}</span>
                         </div>
 
@@ -137,7 +174,7 @@ function PostDetail() {
                             <div className={"total"}>
                                 {`Totally ${total} comments`}
                             </div>
-                            <div className={"list-container"}>
+                            <div className={"comment-list"}>
                                 <InfiniteScroll
                                     dataLength={comments.length}
                                     next={loadComment}
@@ -149,7 +186,7 @@ function PostDetail() {
                                     <List
                                         dataSource={comments}
                                         renderItem={(item) => (
-                                            <Comment key={item.id} data={item}/>
+                                            <Comment key={item.id} data={item} focus={handleFocus}/>
                                         )}
                                     />
                                 </InfiniteScroll>
@@ -166,7 +203,7 @@ function PostDetail() {
                     </div>
                     <div className={"bottom"}>
                         <div className={"comment-wrapper"}>
-                            <Input placeholder="Share your idea" value={text} onChange={handleInput} />
+                            <Input placeholder={label} value={text} onChange={handleInput} ref={inputRef} />
                             <div className={`input-buttons ${active?'active':'inactive'}`}>
                                 <PaperClipOutlined />
                                 <SmileOutlined />

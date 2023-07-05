@@ -4,6 +4,7 @@ import {Avatar, Button, List, Popconfirm, Switch} from "antd";
 import style from "../Pet/PetDetail.less";
 import {deletePostById, getMyPosts, setVisibility} from "../../services/postService";
 import {parseStringToList} from "../../utils/arrayUtils";
+import {history} from "umi";
 
 function PostList() {
     const [data,setData] = useState([]);
@@ -57,7 +58,7 @@ function PostList() {
                     ]}>
                         <List.Item.Meta
                             avatar={
-                                <Avatar shape={"square"}  size={64} style={{cursor:"pointer"}} src={parseStringToList(item.images)[0]}/>
+                                <Avatar shape={"square"} onClick={()=>history.push(`/post/${item.postId}`)} size={64} style={{cursor:"pointer"}} src={parseStringToList(item.images)[0]}/>
                             }
                             title={<a >{item.topic}</a>}
                             description={item.postContent}

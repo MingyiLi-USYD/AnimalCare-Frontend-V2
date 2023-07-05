@@ -9,13 +9,6 @@ import MySelector from "./Components/MySelector";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import "./index.less"
 
-const IconText = ({ icon, text }) => (
-    <Space>
-        {icon}
-        {text}
-    </Space>
-);
-
 const HomePage = () => {
     const [loveList, setLoveList] = useState([]);
     const [postList, setPostList] = useState([]);
