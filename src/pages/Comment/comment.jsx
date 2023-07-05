@@ -5,16 +5,31 @@ import {HeartOutlined, MessageOutlined} from '@ant-design/icons';
 import Interaction from "../../components/Interations/interaction";
 import {history} from "umi";
 import {formatTimestamp} from "../../utils/timeUtils";
+import SubComment from "./subComment";
+import {getSubcommentsById} from "../../services/commentService";
 
-function Comment({data,focus}) {
-    const {nickName,userAvatar,commentContent,commentTime,postId,userId,commentLove} = data;
-    const subCommentLength = 10;
+function Comment({comment,focus,setComments,comments}) {
+    const {id,nickName,userAvatar,commentContent,
+        commentTime,postId,userId,commentLove,
+        subcommentsLength,subcommentDtos} = comment;
 
     const handleLove = ()=>{
 
     }
     const handleComment = ()=>{
           focus(nickName)
+    }
+
+    const handleLoadMore = async ()=>{
+     const {code,data}=await getSubcommentsById(id)
+        console.log(data)
+        if(code===1){
+            //let newData = {...comment}
+                //newData.subcommentDtos = data
+            let newComments = [...comments]
+            newComments.find(item=>item.id===id).subcommentDtos= data
+            setComments(newComments)
+        }
     }
 
     return (
@@ -40,15 +55,19 @@ function Comment({data,focus}) {
                              </Interaction>
                          </div>
                           <div className={"reply"}>
-                              <Interaction number={subCommentLength}>
+                              <Interaction number={subcommentsLength}>
                                   <MessageOutlined onClick={handleComment}/>
                               </Interaction>
                           </div>
                     </div>
                 </div>
+                <div className={"reply-container"}>
+                    {subcommentDtos.map(item=>(<SubComment key={item.subcommentId} data={item} focus={focus}/>))}
+                </div>
+
                 {
-                    subCommentLength>0&&
-                    <a>View reply</a>
+                    subcommentsLength-subcommentDtos.length>0&&
+                    <a onClick={handleLoadMore}>{`View rest ${subcommentsLength-subcommentDtos.length>0} replies`}</a>
                 }
 
             </div>

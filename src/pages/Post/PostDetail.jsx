@@ -186,7 +186,7 @@ function PostDetail() {
                                     <List
                                         dataSource={comments}
                                         renderItem={(item) => (
-                                            <Comment key={item.id} data={item} focus={handleFocus}/>
+                                            <Comment key={item.id} comment={item} focus={handleFocus} setComments={setComments} comments={comments}/>
                                         )}
                                     />
                                 </InfiniteScroll>

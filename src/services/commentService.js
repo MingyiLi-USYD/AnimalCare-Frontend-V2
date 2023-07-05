@@ -17,3 +17,8 @@ export const loveComment = (commentId) =>
     request(`/api/comment/love/${commentId}`, {
         method: 'GET',
     });
+
+export const getSubcommentsById = (commentId) =>
+    request(`/api/comment/subcomments/${commentId}`, {
+        method: 'GET',
+    });
