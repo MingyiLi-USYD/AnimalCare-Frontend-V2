@@ -22,10 +22,7 @@ function Comment({comment,focus,setComments,comments}) {
 
     const handleLoadMore = async ()=>{
      const {code,data}=await getSubcommentsById(id)
-        console.log(data)
         if(code===1){
-            //let newData = {...comment}
-                //newData.subcommentDtos = data
             let newComments = [...comments]
             newComments.find(item=>item.id===id).subcommentDtos= data
             setComments(newComments)
@@ -67,7 +64,7 @@ function Comment({comment,focus,setComments,comments}) {
 
                 {
                     subcommentsLength-subcommentDtos.length>0&&
-                    <a onClick={handleLoadMore}>{`View rest ${subcommentsLength-subcommentDtos.length>0} replies`}</a>
+                    <a onClick={handleLoadMore}>{`View rest ${subcommentsLength-subcommentDtos.length} replies`}</a>
                 }
 
             </div>

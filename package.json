@@ -12,6 +12,7 @@
     "@ant-design/pro-components": "^2.5.7",
     "@emoji-mart/data": "^1.1.2",
     "@emoji-mart/react": "^1.1.1",
+    "@reduxjs/toolkit": "^1.9.5",
     "antd": "^5.6.1",
     "emoji-mart": "^5.5.2",
     "firebase": "^9.23.0",
@@ -26,6 +27,7 @@
     "socket.io-client": "^2.4.0",
     "umi": "^4.0.70",
     "umi-plugin-react": "^1.15.9",
+    "umi-plugin-redux-toolkit": "^2.3.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

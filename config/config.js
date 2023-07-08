@@ -7,6 +7,7 @@ export default defineConfig({
     '@umijs/plugins/dist/model',
     '@umijs/plugins/dist/request',
     '@umijs/plugins/dist/dva',
+/*    'umi-plugin-redux-toolkit',*/
   ],
   headScripts: [
     '../src/assets/fonts/iconfont.js'
@@ -15,6 +16,9 @@ export default defineConfig({
   request: {},
   initialState: {},
   dva:{},
+/*  reduxToolkit: {
+    esModule: true
+  },*/
   npmClient: 'yarn',
   routes: [
  /*   { path: '/', redirect:'/home'},*/
@@ -102,12 +106,6 @@ export default defineConfig({
       target: 'http://localhost:8080', // 服务端域名
       changeOrigin: true, // 允许域名进行转换
     },
-/*    '/chat': {
-      target: 'ws://localhost:8080', // 将目标设置为 WebSocket 服务器地址
-      ws: true,
-      changeOrigin: true,
-      /!*    'pathRewrite': {'^/ws': '' },*!/
-    },*/
     '/socket.io': {
       target: 'http://localhost:8888',
       ws: true,

@@ -2545,6 +2545,16 @@
     rc-resize-observer "^1.3.1"
     rc-util "^5.33.0"
 
+"@reduxjs/toolkit@^1.9.5":
+  version "1.9.5"
+  resolved "https://registry.yarnpkg.com/@reduxjs/toolkit/-/toolkit-1.9.5.tgz#d3987849c24189ca483baa7aa59386c8e52077c4"
+  integrity sha512-Rt97jHmfTeaxL4swLRNPD/zV4OxTes4la07Xc4hetpUW/vc75t5m1ANyxG6ymnEQ2FsLQsoMlYB2vV1sO3m8tQ==
+  dependencies:
+    immer "^9.0.21"
+    redux "^4.2.1"
+    redux-thunk "^2.4.2"
+    reselect "^4.1.8"
+
 "@sinclair/typebox@^0.25.16":
   version "0.25.24"
   resolved "https://registry.npmjs.org/@sinclair/typebox/-/typebox-0.25.24.tgz"
@@ -6925,6 +6935,11 @@ immer@^8.0.4:
   resolved "https://registry.npmjs.org/immer/-/immer-8.0.4.tgz"
   integrity sha512-jMfL18P+/6P6epANRvRk6q8t+3gGhqsJ9EuJ25AXE+9bNTYtssvzeYbEd0mXRYWCmmXSIbnlpz6vd6iJlmGGGQ==
 
+immer@^9.0.21:
+  version "9.0.21"
+  resolved "https://registry.yarnpkg.com/immer/-/immer-9.0.21.tgz#1e025ea31a40f24fb064f1fef23e931496330176"
+  integrity sha512-bc4NBHqOqSfRW7POMkHd51LvClaeMXpm8dx0e8oE2GORbq5aRK7Bxl4FyzVLdGtLmvLKL7BTDBG5ACQm4HWjTA==
+
 immutability-helper@^2.7.1:
   version "2.9.1"
   resolved "https://registry.npmjs.org/immutability-helper/-/immutability-helper-2.9.1.tgz"
@@ -10734,6 +10749,11 @@ redux-saga@^0.16.0:
   resolved "https://registry.npmjs.org/redux-saga/-/redux-saga-0.16.2.tgz"
   integrity sha512-iIjKnRThI5sKPEASpUvySemjzwqwI13e3qP7oLub+FycCRDysLSAOwt958niZW6LhxfmS6Qm1BzbU70w/Koc4w==
 
+redux-thunk@^2.4.2:
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.4.2.tgz#b9d05d11994b99f7a91ea223e8b04cf0afa5ef3b"
+  integrity sha512-+P3TjtnP0k/FEjcBL5FZpoovtvrTNT/UXd4/sluaSyrURlSlhLSzEdfsTBW7WsKB6yPvgd7q/iZPICFjW4o57Q==
+
 redux@^4.0.0, redux@^4.0.1, redux@^4.2.1:
   version "4.2.1"
   resolved "https://registry.npmjs.org/redux/-/redux-4.2.1.tgz"
@@ -10873,6 +10893,11 @@ requires-port@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/requires-port/-/requires-port-1.0.0.tgz"
   integrity sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ==
+
+reselect@^4.1.8:
+  version "4.1.8"
+  resolved "https://registry.yarnpkg.com/reselect/-/reselect-4.1.8.tgz#3f5dc671ea168dccdeb3e141236f69f02eaec524"
+  integrity sha512-ab9EmR80F/zQTMNeneUr4cv+jSwPJgIlvEmVwLerwrWVbpLlBuls9XHzIeTFy4cegU2NHBp3va0LKOzU5qFEYQ==
 
 resize-observer-polyfill@^1.5.0, resize-observer-polyfill@^1.5.1:
   version "1.5.1"
@@ -11255,6 +11280,13 @@ semver@^7.3.5, semver@^7.3.7:
   version "7.5.1"
   resolved "https://registry.npmjs.org/semver/-/semver-7.5.1.tgz"
   integrity sha512-Wvss5ivl8TMRZXXESstBA4uR5iXgEN/VC5/sOcuXdVLzcdkz4HWetIoRfG5gb5X+ij/G9rw9YoGn3QoQ8OCSpw==
+  dependencies:
+    lru-cache "^6.0.0"
+
+semver@^7.3.8:
+  version "7.5.3"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-7.5.3.tgz#161ce8c2c6b4b3bdca6caadc9fa3317a4c4fe88e"
+  integrity sha512-QBlUtyVk/5EeHbi7X0fw6liDZc7BBmEaSYn01fMU1OUYbf6GPsbTtd8WmnqbI20SeycoHSeiybkE/q1Q+qlThQ==
   dependencies:
     lru-cache "^6.0.0"
 
@@ -12287,6 +12319,13 @@ umi-plugin-react@^1.15.9:
     umi-utils "1.7.3"
     webpack "4.41.1"
     workbox-webpack-plugin "3.6.3"
+
+umi-plugin-redux-toolkit@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/umi-plugin-redux-toolkit/-/umi-plugin-redux-toolkit-2.3.0.tgz#e4e5102b8f9f0a703dbd15e4fd16c949a28eefa2"
+  integrity sha512-tmYcg/S9032EV3UbAe4X9dE8UZRq/rpeZur1vmwKcFmC9R2rqPzOVLgyBeL30XPGwBeeVKo+d6KVQB4L7O1t7g==
+  dependencies:
+    semver "^7.3.8"
 
 umi-plugin-routes@1.8.9:
   version "1.8.9"

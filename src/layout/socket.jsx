@@ -1,10 +1,7 @@
-import React, { useEffect } from "react";
+import React, {useEffect} from "react";
 import io from "socket.io-client";
 import {friendRequestService, messageService, putFriendsListOnStore, putProfileOnStore} from "../utils/messageService";
 import {getFriends} from "../services/friendService";
-
-
-
 function Socket({currentUser,children}) {
     let websocketInstance = null;
     useEffect(() => {

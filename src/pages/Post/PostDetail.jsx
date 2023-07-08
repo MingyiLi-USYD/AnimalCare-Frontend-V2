@@ -1,32 +1,36 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {useModel, useParams} from "../../.umi/exports";
+import {useParams} from "../../.umi/exports";
 import "./PostDetail.less"
 import {Avatar, Button, Carousel, Divider, Input, List, Skeleton} from "antd";
-import {parseStringToList, removeItem} from "../../utils/arrayUtils";
-import {cancelLove, getPostById, love} from "../../services/postService";
+import {parseStringToList} from "../../utils/arrayUtils";
+import {getPostById} from "../../services/postService";
 import Loading from "../../components/Loading";
-import {MessageOutlined, StarOutlined, HeartOutlined, SmileOutlined,PaperClipOutlined} from '@ant-design/icons';
+import {HeartOutlined, MessageOutlined, PaperClipOutlined, SmileOutlined, StarOutlined} from '@ant-design/icons';
 import InfiniteScroll from "react-infinite-scroll-component";
 import {getCommentsById, postComment} from "../../services/commentService";
 import Comment from "../Comment/comment";
 import {history} from "umi";
-
-
+import { useDispatch } from 'umi';
 function PostDetail() {
+    const dispatch = useDispatch();
+    const params = useParams();
+    const {postId} = params
     const commentContainerRef =useRef(null)
     const inputRef = useRef(null);
     const [commentLoading,setCommentLoading] = useState(false)
+    const [loading,setLoading] = useState(false)
     const [page,setPage]=useState(0)
     const [total,setTotal] = useState(0)
     const [comments,setComments] = useState([])
-    const params = useParams();
-    const {postId} = params
-    const [loading,setLoading] = useState(false)
     const [post,setPost] = useState({})
     const [text,setText] = useState("");
     const [label,setLabel] = useState("Share your idea");
     const [active,setActive] = useState(false)
-    const [commentType,setCommentType] = useState(0)
+    const [commentType,setCommentType] = useState({
+        type:0,
+        id:postId,
+        replyUser:null
+    })
 
     useEffect(()=>{
         initData()
@@ -54,7 +58,6 @@ function PostDetail() {
         setComments([...comments,...records]);
         setTotal(total)
         setCommentLoading(false);
-
     }
 
     const handleInput = (e)=>{
@@ -69,7 +72,6 @@ function PostDetail() {
 
     const showComments = ()=> {
         const commentContainer = commentContainerRef.current;
-
         if (commentContainer) {
             const commentContainerTop = commentContainer.getBoundingClientRect().top;
             setLabel("Share your idea")
