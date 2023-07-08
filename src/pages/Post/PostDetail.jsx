@@ -10,7 +10,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import {getCommentsById, postComment} from "../../services/commentService";
 import Comment from "../Comment/comment";
 import {history} from "umi";
-import { useDispatch } from 'umi';
+import { useDispatch,useSelector } from 'umi';
 function PostDetail() {
     const dispatch = useDispatch();
     const params = useParams();
@@ -19,45 +19,29 @@ function PostDetail() {
     const inputRef = useRef(null);
     const [commentLoading,setCommentLoading] = useState(false)
     const [loading,setLoading] = useState(false)
-    const [page,setPage]=useState(0)
-    const [total,setTotal] = useState(0)
-    const [comments,setComments] = useState([])
-    const [post,setPost] = useState({})
-    const [text,setText] = useState("");
-    const [label,setLabel] = useState("Share your idea");
     const [active,setActive] = useState(false)
-    const [commentType,setCommentType] = useState({
-        type:0,
-        id:postId,
-        replyUser:null
-    })
+
+    const {post,total,page,comments,text,label,type,commentId,replyNickname} = useSelector(state=>state.postDetailModel)
 
     useEffect(()=>{
         initData()
     },[])
 
-    const  initData = async ()=>{
-        await fetchPost()
-        await loadComment()
+    const  initData =  ()=>{
+         fetchPost()
+         loadComment()
     }
-    const fetchPost = async ()=>{
-        setLoading(true)
-        const {data,code} = await getPostById(postId)
-        if(code===1){
-            setPost(data)
-            setLoading(false)
-        }
+    const fetchPost =  ()=>{
+        dispatch({
+            type:'postDetailModel/fetchPost',
+            payload:postId
+        })
     }
-    const   loadComment = async ()=>{
-        if (commentLoading) {
-            return;
-        }
-        setCommentLoading(true);
-       const { data: { records,total },code} = await getCommentsById(postId,page,10);
-        setPage(page+1)
-        setComments([...comments,...records]);
-        setTotal(total)
-        setCommentLoading(false);
+    const   loadComment =  ()=>{
+        dispatch({
+            type:'postDetailModel/fetchComments',
+            payload:{postId,page,pageSize:10}
+        })
     }
 
     const handleInput = (e)=>{
@@ -74,8 +58,10 @@ function PostDetail() {
         const commentContainer = commentContainerRef.current;
         if (commentContainer) {
             const commentContainerTop = commentContainer.getBoundingClientRect().top;
-            setLabel("Share your idea")
-            setCommentType(0)
+            dispatch({
+                type:'postDetailModel/fetchComments',
+                payload:{label:"Share your idea",type:0}
+            })
             if (commentContainerTop > 0) {
                 commentContainer.scrollIntoView({ behavior: 'smooth' });
             }
@@ -86,28 +72,6 @@ function PostDetail() {
     }
 
     const handleLove = async (postId) => {
-/*        if (loveList.includes(postId)) {
-            const res = await cancelLove(postId);
-            if (res.code === 1) {
-                const newLoveList = removeItem(loveList, postId);
-                setLoveList(newLoveList);
-                let newPostList = [...postList];
-                newPostList[index].love--;
-                setPostList(newPostList);
-            } else {
-                console.log('异常');
-            }
-        } else {
-            const res = await love(postId);
-            if (res.code === 1) {
-                setLoveList([...loveList, postId]);
-                let newPostList = [...postList];
-                newPostList[index].love++;
-                setPostList(newPostList);
-            } else {
-                console.log('异常');
-            }
-        }*/
     };
 
     const handleSend = async ()=> {
@@ -188,7 +152,7 @@ function PostDetail() {
                                     <List
                                         dataSource={comments}
                                         renderItem={(item) => (
-                                            <Comment key={item.id} comment={item} focus={handleFocus} setComments={setComments} comments={comments}/>
+                                            <Comment key={item.id} comment={item} focus={handleFocus} comments={comments}/>
                                         )}
                                     />
                                 </InfiniteScroll>

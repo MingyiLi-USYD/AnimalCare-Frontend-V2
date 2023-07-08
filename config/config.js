@@ -7,18 +7,20 @@ export default defineConfig({
     '@umijs/plugins/dist/model',
     '@umijs/plugins/dist/request',
     '@umijs/plugins/dist/dva',
-/*    'umi-plugin-redux-toolkit',*/
   ],
   headScripts: [
     '../src/assets/fonts/iconfont.js'
   ],
   model: {},
   request: {},
-  initialState: {},
-  dva:{},
-/*  reduxToolkit: {
-    esModule: true
-  },*/
+  initialState: {
+
+  },
+  dva:{
+    immer: {
+      enableMapSet:true
+    },
+  },
   npmClient: 'yarn',
   routes: [
  /*   { path: '/', redirect:'/home'},*/
