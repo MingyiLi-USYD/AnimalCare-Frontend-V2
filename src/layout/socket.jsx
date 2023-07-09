@@ -2,11 +2,17 @@ import React, {useEffect} from "react";
 import io from "socket.io-client";
 import {friendRequestService, messageService, putFriendsListOnStore, putProfileOnStore} from "../utils/messageService";
 import {getFriends} from "../services/friendService";
+import {useDispatch} from "../.umi/exports";
 
 
-function Socket({currentUser,children}) {
-
+const Socket= ({currentUser,children})=>{
+    const dispatch = useDispatch();
     let websocketInstance = null;
+    const initUserInfo = ()=>{
+        dispatch({
+            type:'userModel/fetchUserInfo'
+        })
+    }
     useEffect(() => {
         getFriends().then((res) => putFriendsListOnStore(res.data));
         putProfileOnStore(currentUser);
@@ -39,7 +45,6 @@ function Socket({currentUser,children}) {
                 messageService(data);
             });
         }
-
         return () => {
             // 清理工作
             websocketInstance.disconnect();

@@ -112,7 +112,6 @@ const BasicLayout = (props) => {
         size: 'large',
         title: `${currentUser.nickname}`,
       }}
-      //rightContentRender={() => <RightContent />}
       menuItemRender={(props,dom)=>{
        const {path,name} = props;
         return <div className={'menu-link'}

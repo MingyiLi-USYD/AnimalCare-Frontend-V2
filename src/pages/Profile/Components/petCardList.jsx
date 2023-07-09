@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Button, Col, Row, Typography} from 'antd';
-import PetCard from "./PetCard";
+import PetCard from "./petCard";
 
 const { Title } = Typography;
 const PetCardList = ({data=[]}) => {

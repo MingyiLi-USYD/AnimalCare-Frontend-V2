@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Button, Col, Row, Typography} from 'antd';
-import PostCard from "./PostCard";
+import PostCard from "./postCard";
 
 
 const { Title } = Typography;

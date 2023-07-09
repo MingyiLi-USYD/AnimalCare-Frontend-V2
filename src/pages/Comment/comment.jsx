@@ -7,15 +7,15 @@ import {history} from "umi";
 import {formatTimestamp} from "../../utils/timeUtils";
 import SubComment from "./subComment";
 import {getSubcommentsById} from "../../services/commentService";
-import {useDispatch} from "../../.umi/exports";
+import {useDispatch, useSelector} from "../../.umi/exports";
 
-function Comment({comment,focus,setComments,comments}) {
+function Comment({comment,focus}) {
     const dispatch = useDispatch();
 
     const {id,nickName,userAvatar,commentContent,
         commentTime,postId,userId,commentLove,
         subcommentsLength,subcommentDtos} = comment;
-
+    const {post,total,page,comments,label,type,commentId,replyNickname} = useSelector(state=>state.postDetailModel)
     const handleLove = ()=>{
 
     }
@@ -23,17 +23,15 @@ function Comment({comment,focus,setComments,comments}) {
           focus()
         dispatch({
             type:'postDetailModel/onClickComment',
-            payload:{label:`@${nickName}`,type:1}
+            payload:{label:`@${nickName}`,type:1,commentId:id}
         })
     }
 
     const handleLoadMore = async ()=>{
-     const {code,data}=await getSubcommentsById(id)
-        if(code===1){
-            let newComments = [...comments]
-            newComments.find(item=>item.id===id).subcommentDtos= data
-            setComments(newComments)
-        }
+        dispatch({
+            type:'postDetailModel/fetchSubcomments',
+            payload:id
+        })
     }
 
     return (

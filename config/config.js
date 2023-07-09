@@ -69,7 +69,7 @@ export default defineConfig({
         },
         {
           path: '/profile/:id',
-          component: '@/pages/Profile/Profile',
+          component: '@/pages/Profile/profile',
         },
         {
           path: '/post/:postId',

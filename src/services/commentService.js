@@ -22,3 +22,12 @@ export const getSubcommentsById = (commentId) =>
     request(`/api/comment/subcomments/${commentId}`, {
         method: 'GET',
     });
+export const postSubcomment = (commentId,subcommentContent,targetNickname) =>
+    request(`/api/comment/subcomment/${commentId}`, {
+        method: 'POST',
+        data:{
+            subcommentContent,
+            targetNickname,
+
+        }
+    });

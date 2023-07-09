@@ -1,15 +1,15 @@
 import {Avatar, Button, Modal, Spin, Typography} from 'antd';
 import {connect, useRequest} from 'umi';
-import PetCardList from './Components/PetCardList';
+import PetCardList from './Components/petCardList';
 import {getProfileById} from '../../services/userService';
-import PostCardList from "./Components/PostList";
+import PostCardList from "./Components/postList";
 import {useModel, useParams} from "umi";
-import PostDetail from "./Components/PostDetail";
+import PostDetail from "./Components/postDetail";
 import {useEffect, useState} from "react";
 import {getFriendshipStatus} from "../../services/friendService";
 import BackForward from "../../components/BackForward";
-import RelationDetail from "./Components/RelationDetail";
-import './Profile.less'
+import RelationDetail from "./Components/relationDetail";
+import './profile.less'
 
 const { Title, Paragraph } = Typography;
 

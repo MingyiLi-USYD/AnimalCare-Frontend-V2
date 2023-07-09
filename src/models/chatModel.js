@@ -42,7 +42,6 @@ export default {
 
         onFetchFriendsList(state, {payload}) {
             state.friendLists = [ ...payload]
-
         },
         onFetchProfile(state, {payload}) {
             state.me=payload;

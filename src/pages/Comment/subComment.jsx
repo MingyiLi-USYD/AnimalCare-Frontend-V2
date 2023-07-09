@@ -18,7 +18,7 @@ function SubComment({data,focus}) {
         focus()
         dispatch({
             type:'postDetailModel/onClickSubcomment',
-            payload:{label:`@${nickName}`,type:2}
+            payload:{label:`@${nickName}`,type:2,replyNickname:nickName,commentId}
         })
     }
     return (

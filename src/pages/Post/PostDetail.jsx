@@ -2,15 +2,13 @@ import React, {useEffect, useRef, useState} from 'react';
 import {useParams} from "../../.umi/exports";
 import "./PostDetail.less"
 import {Avatar, Button, Carousel, Divider, Input, List, Skeleton} from "antd";
-import {parseStringToList} from "../../utils/arrayUtils";
-import {getPostById} from "../../services/postService";
+import {parseStringToList, removeItem} from "../../utils/arrayUtils";
 import Loading from "../../components/Loading";
 import {HeartOutlined, MessageOutlined, PaperClipOutlined, SmileOutlined, StarOutlined} from '@ant-design/icons';
 import InfiniteScroll from "react-infinite-scroll-component";
-import {getCommentsById, postComment} from "../../services/commentService";
 import Comment from "../Comment/comment";
-import {history} from "umi";
-import { useDispatch,useSelector } from 'umi';
+import {history, useDispatch, useSelector} from "umi";
+
 function PostDetail() {
     const dispatch = useDispatch();
     const params = useParams();
@@ -21,24 +19,19 @@ function PostDetail() {
     const [loading,setLoading] = useState(false)
     const [active,setActive] = useState(false)
     const [text,setText] = useState("")
-
     const {post,total,page,comments,label,type,commentId,replyNickname} = useSelector(state=>state.postDetailModel)
+    const {loveList,startList} = useSelector(state=>state.userModel)
 
     useEffect(()=>{
-        initData()
+        if(postId!==post.postId){
+            dispatch({
+                type:'postDetailModel/fetchPostWithComments',
+                payload:postId
+            })
+        }
+
     },[])
 
-    const  initData =  ()=>{
-
-         fetchPost()
-         loadComment()
-    }
-    const fetchPost =  ()=>{
-        dispatch({
-            type:'postDetailModel/fetchPost',
-            payload:postId
-        })
-    }
     const   loadComment =  ()=>{
         dispatch({
             type:'postDetailModel/fetchComments',
@@ -73,10 +66,14 @@ function PostDetail() {
         return <Loading/>
     }
 
-    const handleLove = async (postId) => {
+    const handleLove = async () => {
+        dispatch({
+            type:'postDetailModel/lovePost',
+            payload:postId
+        })
     };
 
-    const handleSend = async ()=> {
+    const handleSend =  ()=> {
         if(type===0){
             dispatch({
                 type:'postDetailModel/addComment',
@@ -84,12 +81,23 @@ function PostDetail() {
             })
         }
         if(type===1){
-
+            dispatch({
+                type:'postDetailModel/addSubcomment',
+                payload: {commentId,commentContent:text}
+            })
         }
         if(type===2){
-
+            dispatch({
+                type:'postDetailModel/addSubcomment',
+                payload: {commentId,commentContent:text,replyNickname}
+            })
         }
+        afterSend()
+    }
 
+    const afterSend = () =>{
+        setText("")
+        setActive(false)
     }
     const handleFocus = (label) => {
 
@@ -153,7 +161,7 @@ function PostDetail() {
                                     <List
                                         dataSource={comments}
                                         renderItem={(item) => (
-                                            <Comment key={item.id} comment={item} focus={handleFocus} comments={comments}/>
+                                            <Comment key={item.id} comment={item} focus={handleFocus}/>
                                         )}
                                     />
                                 </InfiniteScroll>
@@ -161,7 +169,7 @@ function PostDetail() {
                         </div>
                     </div>
                     <div className={"actions"}>
-                        <HeartOutlined className={"my-icon"} onClick={handleLove}/>
+                        <HeartOutlined className={`my-icon ${loveList.includes(postId)?'active':''}` } onClick={handleLove}/>
                         <span>{post.love}</span>
                         <StarOutlined className={"my-icon"}/>
                         <span>{post.love}</span>
