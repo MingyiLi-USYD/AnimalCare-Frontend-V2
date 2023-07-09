@@ -7,8 +7,11 @@ import {history} from "umi";
 import {formatTimestamp} from "../../utils/timeUtils";
 import SubComment from "./subComment";
 import {getSubcommentsById} from "../../services/commentService";
+import {useDispatch} from "../../.umi/exports";
 
 function Comment({comment,focus,setComments,comments}) {
+    const dispatch = useDispatch();
+
     const {id,nickName,userAvatar,commentContent,
         commentTime,postId,userId,commentLove,
         subcommentsLength,subcommentDtos} = comment;
@@ -17,7 +20,11 @@ function Comment({comment,focus,setComments,comments}) {
 
     }
     const handleComment = ()=>{
-          focus(nickName)
+          focus()
+        dispatch({
+            type:'postDetailModel/onClickComment',
+            payload:{label:`@${nickName}`,type:1}
+        })
     }
 
     const handleLoadMore = async ()=>{
@@ -59,11 +66,11 @@ function Comment({comment,focus,setComments,comments}) {
                     </div>
                 </div>
                 <div className={"reply-container"}>
-                    {subcommentDtos.map(item=>(<SubComment key={item.subcommentId} data={item} focus={focus}/>))}
+                    {subcommentDtos?.map(item=>(<SubComment key={item.subcommentId} data={item} focus={focus}/>))}
                 </div>
 
                 {
-                    subcommentsLength-subcommentDtos.length>0&&
+                    subcommentsLength-subcommentDtos?.length>0&&
                     <a onClick={handleLoadMore}>{`View rest ${subcommentsLength-subcommentDtos.length} replies`}</a>
                 }
 

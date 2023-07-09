@@ -4,8 +4,10 @@ import {history} from "../../.umi/core/history";
 import {formatTimestamp} from "../../utils/timeUtils";
 import Interaction from "../../components/Interations/interaction";
 import {HeartOutlined, MessageOutlined} from "@ant-design/icons";
+import {useDispatch} from "../../.umi/exports";
 
 function SubComment({data,focus}) {
+    const dispatch = useDispatch();
     const {commentId,userId,
         subcommentTime,subcommentContent,subcommentLove,targetNickname,
         userAvatar,nickName} = data;
@@ -13,7 +15,11 @@ function SubComment({data,focus}) {
 
     }
     const handleComment = ()=>{
-        focus(nickName)
+        focus()
+        dispatch({
+            type:'postDetailModel/onClickSubcomment',
+            payload:{label:`@${nickName}`,type:2}
+        })
     }
     return (
         <div className={"comment-item"}>

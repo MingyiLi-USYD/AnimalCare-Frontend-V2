@@ -12,7 +12,7 @@ const ChatContent = (props) => {
         if (listRef.current) {
             listRef.current.scrollTop = listRef.current.scrollHeight;
         }
-    }, [chatRecord.get(contact.id).chatList.length]);
+    }, [chatRecord[contact.id].chatList.length]);
     const chat = getChat(chatRecord,contact);
 
     async function handleFetchHistory() {

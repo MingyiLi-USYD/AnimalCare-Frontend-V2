@@ -20,14 +20,16 @@ function PostDetail() {
     const [commentLoading,setCommentLoading] = useState(false)
     const [loading,setLoading] = useState(false)
     const [active,setActive] = useState(false)
+    const [text,setText] = useState("")
 
-    const {post,total,page,comments,text,label,type,commentId,replyNickname} = useSelector(state=>state.postDetailModel)
+    const {post,total,page,comments,label,type,commentId,replyNickname} = useSelector(state=>state.postDetailModel)
 
     useEffect(()=>{
         initData()
     },[])
 
     const  initData =  ()=>{
+
          fetchPost()
          loadComment()
     }
@@ -59,7 +61,7 @@ function PostDetail() {
         if (commentContainer) {
             const commentContainerTop = commentContainer.getBoundingClientRect().top;
             dispatch({
-                type:'postDetailModel/fetchComments',
+                type:'postDetailModel/onShowComments',
                 payload:{label:"Share your idea",type:0}
             })
             if (commentContainerTop > 0) {
@@ -75,16 +77,16 @@ function PostDetail() {
     };
 
     const handleSend = async ()=> {
-        if(commentType===0){
-            const {code} = await postComment(postId,text)
-            if(code===1){
-                setText('')
-            }
+        if(type===0){
+            dispatch({
+                type:'postDetailModel/addComment',
+                payload: {postId,commentContent:text}
+            })
         }
-        if(commentType===1){
+        if(type===1){
 
         }
-        if(commentType===2){
+        if(type===2){
 
         }
 
@@ -93,7 +95,6 @@ function PostDetail() {
 
         if (inputRef.current) {
             inputRef.current.focus();
-            setLabel("@"+label)
         }
     };
 

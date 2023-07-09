@@ -11,7 +11,7 @@ import {
 export default {
     namespace: 'ChatModel',
     state: {
-        chatRecord: new Map(),
+        chatRecord: {},
         friendLists: [],
         contact: {},
         me: {},
@@ -22,94 +22,58 @@ export default {
         onSend(state, {payload: {message, contact}}) {
             let {chatRecord} = state
             const newChatRecord = onChatSendService(chatRecord, message, contact)
-            return {
-                ...state,
-                chatRecord: newChatRecord,
-                chatRecordArray: convertMapToList(newChatRecord)
-            }
+            state.chatRecord=newChatRecord
+            state.chatRecordArray=convertMapToList(newChatRecord)
         },
         onReceive(state, {payload}) {
             let {chatRecord,contact} = state
             let {fromUser, message} = payload;
             const newChatRecord = onChatReceiveService(chatRecord, message, fromUser,contact);
-            return {
-                ...state,
-                chatRecord: newChatRecord,
-                chatRecordArray: convertMapToList(newChatRecord)
-            }
+            state.chatRecord=newChatRecord
+            state.chatRecordArray=convertMapToList(newChatRecord)
         },
         onFetchHistory(state, {payload}){
             let {chatRecord,contact} = state
             const {data} =payload;
            const newChatRecord =onChatFetchService(chatRecord,data,contact)
-            return {
-                ...state,
-                chatRecord: newChatRecord,
-                chatRecordArray: convertMapToList(newChatRecord)
-            }
+            state.chatRecord=newChatRecord
+            state.chatRecordArray=convertMapToList(newChatRecord)
         },
 
         onFetchFriendsList(state, {payload}) {
-          const  friendLists = [ ...payload]
-            return {
-                ...state,
-                friendLists
-            }
+            state.friendLists = [ ...payload]
+
         },
         onFetchProfile(state, {payload}) {
-            return {
-                ...state,
-                me: payload
-            }
+            state.me=payload;
         },
 
         onChangeContact(state, {payload}) {
             let {chatRecord} = state
             const newChatRecord = resetUnread(chatRecord,payload);
-            console.log(newChatRecord)
-            return {
-                ...state,
-                chatRecord:newChatRecord,
-                chatRecordArray: convertMapToList(newChatRecord),
-                contact: payload
-            }
+            state.contact = payload
+            state.chatRecord=newChatRecord
+            state.chatRecordArray=convertMapToList(newChatRecord)
         },
 
         onStartNewSession(state, {payload}) {
             const contact = payload
             let {chatRecord} = state
-            if(!chatRecord.has(contact.id)){
+            if(!chatRecord.hasOwnProperty(contact.id)){
                 const newChatRecord = onNewSessionService(chatRecord,contact)
-                console.log(newChatRecord)
-                return{
-                    ...state,
-                    chatRecord: newChatRecord,
-                    chatRecordArray: convertMapToList(newChatRecord),
-                    contact
-                }
-            }else {
-                return {
-                    ...state,
-                    contact
-                }
+                state.chatRecord=newChatRecord
+                state.chatRecordArray=convertMapToList(newChatRecord)
             }
+            state.contact= contact
 
         },
         onApproveFriend(state, {payload}) {
             let {friendLists} = state
-            friendLists = [...friendLists, payload]
-            return {
-                ...state,
-                friendLists
-            }
+            state.friendLists =[...friendLists, payload]
         },
         onDeleteFriend(state, {payload}) {
             let {friendLists} = state
-            friendLists = friendLists.filter(item=>item.id!==payload.id)
-            return {
-                ...state,
-                friendLists
-            }
+            state.friendLists = friendLists.filter(item=>item.id!==payload.id)
         },
 
     }
