@@ -8,38 +8,23 @@ import {history} from 'umi';
 import MySelector from "./Components/MySelector";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import "./index.less"
+import {useDispatch, useSelector} from "../../.umi/exports";
 
 const HomePage = () => {
-    const [loveList, setLoveList] = useState([]);
     const [postList, setPostList] = useState([]);
     const [page,setPage]=useState(0)
     const [total,setTotal] = useState(0)
     const [loading, setLoading] = useState(false);
     const [selector,setSelector] = useState(0);
-
+    const {loveList,startList} = useSelector(state=>state.userModel)
+    const dispatch = useDispatch();
     const handleLove = async (postId, index) => {
-        if (loveList.includes(postId)) {
-            const res = await cancelLove(postId);
-            if (res.code === 1) {
-                const newLoveList = removeItem(loveList, postId);
-                setLoveList(newLoveList);
-                let newPostList = [...postList];
-                newPostList[index].love--;
-                setPostList(newPostList);
-            } else {
-                console.log('异常');
-            }
-        } else {
-            const res = await love(postId);
-            if (res.code === 1) {
-                setLoveList([...loveList, postId]);
-                let newPostList = [...postList];
-                newPostList[index].love++;
-                setPostList(newPostList);
-            } else {
-                console.log('异常');
-            }
-        }
+         dispatch({
+             type:'userModel/addToLoveList',
+             payload:postId
+         })
+
+
     };
     const loadMoreData = async () => {
         if (loading) {
@@ -55,17 +40,12 @@ const HomePage = () => {
         setTotal(total)
         setLoading(false);
     };
-    const fetchLovedPosts = async ()=>{
-        const res = await getLovedPosts();
-        setLoveList(parseStringToList(res.data));
-    }
 
     useEffect(() => {
-        fetchLovedPosts()
         loadMoreData()
     }, [selector]);
 
-    if (postList === [] || loveList === []) {
+    if (postList === []) {
         return <div>loading</div>;
     }
 

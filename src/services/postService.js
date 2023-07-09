@@ -3,6 +3,12 @@ export const getPosts = async (url) =>
     await request(url, {
       method: 'GET',
     }).catch((error) => console.log(error));
+
+
+export const getLoves = async () =>
+    await request('/api/loves', {
+        method: 'GET',
+    });
 export const love = async (postId) =>
     await request(`/api/love/${postId}`, {
       method: 'GET',

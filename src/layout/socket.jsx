@@ -10,12 +10,19 @@ const Socket= ({currentUser,children})=>{
     let websocketInstance = null;
     const initUserInfo = ()=>{
         dispatch({
-            type:'userModel/fetchUserInfo'
+            type:'userModel/fetchLoveList'
+        })
+    }
+    const initFriendsInfo = ()=>{
+        dispatch({
+            type:'FriendModel/initFriendData'
         })
     }
     useEffect(() => {
-        getFriends().then((res) => putFriendsListOnStore(res.data));
+        //getFriends().then((res) => putFriendsListOnStore(res.data));
         putProfileOnStore(currentUser);
+        initUserInfo()
+        initFriendsInfo()
         if (!websocketInstance) {
             websocketInstance = io('', {
                 reconnectionDelayMax: 10000,
