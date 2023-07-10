@@ -11,22 +11,24 @@ import Interaction from "../../components/Interactions/interaction";
 
 const HomePage = () => {
     const [postList, setPostList] = useState([]);
-    const [page,setPage]=useState(0)
-    const [total,setTotal] = useState(0)
+    const [page, setPage] = useState(0)
+    const [total, setTotal] = useState(0)
     const [loading, setLoading] = useState(false);
-    const [selector,setSelector] = useState(0);
-    const {loveList,startList} = useSelector(state=>state.userModel)
+    const [selector, setSelector] = useState(0);
+    const {loveList, startList} = useSelector(state => state.userModel)
     const dispatch = useDispatch();
-    const handleLove =  (postId, index) => {
-         dispatch({
-             type:'userModel/addToLoveList',
-             payload:postId
-         })
-    };
-    const handleCancelLove =  (postId, index) => {
+
+
+    const handleLove = (postId) => {
         dispatch({
-            type:'userModel/removeFromLoveList',
-            payload:postId
+            type: 'userModel/addToLoveList',
+            payload: postId
+        })
+    };
+    const handleCancelLove = (postId) => {
+        dispatch({
+            type: 'userModel/removeFromLoveList',
+            payload: postId
         })
     };
 
@@ -37,10 +39,10 @@ const HomePage = () => {
         setLoading(true);
 
         const {
-            data: { records,total },
-        } = await getPosts(`/api/post?currPage=${page+1}&pageSize=11&order=${selector}`);
-        setPage(page+1)
-        setPostList([...postList,...records]);
+            data: {records, total},
+        } = await getPosts(`/api/post?currPage=${page + 1}&pageSize=11&order=${selector}`);
+        setPage(page + 1)
+        setPostList([...postList, ...records]);
         setTotal(total)
         setLoading(false);
     };
@@ -54,9 +56,9 @@ const HomePage = () => {
     }
 
     return (
-        <div >
+        <div>
 
-            <MySelector selector={selector} setSelector={setSelector} setter={{setPostList,setPage,setTotal}}/>
+            <MySelector selector={selector} setSelector={setSelector} setter={{setPostList, setPage, setTotal}}/>
             <div
                 id="scrollableDiv"
                 style={{
@@ -64,7 +66,7 @@ const HomePage = () => {
                     overflow: 'auto',
                     padding: '0 8x',
                     border: '1px solid rgba(140, 140, 140, 0.35)',
-                    borderRadius:20,
+                    borderRadius: 20,
 
                 }}
             >
@@ -87,23 +89,32 @@ const HomePage = () => {
 
                     <div className={"list-container"}>
                         {
-                            postList.map((item,index)=><div  key={index} className={"list-item"}>
-                                <div className={"pic"}> <img src={`https://source.unsplash.com/random/${index}`} onClick={()=>{history.push(`/post/${item.postId}`)}}/></div>
+                            postList.map((item, index) => <div key={index} className={"list-item"}>
+                                <div className={"pic"}><img src={`https://source.unsplash.com/random/${index}`}
+                                                            onClick={() => {
+                                                                history.push(`/post/${item.postId}`)
+                                                            }}/></div>
                                 <div className={"item-description"}>{item.postContent}</div>
-                                <div style={{display:"flex",justifyContent:"space-between"}}>
+                                <div style={{display: "flex", justifyContent: "space-between"}}>
                                     <div className={"item-userinfo"}>
-                                        <Avatar size={28} src={`https://source.unsplash.com/random/${index}`}/>
+                                        <Avatar size={28} src={`https://source.unsplash.com/random/${index}`} onClick={()=>{
+                                            history.push(`/profile/${item.userId}`)
+                                        }}/>
                                         <span className={"nickname"}>{item.nickName}</span>
                                     </div>
                                     <div className={"operation"}>
                                         {
-                                            loveList.includes(item.postId)?
+                                            loveList.includes(item.postId) ?
                                                 <Interaction number={item.love} active={true}>
-                                                    <HeartOutlined onClick={() => {handleCancelLove(item.postId, index);}}/>
+                                                    <HeartOutlined onClick={() => {
+                                                        handleCancelLove(item.postId, index);
+                                                    }}/>
                                                 </Interaction>
-                                               :
+                                                :
                                                 <Interaction number={item.love}>
-                                                    <HeartOutlined onClick={() => {handleLove(item.postId, index);}}/>
+                                                    <HeartOutlined onClick={() => {
+                                                        handleLove(item.postId, index);
+                                                    }}/>
                                                 </Interaction>
                                         }
 
@@ -115,7 +126,6 @@ const HomePage = () => {
                     </div>
                 </InfiniteScroll>
             </div>
-
 
 
         </div>

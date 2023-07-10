@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {message, Upload,Form} from 'antd';
-import {UploadOutlined} from '@ant-design/icons';
+import {PlusOutlined, UploadOutlined} from '@ant-design/icons';
 
 const MultipleImageUpload = ({limit,name,round}) => {
     const normFile = (e) => {
@@ -41,8 +41,14 @@ const MultipleImageUpload = ({limit,name,round}) => {
 
     const uploadButton = (
         <div>
-            <UploadOutlined />
-            <div style={{ marginTop: 8 }}>Upload</div>
+            <PlusOutlined />
+            <div
+                style={{
+                    marginTop: 8,
+                }}
+            >
+                Upload
+            </div>
         </div>
     );
 
