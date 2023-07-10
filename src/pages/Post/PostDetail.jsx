@@ -8,6 +8,7 @@ import {HeartOutlined, MessageOutlined, PaperClipOutlined, SmileOutlined, StarOu
 import InfiniteScroll from "react-infinite-scroll-component";
 import Comment from "../Comment/comment";
 import {history, useDispatch, useSelector} from "umi";
+import Interaction from "../../components/Interactions/interaction";
 
 function PostDetail() {
     const dispatch = useDispatch();
@@ -29,7 +30,6 @@ function PostDetail() {
                 payload:postId
             })
         }
-
     },[])
 
     const   loadComment =  ()=>{
@@ -66,12 +66,19 @@ function PostDetail() {
         return <Loading/>
     }
 
-    const handleLove = async () => {
+    const handleLove =  () => {
         dispatch({
             type:'postDetailModel/lovePost',
             payload:postId
         })
     };
+    const handleCancelLove = () => {
+        dispatch({
+            type:'postDetailModel/cancelLovePost',
+            payload:postId
+        })
+    };
+
 
     const handleSend =  ()=> {
         if(type===0){
@@ -169,12 +176,21 @@ function PostDetail() {
                         </div>
                     </div>
                     <div className={"actions"}>
-                        <HeartOutlined className={`my-icon ${loveList.includes(postId)?'active':''}` } onClick={handleLove}/>
-                        <span>{post.love}</span>
-                        <StarOutlined className={"my-icon"}/>
-                        <span>{post.love}</span>
-                        <MessageOutlined className={"my-icon"} onClick={showComments}/>
-                        <span>{total}</span>
+                        {
+                            loveList.includes(postId)?
+                                <Interaction number={post.love} active={true}>
+                                    <HeartOutlined className={"my-icon"}  onClick={handleCancelLove}/>
+                                </Interaction>:
+                                <Interaction  number={post.love}>
+                                    <HeartOutlined className={"my-icon"} onClick={handleLove}/>
+                                </Interaction>
+                        }
+                        <Interaction number={post.love}>
+                            <StarOutlined className={"my-icon"}/>
+                        </Interaction>
+                        <Interaction number={total}>
+                            <MessageOutlined className={"my-icon"} onClick={showComments}/>
+                        </Interaction>
                     </div>
                     <div className={"bottom"}>
                         <div className={"comment-wrapper"}>

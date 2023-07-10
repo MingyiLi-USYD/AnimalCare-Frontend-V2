@@ -16,11 +16,11 @@ function DetailInfo(props) {
         history.push('/chat')
     }
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const handleOk = async () => {
-        await deleteFriend(contact.id)
+    const handleDelete = async () => {
+        console.log(contact)
         dispatch({
-            type:'ChatModel/onDeleteFriend',
-            payload: contact
+            type:'FriendModel/deleteFriend',
+            payload: contact.id
         })
         setIsModalOpen(false);
     };
@@ -87,7 +87,7 @@ function DetailInfo(props) {
 
             </div>
             }
-            <Modal title="Delete Friend" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+            <Modal title="Delete Friend" open={isModalOpen} onOk={handleDelete} onCancel={handleCancel}>
                 <p>
                     Are you sure to delete your friend: {' '}
                     <span style={nicknameStyle}>{contact.nickname}</span>

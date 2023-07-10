@@ -1,8 +1,7 @@
 import React, {useEffect} from "react";
 import io from "socket.io-client";
-import {friendRequestService, messageService, putFriendsListOnStore, putProfileOnStore} from "../utils/messageService";
-import {getFriends} from "../services/friendService";
-import {useDispatch} from "../.umi/exports";
+import {friendRequestService, messageService, putProfileOnStore} from "../utils/messageService";
+import {useDispatch} from "umi";
 
 
 const Socket= ({currentUser,children})=>{
@@ -19,7 +18,6 @@ const Socket= ({currentUser,children})=>{
         })
     }
     useEffect(() => {
-        //getFriends().then((res) => putFriendsListOnStore(res.data));
         putProfileOnStore(currentUser);
         initUserInfo()
         initFriendsInfo()
@@ -39,9 +37,10 @@ const Socket= ({currentUser,children})=>{
             websocketInstance.on('friendEvent', (data) => {
                 console.log(data);
             });
-            websocketInstance.on('friendRequestEvent', () => {
+            websocketInstance.on('friendRequestEvent', (data) => {
                console.log('收到好友请求了')
-                friendRequestService()
+                console.log(data)
+                friendRequestService(data.fromUser)
             });
             websocketInstance.on('invalidTokenEvent', (data) => {
                 console.log(data);

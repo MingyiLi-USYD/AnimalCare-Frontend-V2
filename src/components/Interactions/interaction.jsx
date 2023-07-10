@@ -1,10 +1,12 @@
 import React from 'react';
+import './interaction.less'
 
-function Interaction({children,number}) {
+function Interaction({children,number,active}) {
     return (
-        <div>
+        <div className={active?'active-color':''}>
+
             {children}
-              <span style={{margin:'0 5px'}}>
+              <span className={`interaction `}>
                   {
                       number
                   }

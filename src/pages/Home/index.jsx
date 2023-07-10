@@ -1,14 +1,13 @@
 import {HeartOutlined} from '@ant-design/icons';
-import {Avatar, Divider, Skeleton, Space} from 'antd';
+import {Avatar, Divider, Skeleton} from 'antd';
 import {useEffect, useState} from 'react';
-import {cancelLove, getPosts, love} from '../../services/postService';
-import {getLovedPosts} from '../../services/userService';
-import {parseStringToList, removeItem} from '../../utils/arrayUtils';
+import {getPosts} from '../../services/postService';
 import {history} from 'umi';
 import MySelector from "./Components/MySelector";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import "./index.less"
 import {useDispatch, useSelector} from "../../.umi/exports";
+import Interaction from "../../components/Interactions/interaction";
 
 const HomePage = () => {
     const [postList, setPostList] = useState([]);
@@ -18,14 +17,19 @@ const HomePage = () => {
     const [selector,setSelector] = useState(0);
     const {loveList,startList} = useSelector(state=>state.userModel)
     const dispatch = useDispatch();
-    const handleLove = async (postId, index) => {
+    const handleLove =  (postId, index) => {
          dispatch({
              type:'userModel/addToLoveList',
              payload:postId
          })
-
-
     };
+    const handleCancelLove =  (postId, index) => {
+        dispatch({
+            type:'userModel/removeFromLoveList',
+            payload:postId
+        })
+    };
+
     const loadMoreData = async () => {
         if (loading) {
             return;
@@ -92,9 +96,17 @@ const HomePage = () => {
                                         <span className={"nickname"}>{item.nickName}</span>
                                     </div>
                                     <div className={"operation"}>
-                                        <HeartOutlined onClick={() => {handleLove(item.postId, index);}}
-                                        style={loveList.includes(item.postId) ? { color: 'red' } : {}}/>
-                                        <span className={"loves"}>{item.love}</span>
+                                        {
+                                            loveList.includes(item.postId)?
+                                                <Interaction number={item.love} active={true}>
+                                                    <HeartOutlined onClick={() => {handleCancelLove(item.postId, index);}}/>
+                                                </Interaction>
+                                               :
+                                                <Interaction number={item.love}>
+                                                    <HeartOutlined onClick={() => {handleLove(item.postId, index);}}/>
+                                                </Interaction>
+                                        }
+
                                     </div>
                                 </div>
                             </div>)

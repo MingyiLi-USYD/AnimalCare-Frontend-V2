@@ -14,6 +14,13 @@ export default {
         addToLoveList(state,{payload}){
             !state.loveList.includes(payload)&&state.loveList.push(payload)
         },
+        removeFromLoveList(state,{payload}){
+            const index = state.loveList.indexOf(payload);
+            if(index>=0){
+                state.loveList.splice(index, 1);
+            }
+
+        },
         fetchLoveListSuccess(state,{payload}){
            state.loveList=payload
         },

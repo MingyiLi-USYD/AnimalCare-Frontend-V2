@@ -1,4 +1,4 @@
-import {getPostById, love} from "../services/postService";
+import {cancelLove, getPostById, love} from "../services/postService";
 import {getCommentsById, getSubcommentsById, postComment, postSubcomment} from "../services/commentService";
 import {matchPath} from "umi";
 
@@ -72,6 +72,9 @@ export default {
         increaseLove(state) {
             state.post.love++;
         },
+        decreaseLove(state) {
+            state.post.love--;
+        },
 
     },
     effects:{
@@ -105,11 +108,18 @@ export default {
                 yield put({ type: 'addSubcommentSuccess', payload: data });
             }
         },
-        *lovePost({ payload }, { call, put }) {
-            const { data,code } = yield call(love,payload);
+        *lovePost({ payload:postId }, { call, put }) {
+            const {code} = yield call(love,postId);
             if(code===1){
                 yield put({ type: 'increaseLove'});
-                yield put({ type: 'userModel/addToLoveList', payload: data });
+                yield put({ type: 'userModel/addToLoveList', payload: postId });
+            }
+        },
+        *cancelLovePost({ payload:postId }, { call, put }) {
+            const {code} = yield call(cancelLove,postId);
+            if(code===1){
+                yield put({ type: 'decreaseLove'});
+                yield put({ type: 'userModel/removeFromLoveList', payload: postId });
             }
         },
     },

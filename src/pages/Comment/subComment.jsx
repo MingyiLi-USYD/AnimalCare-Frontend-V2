@@ -2,7 +2,7 @@ import React from 'react';
 import {Avatar} from "antd";
 import {history} from "../../.umi/core/history";
 import {formatTimestamp} from "../../utils/timeUtils";
-import Interaction from "../../components/Interations/interaction";
+import Interaction from "../../components/Interactions/interaction";
 import {HeartOutlined, MessageOutlined} from "@ant-design/icons";
 import {useDispatch} from "../../.umi/exports";
 

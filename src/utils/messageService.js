@@ -25,23 +25,15 @@ export  function messageService(data) {
       }
 }
 
-export  function friendRequestService() {
+export  function friendRequestService(user) {
     const dvaApp = getDvaApp;
     const {_store:{dispatch}}=dvaApp();
         dispatch({
             type:"FriendModel/onReceiveFriendRequest",
+            payload:user
         })
 }
 
-
-export function putFriendsListOnStore(data){
-    const dvaApp = getDvaApp;
-    const {_store:{dispatch}}=dvaApp();
-    dispatch({
-        type:"ChatModel/onFetchFriendsList",
-        payload:data
-    })
-}
 
 export function putProfileOnStore(data){
     const dvaApp = getDvaApp;

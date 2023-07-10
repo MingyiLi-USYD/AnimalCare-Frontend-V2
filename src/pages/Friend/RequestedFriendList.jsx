@@ -1,21 +1,12 @@
 import {Avatar, Button, List, Popconfirm, Spin} from 'antd';
 import {useEffect, useState} from "react";
-import {approveRequest, getRequestList, rejectRequest} from "../../services/friendService";
+import {useDispatch, useSelector} from "umi";
 
-const RequestedFriendList = ({dispatch}) => {
-
-    const [requestList,setRequestList] = useState([]);
+const RequestedFriendList = () => {
+    const dispatch = useDispatch()
+    const {requestList} = useSelector(state => state.FriendModel)
     const [loading,setLoading] = useState(false);
-
-    const fetchData = async ()=>{
-        setLoading(true)
-       const {data} =  await getRequestList()
-        setRequestList(data)
-        setLoading(false)
-    }
-
     useEffect(()=>{
-        fetchData()
         dispatch({
             type:"FriendModel/onViewFriendRequest",
         })
@@ -25,17 +16,12 @@ const RequestedFriendList = ({dispatch}) => {
     }
 
     const handleReject = (id)=> {
-        rejectRequest(id)
-        const newRequestList = requestList.filter(item=>item.id!==id)
-        setRequestList(newRequestList)
+
     }
-    const handleApprove = async (user)=> {
-        await approveRequest(user.id)
-        const newRequestList = requestList.filter(item=>item.id!==user.id)
-        setRequestList(newRequestList)
+    const handleApprove =  async (user)=> {
         dispatch({
-            type:'ChatModel/onApproveFriend',
-            payload: user
+            type:'FriendModel/approveFriend',
+            payload: user.id
         })
     }
 
