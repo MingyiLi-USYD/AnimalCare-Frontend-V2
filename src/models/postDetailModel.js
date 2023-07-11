@@ -1,6 +1,6 @@
 import {cancelLove, getPostById, love} from "../services/postService";
 import {getCommentsById, getSubcommentsById, postComment, postSubcomment} from "../services/commentService";
-import {matchPath} from "umi";
+
 
 
 export default {
@@ -75,7 +75,16 @@ export default {
         decreaseLove(state) {
             state.post.love--;
         },
-
+        syncIncreaseInDetail(state,{ payload }){
+            if(state.post.postId&&state.post.postId===payload){
+                state.post.love++
+            }
+       },
+        syncDecreaseInDetail(state,{ payload }){
+            if(state.post.postId&&state.post.postId===payload){
+                state.post.love--
+            }
+        },
     },
     effects:{
 

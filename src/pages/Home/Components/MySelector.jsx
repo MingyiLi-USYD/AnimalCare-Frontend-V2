@@ -1,14 +1,15 @@
 import React from 'react';
 import {Select, Space} from "antd";
+import {useDispatch, useSelector} from "umi";
 
-function MySelector({selector,setSelector,setter}) {
+function MySelector() {
+    const {selector} = useSelector(state => state.homeModel)
+    const dispatch = useDispatch();
     const handleChange = (value) => {
-        const {setPostList,setPage,setTotal} = setter;
-        setPostList([])
-        setPage(0)
-        setTotal(0)
-        setSelector(value)
-
+        dispatch({
+            type: 'homeModel/changeSelector',
+            payload: value
+        })
     };
     return (
         <Space wrap>
@@ -33,33 +34,6 @@ function MySelector({selector,setSelector,setter}) {
                 }
             ]}
         />
-{/*            <Select
-                defaultValue="lucy"
-                style={{
-                    width: 150,
-                }}
-                onChange={handleChange}
-                options={[
-                    {
-                        value: 'jack',
-                        label: 'Jack',
-                    },
-                    {
-                        value: 'lucy',
-                        label: 'Lucy',
-                    },
-                    {
-                        value: 'Yiminghe',
-                        label: 'yiminghe',
-                    },
-                    {
-                        value: 'disabled',
-                        label: 'Disabled',
-                        disabled: true,
-                    },
-                ]}
-            />*/}
-
          </Space>
     );
 }

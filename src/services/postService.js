@@ -1,6 +1,6 @@
 import { request } from 'umi';
-export const getPosts = async (url) =>
-    await request(url, {
+export const getPosts = async (page,pageSize,selector) =>
+    await request(`/api/post?currPage=${page}&pageSize=${pageSize}&order=${selector}`, {
       method: 'GET',
     }).catch((error) => console.log(error));
 

@@ -19,7 +19,6 @@ const PostDetail = (props) => {
     useEffect(() => {
         open && run(`${postId}`);
     }, [open]);
-    console.log(data)
     return (
         <>
             {data && (

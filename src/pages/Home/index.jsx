@@ -1,64 +1,60 @@
 import {HeartOutlined} from '@ant-design/icons';
 import {Avatar, Divider, Skeleton} from 'antd';
-import {useEffect, useState} from 'react';
-import {getPosts} from '../../services/postService';
-import {history} from 'umi';
+import {useEffect} from 'react';
+import {history, useModel} from 'umi';
 import MySelector from "./Components/MySelector";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import "./index.less"
-import {useDispatch, useSelector} from "../../.umi/exports";
+import {useDispatch, useSelector} from "umi";
 import Interaction from "../../components/Interactions/interaction";
 
 const HomePage = () => {
-    const [postList, setPostList] = useState([]);
-    const [page, setPage] = useState(0)
-    const [total, setTotal] = useState(0)
-    const [loading, setLoading] = useState(false);
-    const [selector, setSelector] = useState(0);
     const {loveList, startList} = useSelector(state => state.userModel)
+    const {postList,pages,total,selector,current} = useSelector(state => state.homeModel)
     const dispatch = useDispatch();
-
-
     const handleLove = (postId) => {
         dispatch({
-            type: 'userModel/addToLoveList',
+            type: 'homeModel/lovePost',
             payload: postId
         })
     };
     const handleCancelLove = (postId) => {
         dispatch({
-            type: 'userModel/removeFromLoveList',
+            type: 'homeModel/cancelLovePost',
             payload: postId
         })
     };
 
-    const loadMoreData = async () => {
-        if (loading) {
-            return;
-        }
-        setLoading(true);
+    const initData =  () => {
+           dispatch({
+               type: 'homeModel/fetchPosts',
+               payload: {
+                   current,
+                   selector
+               }
+           })
+    };
 
-        const {
-            data: {records, total},
-        } = await getPosts(`/api/post?currPage=${page + 1}&pageSize=11&order=${selector}`);
-        setPage(page + 1)
-        setPostList([...postList, ...records]);
-        setTotal(total)
-        setLoading(false);
+    const loadMoreData =  () => {
+        dispatch({
+            type: 'homeModel/loadMorePosts',
+            payload: {
+                current,
+                selector
+            }
+        })
     };
 
     useEffect(() => {
-        loadMoreData()
-    }, [selector]);
-
-    if (postList === []) {
-        return <div>loading</div>;
-    }
+        if(postList.length===0){
+            initData()
+        }
+    }, []);
 
     return (
         <div>
 
-            <MySelector selector={selector} setSelector={setSelector} setter={{setPostList, setPage, setTotal}}/>
+            <MySelector />
             <div
                 id="scrollableDiv"
                 style={{
@@ -107,13 +103,13 @@ const HomePage = () => {
                                             loveList.includes(item.postId) ?
                                                 <Interaction number={item.love} active={true}>
                                                     <HeartOutlined onClick={() => {
-                                                        handleCancelLove(item.postId, index);
+                                                        handleCancelLove(item.postId);
                                                     }}/>
                                                 </Interaction>
                                                 :
                                                 <Interaction number={item.love}>
                                                     <HeartOutlined onClick={() => {
-                                                        handleLove(item.postId, index);
+                                                        handleLove(item.postId,);
                                                     }}/>
                                                 </Interaction>
                                         }
