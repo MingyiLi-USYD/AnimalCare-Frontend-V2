@@ -1,11 +1,12 @@
 import {Avatar, Button, List} from 'antd';
 import {useEffect, useRef, useState} from 'react';
 import {connect} from "../../.umi/exports";
-import {getChat} from "../../utils/chatUtils";
-import {retrieveMessageFromServer} from "../../services/chatService";
+import {getChat} from "@/utils/chatUtils";
+import {retrieveMessageFromServer} from "@/services/chatService";
 
 
 const ChatContent = (props) => {
+
     const { chatRecord, contact, me,dispatch } = props;
     const listRef = useRef(null);
     useEffect(() => {
@@ -49,7 +50,7 @@ export default connect(
     },
 )(ChatContent);
 const OneRecord = ({data,me,target})=>{
-    const isMe = data.userId===me.id
+    const isMe = data.fromId===me.id
     return(
         <div className={`oneMessage ${isMe?'reverse':''}`}>
                 <div>

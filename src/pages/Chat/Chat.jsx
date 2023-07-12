@@ -26,12 +26,13 @@ const Chat = (props) => {
             return
         }
         const message = {
-            userId: me.id,
+            fromId: me.id,
             date: new Date().getTime(),
+            toId:contact.id,
             type: 'text',
             content: text,
         }
-        sendMessageToServer({toId: contact.id, message})
+        sendMessageToServer(message)
 
         dispatch({
             type: 'ChatModel/onSend',

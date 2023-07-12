@@ -1,5 +1,7 @@
 
-export function onChatReceiveService(chatRecord, data,fromUser,contact) {
+
+
+export function onChatReceiveService(chatRecord:ChatRecord, data:ChatMessage,fromUser:User,contact:User) {
 
     if (fromUser.id in chatRecord) {
         let record = chatRecord[fromUser.id];
@@ -7,7 +9,9 @@ export function onChatReceiveService(chatRecord, data,fromUser,contact) {
         record.chatUser = fromUser;
         record.latestTime = data.date;
         record.latestMsg = data.content;
-        if (contact.id !== fromUser.id) record.unRead++;
+        if (contact.id !== fromUser.id) {
+            record.unRead++;
+        }
         chatRecord[fromUser.id] = record;
     } else {
         chatRecord[fromUser.id] = {
@@ -20,9 +24,9 @@ export function onChatReceiveService(chatRecord, data,fromUser,contact) {
     }
     return chatRecord;
 }
-export function onChatSendService(chatRecord, data, contact) {
+export function onChatSendService(chatRecord: ChatRecord, data: ChatMessage, contact: User) {
     const targetId = contact.id;
-    const newChatRecord = { ...chatRecord };
+    const newChatRecord: ChatRecord = { ...chatRecord };
 
     if (newChatRecord.hasOwnProperty(targetId)) {
         let record = newChatRecord[targetId];
@@ -43,12 +47,12 @@ export function onChatSendService(chatRecord, data, contact) {
     return newChatRecord;
 }
 
-export function getChat(allChat, user) {
+export function getChat(allChat: ChatRecord, user: User) {
     return allChat[user.id];
 }
 
-export function onNewSessionService(chatRecord, contact) {
-    const newChatRecord = { ...chatRecord };
+export function onNewSessionService(chatRecord: ChatRecord, contact: User) {
+    const newChatRecord: ChatRecord = { ...chatRecord };
     newChatRecord[contact.id] = {
         chatList: [],
         chatUser: contact,
@@ -59,19 +63,19 @@ export function onNewSessionService(chatRecord, contact) {
     return newChatRecord;
 }
 
-export function convertMapToList(chatRecord) {
+export function convertMapToList(chatRecord: ChatRecord) {
     const values = Object.values(chatRecord);
     return values.sort((a, b) => b.latestTime - a.latestTime);
 }
 
-export function resetUnread(chatRecord, contact) {
-    const newChatRecord = { ...chatRecord };
+export function resetUnread(chatRecord: ChatRecord, contact: User) {
+    const newChatRecord: ChatRecord = { ...chatRecord };
     const record = newChatRecord[contact.id];
     record.unRead = 0;
     return newChatRecord;
 }
 
-export function allUnread(chatRecordArray) {
+export function allUnread(chatRecordArray: ChatRecordItem[]) {
     let count = 0;
     for (let i = 0; i < chatRecordArray.length; i++) {
         count += chatRecordArray[i].unRead;
@@ -79,9 +83,8 @@ export function allUnread(chatRecordArray) {
     return count;
 }
 
-
-export function onChatFetchService(chatRecord, data, contact) {
-    const newChatRecord = { ...chatRecord };
+export function onChatFetchService(chatRecord: ChatRecord, data: ChatMessage[], contact: User) {
+    const newChatRecord: ChatRecord = { ...chatRecord };
     let record = newChatRecord[contact.id];
     record.chatList = data;
     return newChatRecord;

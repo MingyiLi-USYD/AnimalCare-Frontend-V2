@@ -8,6 +8,7 @@ import {
     resetUnread
 } from "../utils/chatUtils";
 
+
 export default {
     namespace: 'ChatModel',
     state: {

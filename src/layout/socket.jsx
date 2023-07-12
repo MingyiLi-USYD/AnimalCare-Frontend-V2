@@ -36,11 +36,8 @@ const Socket= ({currentUser,children})=>{
             });
             websocketInstance.on('friendEvent', (data) => {
                 console.log(data);
-            });
-            websocketInstance.on('friendRequestEvent', (data) => {
-               console.log('收到好友请求了')
-                console.log(data)
-                friendRequestService(data.fromUser)
+
+                messageService(data)
             });
             websocketInstance.on('invalidTokenEvent', (data) => {
                 console.log(data);
