@@ -1,4 +1,4 @@
-import {approveRequest, deleteFriend, getFriends, getRequestList} from "../services/friendService";
+import {approveRequest, deleteFriend, getFriends, getRequestList, rejectRequest} from "../services/friendService";
 
 export default {
     namespace: 'FriendModel',
@@ -70,6 +70,13 @@ export default {
             const {data, code} = yield call(approveRequest, userId);
             if (code === 1) {
                 yield put({type: 'approveFriendSuccess', payload: data});
+                yield put({type: 'deleteFriendRequest', payload: userId});
+            }
+        },
+        * rejectFriend({payload: userId}, {call, put}) {
+            const {data, code} = yield call(rejectRequest, userId);
+            if (code === 1) {
+                //yield put({type: 'approveFriendSuccess', payload: data});
                 yield put({type: 'deleteFriendRequest', payload: userId});
             }
         },

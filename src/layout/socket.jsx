@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import io from "socket.io-client";
-import {friendRequestService, messageService, putProfileOnStore} from "../utils/messageService";
+import { messageService, putProfileOnStore} from "@/utils/messageService";
 import {useDispatch} from "umi";
 
 
@@ -21,6 +21,7 @@ const Socket= ({currentUser,children})=>{
         putProfileOnStore(currentUser);
         initUserInfo()
         initFriendsInfo()
+
         if (!websocketInstance) {
             websocketInstance = io('', {
                 reconnectionDelayMax: 10000,
@@ -34,9 +35,10 @@ const Socket= ({currentUser,children})=>{
             websocketInstance.on('connect', () => {
                 console.log('连接上了')
             });
+            websocketInstance.on('disconnect', () => {
+                console.log('连接断开了')
+            });
             websocketInstance.on('friendEvent', (data) => {
-                console.log(data);
-
                 messageService(data)
             });
             websocketInstance.on('invalidTokenEvent', (data) => {

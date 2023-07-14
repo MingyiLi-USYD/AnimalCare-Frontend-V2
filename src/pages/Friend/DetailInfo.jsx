@@ -4,7 +4,6 @@ import {Avatar, Button, Dropdown, Modal} from "antd";
 import {DeleteOutlined, EllipsisOutlined} from '@ant-design/icons';
 import {history} from "umi";
 import RequestedFriendList from "./RequestedFriendList";
-import {deleteFriend} from "../../services/friendService";
 
 function DetailInfo(props) {
     const {contact,dispatch} = props;
@@ -17,7 +16,6 @@ function DetailInfo(props) {
     }
     const [isModalOpen, setIsModalOpen] = useState(false);
     const handleDelete = async () => {
-        console.log(contact)
         dispatch({
             type:'FriendModel/deleteFriend',
             payload: contact.id

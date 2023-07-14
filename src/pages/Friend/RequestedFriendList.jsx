@@ -16,12 +16,15 @@ const RequestedFriendList = () => {
     }
 
     const handleReject = (id)=> {
-
+        dispatch({
+            type:'FriendModel/rejectFriend',
+            payload: id
+        })
     }
-    const handleApprove =  async (user)=> {
+    const handleApprove =  async (id)=> {
         dispatch({
             type:'FriendModel/approveFriend',
-            payload: user.id
+            payload: id
         })
     }
 
@@ -60,7 +63,7 @@ const RequestedFriendList = () => {
                                 <Popconfirm
                                     title="Approve the request"
                                     description="Are you sure to approve this request?"
-                                    onConfirm={()=>{handleApprove(item)}}
+                                    onConfirm={()=>{handleApprove(item.id)}}
                                     okText="Yes"
                                     cancelText="No"
                                 >

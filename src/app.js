@@ -2,9 +2,6 @@ import {history} from 'umi'
 import {currentUser} from "./services/userService";
 import responseInterceptor from "../config/responseInterceptor";
 const loginPath = '/login';
-import { enableMapSet } from 'immer';
-
-enableMapSet();
 export const request = {
   timeout: 60000,
   errorConfig: {
