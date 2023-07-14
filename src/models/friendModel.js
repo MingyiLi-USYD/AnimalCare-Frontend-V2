@@ -10,6 +10,10 @@ export default {
     },
 
     reducers: {
+        onDeletedByFriend(state, {payload}) {
+            let {friendList} = state
+            state.friendList = friendList.filter(friend=>friend.id!==payload.id);
+        },
         approveFriendSuccess(state, {payload}) {
             let {friendList} = state
             state.friendList = [...friendList, payload]
@@ -17,6 +21,7 @@ export default {
         deleteFriendSuccess(state, {payload: userId}) {
             let {friendList} = state
             state.friendList = friendList.filter(item => item.id !== userId)
+            state.contact={}
         },
 
         onChangeContact(state, {payload}) {

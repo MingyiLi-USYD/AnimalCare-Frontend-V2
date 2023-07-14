@@ -4,25 +4,17 @@ import {CommentOutlined, DeleteOutlined, HomeOutlined, ScissorOutlined, UserOutl
 import './index.less'
 import {history, Outlet, useModel} from 'umi'
 import MyAvatar from "../components/Avatar";
-import Socket from "./socket";
-import {Badge, notification} from "antd";
+import {Badge} from "antd";
 import {connect} from "../.umi/exports";
 import {allUnread} from "@/utils/chatUtils";
+import useSocket from "@/hooks/useSocket";
 
 const loginPath = '/login';
 
 const BasicLayout = (props) => {
-
-  const [api, contextHolder] = notification.useNotification();
-  const openNotification = (placement) => {
-    api.info({
-      message: 'Update Notification',
-      description:  `Update Pet ${name} successfully`,
-      placement,
-    });
-  };
   const {chatRecordArray,friendRequest}=props
   const {initialState} = useModel('@@initialState');
+  const {socket,disconnect}=useSocket(initialState.currentUser)
   const {currentUser}=initialState;
   const customMenuData= [
     {
@@ -142,10 +134,7 @@ const BasicLayout = (props) => {
       }
       }}
     >
-
-        <Socket currentUser={initialState.currentUser}>
-          <Outlet/>
-        </Socket>
+      <Outlet/>
     </ProLayout>
   );
 };

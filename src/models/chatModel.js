@@ -12,6 +12,7 @@ import {
 export default {
     namespace: 'ChatModel',
     state: {
+        isConnected:false,
         chatRecord: {},
         friendLists: [],
         contact: {},
@@ -20,6 +21,12 @@ export default {
     },
 
     reducers: {
+        disconnect(state){
+            state.isConnected=false;
+        },
+        connect(state){
+            state.isConnected=true;
+        },
         onSend(state, {payload: {message, contact}}) {
             let {chatRecord} = state
             const newChatRecord = onChatSendService(chatRecord, message, contact)

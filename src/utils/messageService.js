@@ -1,3 +1,4 @@
+/*
 import {getDvaApp} from "umi"
 import {Avatar, Button, notification} from 'antd';
 export  function messageService(data) {
@@ -33,17 +34,17 @@ export  function messageService(data) {
           }else if(data.message.type===4){
               console.log("处理朋友上线的逻辑")
               // 弹出提醒
-      /*        notification.success({
+      /!*        notification.success({
                   message: '好友上线',
                   description: '来了',
-              });*/
+              });*!/
 
           }else if(data.message.type===5){
               console.log("处理朋友下线逻辑")
-  /*            notification.success({
+  /!*            notification.success({
                   message: '好友下线',
                   description: '走了',
-              });*/
+              });*!/
           }
       }else if(data.code===1){
           console.log(data)
@@ -78,3 +79,4 @@ export function putProfileOnStore(data){
     })
 }
 
+*/

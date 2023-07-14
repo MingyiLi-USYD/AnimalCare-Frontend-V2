@@ -116,7 +116,7 @@ const Chat = (props) => {
 };
 
 export default connect(
-    ({ChatModel: {chatRecord, friendLists, contact, me}}) => {
-        return {chatRecord, friendLists, contact, me};
+    ({ChatModel: {chatRecord, contact, me}}) => {
+        return {chatRecord, contact, me};
     },
 )(Chat);
