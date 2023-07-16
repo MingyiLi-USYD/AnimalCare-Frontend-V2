@@ -1,4 +1,4 @@
-
+import chat from "@/pages/Chat/Chat";
 
 
 export function onChatReceiveService(chatRecord:ChatRecord, data:ChatMessage,fromUser:User,contact:User) {
@@ -89,4 +89,19 @@ export function onChatFetchService(chatRecord: ChatRecord, data: ChatMessage[], 
     record.chatList = data;
     return newChatRecord;
 }
-
+export function onAllChatFetchService(chatRecord: ChatRecord, chats: ChatRecordItem[]) {
+     chats.forEach(chat=>{
+               const id  = chat.chatUser.id;
+               if(chatRecord[id]){
+                   //等待后期改进
+                   chatRecord[id].chatUser=chat.chatUser;
+                   chatRecord[id].chatList=chat.chatList;
+                   chatRecord[id].latestTime=chat.latestTime;
+                   chatRecord[id].unRead=chat.unRead;
+               }else {
+                   chatRecord[id]=chat
+               }
+         }
+     )
+    return chatRecord
+}

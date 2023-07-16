@@ -2,7 +2,8 @@ import {Avatar, Button, List} from 'antd';
 import {useEffect, useRef, useState} from 'react';
 import {connect} from "../../.umi/exports";
 import {getChat} from "@/utils/chatUtils";
-import {retrieveMessageFromServer} from "@/services/chatService";
+import {retrieveMessageById} from "@/services/chatService";
+
 
 
 const ChatContent = (props) => {
@@ -17,7 +18,7 @@ const ChatContent = (props) => {
     const chat = getChat(chatRecord,contact);
 
     async function handleFetchHistory() {
-       const {code,data}=await retrieveMessageFromServer(contact.id);
+       const {code,data}=await retrieveMessageById(contact.id);
        if(code===1){
            dispatch({
                type: 'ChatModel/onFetchHistory',

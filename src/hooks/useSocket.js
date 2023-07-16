@@ -22,8 +22,14 @@ const useSocket = (currentUser) => {
       type:'FriendModel/initFriendData'
     })
   }
+  const initChatRecords = ()=>{
+    dispatch({
+      type:'ChatModel/fetchChatRecords'
+    })
+  }
   useEffect(()=>{
     putProfileOnStore(currentUser);
+    initChatRecords()
     initUserInfo()
     initFriendsInfo()
   },[

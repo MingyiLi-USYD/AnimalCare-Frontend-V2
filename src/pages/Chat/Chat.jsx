@@ -25,6 +25,16 @@ const Chat = (props) => {
             });
             return
         }
+/*        for (let i = 0; i <1000 ; i++) {
+            const message = {
+                fromId: me.id,
+                date: new Date().getTime(),
+                toId:contact.id,
+                type: 'text',
+                content: i,
+            }
+            sendMessageToServer(message)
+        }*/
         const message = {
             fromId: me.id,
             date: new Date().getTime(),
