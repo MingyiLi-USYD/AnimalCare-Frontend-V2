@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1314403",
+      "name": "温度",
+      "font_class": "wendu",
+      "unicode": "e66c",
+      "unicode_decimal": 58988
+    },
+    {
+      "icon_id": "5221721",
+      "name": "CPU",
+      "font_class": "CPU",
+      "unicode": "e629",
+      "unicode_decimal": 58921
+    },
+    {
+      "icon_id": "17346414",
+      "name": "内存-RAM",
+      "font_class": "neicun-RAM",
+      "unicode": "e69e",
+      "unicode_decimal": 59038
+    },
+    {
       "icon_id": "36100627",
       "name": "监控",
       "font_class": "jiankong",

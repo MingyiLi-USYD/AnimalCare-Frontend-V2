@@ -15,6 +15,10 @@ export  const routes = [
         component: '@/layout/index',
         routes: [
             {
+                path: '/',
+                redirect: '/home',
+            },
+            {
                 path: '/home',
                 component: '@/pages/Home/index',
             },
@@ -48,14 +52,17 @@ export  const routes = [
                 component: '@/pages/Dashboard/dashboard',
                 routes: [
                     {
-                        path: '/dashboard/statics',
-                        component: '@/pages/Dashboard/Components/statics',
+                        path: '/dashboard',
+                        redirect: '/dashboard/statistics',
                     },
                     {
-                        path: '/dashboard/system',
-                        component: '@/pages/Dashboard/Components/system',
+                        path: '/dashboard/statistics',
+                        component: '@/pages/Dashboard/Components/Statistics/statistics',
                     },
-
+                    {
+                        path: '/dashboard/server',
+                        component: '@/pages/Dashboard/Components/Servers/server',
+                    },
                 ],
             },
             {

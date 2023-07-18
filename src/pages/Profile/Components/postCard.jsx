@@ -1,5 +1,5 @@
 import {Avatar, Card} from 'antd';
-import {parseStringToList} from "../../../utils/arrayUtils";
+import {parseStringToList} from "@/utils/arrayUtils";
 import {connect} from "umi";
 import {useModel} from "../../../.umi/exports";
 const { Meta } = Card;

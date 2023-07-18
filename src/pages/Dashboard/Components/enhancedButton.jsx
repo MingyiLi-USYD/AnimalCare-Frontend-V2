@@ -1,9 +1,16 @@
 import React from 'react';
-import {Statistics} from "@/assets/Icons/icon";
+import { Statistics } from "@/assets/Icons/icon";
+import {history,useLocation} from 'umi'
 
-function EnhancedButton({click}) {
+function EnhancedButton({ name }) {
+    const location = useLocation();
+    const active = location.pathname === `/dashboard/${name}`;
+    const handleClick = () => {
+        history.push(`/dashboard/${name}`);
+    };
+
     return (
-        <div className={"enhanced-button"} onClick={click}>
+        <div className={`enhanced-button ${active ? 'active' : ''}`} onClick={handleClick}>
             <div className={"button-logo"}>
                 <Statistics />
             </div>

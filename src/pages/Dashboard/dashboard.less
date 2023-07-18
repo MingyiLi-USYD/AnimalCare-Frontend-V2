@@ -1,10 +1,13 @@
+@width:1200px;
+@height:1000px;
 .dashboard-page {
   display: flex;
   justify-content: center;
   overflow: hidden;
+  background-color: lightcyan;
   .dashboard-container {
-    height: 1000px;
-    width: 1200px;
+    height: @height;
+    width: @width;
     .page-bar {
       display: flex;
       > div {
@@ -12,18 +15,14 @@
         height: 300px;
         width: 300px;
         box-sizing: border-box;
-        padding: 40px;
+        padding: 10px;
         .enhanced-button{
           &:hover {
-            background: dodgerblue;
+            filter: brightness(80%);
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
             transition: background 0.3s ease, box-shadow 0.3s ease;
-            .button-label{
-              color: white;
-            }
-            color: white;
           }
-          background-color: papayawhip;
+          background-color: white;
           box-sizing: border-box;
           border-radius: 20px;
           height: 220px;
@@ -40,7 +39,68 @@
             margin-bottom: 10px;
           }
         }
+        .active{
+          background: dodgerblue;
+          box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+          transition: background 0.3s ease, box-shadow 0.3s ease;
+          .button-label{
+            color: white;
+          }
+          color: white;
+        }
       }
+    }
+    .child-page{
+      .statistics{
+        >div{
+          display: flex;
+        }
+      }
+      .server{
+        display: flex;
+         justify-content: space-around;
+        .label{
+          font-size: 20px;
+          font-family: Arial, serif;
+          color: #4B535E;
+          font-weight: bold;
+        }
+        .left{
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          height: 420px;
+          width: 200px;
+        }
+        .right{
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          .monitors{
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+            width: 1000px;
+            .gauge-loader{
+              width: 300px;
+              height: 230px;
+              background-color: lightblue;
+              border-radius: 20px;
+              .title{
+                font-size: 20px;
+                padding: 10px;
+                font-family: Arial, serif;
+                color: #4B535E;
+              }
+            }
+          }
+          .switches{
+             display: flex;
+          }
+        }
+        }
+
+
     }
   }
 }

@@ -9,9 +9,6 @@ export default defineConfig({
     '@umijs/plugins/dist/request',
     '@umijs/plugins/dist/dva',
   ],
-  headScripts: [
-    '../src/assets/fonts/iconfont.js'
-  ],
   model: {},
   request: {},
   initialState: {

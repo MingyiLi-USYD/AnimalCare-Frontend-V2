@@ -2,8 +2,8 @@ import {Avatar, Carousel, Modal} from 'antd';
 import { useEffect } from 'react';
 import { useRequest } from 'umi';
 import { connect} from 'dva';
-import {getPostById} from "../../../services/postService";
-import {parseStringToList} from "../../../utils/arrayUtils";
+import {getPostById} from "@/services/postService";
+import {parseStringToList} from "@/utils/arrayUtils";
 
 const carouselImageStyle = {
     objectFit: 'cover',  // 自动裁剪图片
