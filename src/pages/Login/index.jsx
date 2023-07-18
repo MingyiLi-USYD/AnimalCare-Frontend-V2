@@ -1,16 +1,21 @@
-import { Button, Card, Col, Form, Input, Row } from 'antd';
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import {Card, Col, Row} from 'antd';
 import {history, useModel} from "umi";
-import {userLogin} from "../../services/userService";
+import {userLogin} from "@/services/userService";
 import {flushSync} from "react-dom";
 import FirebaseUI from "./firebaseUI";
-import EmailSignUp from "./EmailSignUp";
+import {useEffect} from "react";
 
 
 const Login = () => {
 
   const { setInitialState, initialState } = useModel('@@initialState');
-  console.log(initialState)
+/*  useEffect(()=>{
+    console.log(initialState.currentUser)
+    if(initialState.currentUser){
+      history.push('/home');
+    }
+  },[])*/
+
   const onFinish = async (values) => {
     const res = await userLogin(values);
     if (res.code === 1) {

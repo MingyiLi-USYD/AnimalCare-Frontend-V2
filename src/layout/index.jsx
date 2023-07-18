@@ -57,8 +57,8 @@ const BasicLayout = (props) => {
     },
     {
       key:'6',
-      name: '权限演示',
-      path: '/access',
+      name: '控制台',
+      path: '/dashboard',
       icon: <ScissorOutlined/>,
     },
     {

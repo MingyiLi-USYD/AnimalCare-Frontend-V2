@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "36100627",
+      "name": "监控",
+      "font_class": "jiankong",
+      "unicode": "e6b2",
+      "unicode_decimal": 59058
+    },
+    {
+      "icon_id": "36103425",
+      "name": "统计",
+      "font_class": "tongji",
+      "unicode": "e6bd",
+      "unicode_decimal": 59069
+    },
+    {
+      "icon_id": "36104427",
+      "name": "会员录入",
+      "font_class": "huiyuanluru",
+      "unicode": "e6c0",
+      "unicode_decimal": 59072
+    },
+    {
       "icon_id": "4439996",
       "name": "加好友",
       "font_class": "jiahaoyou",

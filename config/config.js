@@ -19,7 +19,6 @@ export default defineConfig({
   },
   dva:{
     immer: {
-      mapSet:true
     },
   },
   npmClient: 'yarn',

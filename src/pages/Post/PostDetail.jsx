@@ -2,15 +2,18 @@ import React, {useEffect, useRef, useState} from 'react';
 import {useParams} from "../../.umi/exports";
 import "./PostDetail.less"
 import {Avatar, Button, Carousel, Divider, Input, List, Skeleton} from "antd";
-import {parseStringToList, removeItem} from "../../utils/arrayUtils";
+import {parseStringToList, removeItem} from "@/utils/arrayUtils";
 import Loading from "../../components/Loading";
 import {HeartOutlined, MessageOutlined, PaperClipOutlined, SmileOutlined, StarOutlined} from '@ant-design/icons';
 import InfiniteScroll from "react-infinite-scroll-component";
 import Comment from "../Comment/comment";
 import {history, useDispatch, useSelector} from "umi";
 import Interaction from "../../components/Interactions/interaction";
+import {useStore} from "umi";
 
 function PostDetail() {
+    const store = useStore()
+    console.log(store)
     const dispatch = useDispatch();
     const params = useParams();
     const {postId} = params

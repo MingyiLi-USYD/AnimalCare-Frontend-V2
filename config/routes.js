@@ -44,6 +44,21 @@ export  const routes = [
                 component: '@/pages/Friend/Friend',
             },
             {
+                path: '/dashboard',
+                component: '@/pages/Dashboard/dashboard',
+                routes: [
+                    {
+                        path: '/dashboard/statics',
+                        component: '@/pages/Dashboard/Components/statics',
+                    },
+                    {
+                        path: '/dashboard/system',
+                        component: '@/pages/Dashboard/Components/system',
+                    },
+
+                ],
+            },
+            {
                 path: '/profile/:id',
                 component: '@/pages/Profile/profile',
             },

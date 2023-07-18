@@ -1,13 +1,13 @@
 import {Button, Form, Input, Select, Spin, Switch} from 'antd';
 import MultipleImageUpload from './GroupUpload';
-import {newPet} from "../../services/petService";
+import {newPet} from "@/services/petService";
 import {useState} from "react";
 import UploadingProgress from "../../components/UploadingProgress";
 import DoneUpload from "../../components/DoneUpload";
 import {ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import {auth, storage} from "../../firebaseConfig";
+import {auth, storage} from "@/firebaseConfig";
 import { v4 as uuidv4 } from 'uuid';
-import {getFirebaseIdToken} from "../../services/userService";
+import {getFirebaseIdToken} from "@/services/userService";
 import {signInWithCustomToken} from "firebase/auth"
 import {useModel} from "umi";
 const { TextArea } = Input;

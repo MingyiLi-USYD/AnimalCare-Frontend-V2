@@ -2,6 +2,21 @@ import {history} from 'umi'
 import {currentUser} from "./services/userService";
 import responseInterceptor from "../config/responseInterceptor";
 const loginPath = '/login';
+import { persistEnhancer } from 'dva-model-persist';
+//  使用 localStorage
+import storage from 'dva-model-persist/lib/storage';
+export const dva = {
+  config: {
+    extraEnhancers: [
+      persistEnhancer(
+          {
+            storage,
+          }
+      )
+    ],
+  },
+};
+
 export const request = {
   timeout: 60000,
   errorConfig: {

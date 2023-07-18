@@ -29,7 +29,7 @@ const useSocket = (currentUser) => {
   }
   useEffect(()=>{
     putProfileOnStore(currentUser);
-    initChatRecords()
+    //initChatRecords()
     initUserInfo()
     initFriendsInfo()
   },[
