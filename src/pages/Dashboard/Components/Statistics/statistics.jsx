@@ -6,11 +6,12 @@ import ColumnChart from "@/pages/Dashboard/Components/columnChart";
 function Statistics({}) {
     return (
         <div className={'statistics'}>
-            <div>
+            <div className={'first-row'}>
                 <PieChart/>
-                <PieChart></PieChart>
+                <PieChart/>
+                <PieChart/>
             </div>
-            <div>
+            <div className={'second-row'}>
                 <LineChart/>
                 <ColumnChart/>
             </div>

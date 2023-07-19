@@ -52,8 +52,15 @@
     }
     .child-page{
       .statistics{
-        >div{
+        .first-row{
           display: flex;
+          justify-content: space-between;
+          width: @width;
+        }
+        .second-row{
+          display: flex;
+          justify-content: space-between;
+          width: @width;
         }
       }
       .server{
@@ -69,7 +76,7 @@
           display: flex;
           flex-direction: column;
           justify-content: space-between;
-          height: 420px;
+          height: 520px;
           width: 200px;
         }
         .right{
@@ -78,12 +85,12 @@
           align-items: center;
           .monitors{
             display: flex;
-            justify-content: space-around;
-            margin-top: 10px;
+            justify-content: space-between;
+            margin: 15px 0;
             width: 1000px;
             .gauge-loader{
-              width: 300px;
-              height: 230px;
+              width: 450px;
+              height: 300px;
               background-color: lightblue;
               border-radius: 20px;
               .title{
@@ -96,6 +103,9 @@
           }
           .switches{
              display: flex;
+            margin-top: 10px;
+            width: 1000px;
+            justify-content: space-between;
           }
         }
         }

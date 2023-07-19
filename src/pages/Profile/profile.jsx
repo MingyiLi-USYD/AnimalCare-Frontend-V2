@@ -33,7 +33,6 @@ const Profile = (props) => {
        setRelation(res.data)
     }
 
-
     const  handleAdd = () => {
         props.dispatch({
             type: 'RelationModel/openModal',
@@ -52,23 +51,25 @@ const Profile = (props) => {
       return <Spin>loading</Spin>
   }
   return (
+    <div className={'profile-page'}>
+        <div className={'profile-container'}>
+            <BackForward/>
+            <div style={{display:"flex",alignItems:"center"}}>
+                <Avatar src={data?.avatar} size={64} />
+                {
+                    relationList[relation]
+                }
+            </div>
 
-    <div className={'my-profile'}>
-        <BackForward/>
-        <div style={{display:"flex",alignItems:"center"}}>
-            <Avatar src={data?.avatar} size={64} />
-            {
-                relationList[relation]
-            }
+            <Title level={3}>{data.nickname}</Title>
+            <Paragraph>{data?.description}</Paragraph>
+            <PetCardList data={data?.petList} />
+            <PostCardList data={data?.postList} avatar={currentUser.avatar}/>
+            <PostDetail/>
+            <RelationDetail userId={data.id} relation={relation} avatar={data.avatar} nickname={data.nickname} setRelation={setRelation}  />
         </div>
-
-      <Title level={3}>{data.nickname}</Title>
-      <Paragraph>{data?.description}</Paragraph>
-      <PetCardList data={data?.petList} />
-      <PostCardList data={data?.postList} avatar={currentUser.avatar}/>
-      <PostDetail/>
-      <RelationDetail userId={data.id} relation={relation} avatar={data.avatar} nickname={data.nickname} setRelation={setRelation}  />
     </div>
+
   );
 };
 

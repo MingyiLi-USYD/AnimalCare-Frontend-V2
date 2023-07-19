@@ -1,4 +1,42 @@
-.my-profile{
+@width:1200px;
+@height:1000px;
+.profile-page{
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  background-color: lightblue;
+  .profile-container{
+    height: @height;
+    width: @width;
+    background-color: white;
+    .pet-cards{
+       display: flex;
+        flex-direction: column;
+       justify-items: center;
+      align-items: center;
+       .label{
+       }
+       .card-list{
+         display: flex;
+          width: @width;
+         .visible-cards{
+           width: 900px;
+           height: 300px;
+           overflow: hidden; /* 隐藏溢出内容 */
+           .cards{
+             display: flex;
+             background-color: #b3d4fc;
+           }
+         }
+
+         .pre,.next{
+           width: 150px;
+           height: 100px;
+           background-color: lightblue;
+         }
+       }
+    }
+  }
 
 }
 
@@ -10,4 +48,13 @@
     font-size: 20px;
     color: darkgrey;
   }
+}
+
+.pet-card{
+  flex-shrink: 0; /* 固定子 div 宽度 */
+    height: 300px;
+    width: 300px;
+  padding: 20px;
+  background-color: #b3d4fc;
+  border-radius: 20px;
 }

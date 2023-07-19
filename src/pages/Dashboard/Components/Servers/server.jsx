@@ -21,6 +21,16 @@ function Server(props) {
         name:'RAM Size',
         value:'32GB'
     }
+    const cpuGauge = {
+         label:'CPU',
+         name:'CPU Usage',
+         percent: 0.75,
+    }
+    const ramGauge = {
+        label:'RAM',
+        name:'RAM Usage',
+        percent: 0.6,
+    }
     return (
         <div className={'server'}>
             <div className={'left'}>
@@ -39,20 +49,31 @@ function Server(props) {
                 <EnhancedIcon {...ram}>
                     <RAMIcon {...iconSize}/>
                 </EnhancedIcon>
+                <EnhancedIcon {...ram}>
+                    <RAMIcon {...iconSize}/>
+                </EnhancedIcon>
             </div>
             <div className={'right'}>
                 <div className={'label'}>
                     Detail Information
                 </div>
                 <div className={'monitors'}>
-                    <GaugeChart/>
-                    <GaugeChart/>
-                    <GaugeChart/>
+                    <GaugeChart {...cpuGauge}/>
+                    <GaugeChart {...ramGauge}/>
+                </div>
+                <div className={'label'}>
+                    Switches
                 </div>
                 <div className={'switches'}>
                   <EnhancedSwitch name={'Temperature warm'}>
                       <TemperatureIcon {...iconSize}/>
                   </EnhancedSwitch>
+                    <EnhancedSwitch name={'Temperature warm'}>
+                        <TemperatureIcon {...iconSize}/>
+                    </EnhancedSwitch>
+                    <EnhancedSwitch name={'Temperature warm'}>
+                        <TemperatureIcon {...iconSize}/>
+                    </EnhancedSwitch>
                 </div>
 
             </div>
