@@ -1,12 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {Avatar, Button, Popconfirm, Spin} from "antd";
-import {useParams} from "umi";
-import {getPetDetail} from "../../services/api";
-import { Image } from 'antd';
-import  './PetDetail.less'
+import {Avatar, Button, Image, Popconfirm} from "antd";
+import {useModel, useParams} from "umi";
+import {getPetDetail} from "@/services/api";
+import './PetDetail.less'
 import PetImageUpload from "./Components/PetImageUpload";
-import {deleteImageOfPet} from "../../services/petService";
-import {useModel} from "umi";
+import {deleteImageOfPet} from "@/services/petService";
 import BackForward from "../../components/BackForward";
 import NotFoundPage from "../404";
 import Loading from "../../components/Loading";
@@ -16,47 +14,48 @@ function PetDetail() {
     const params = useParams();
     const {petId} = params
     const [loading, setLoading] = useState(true);
-    const [pet,setPet] = useState({})
-    const {initialState:{currentUser} } = useModel('@@initialState');
-    const initData = async ()=>{
-        const res =  await getPetDetail(petId);
+    const [pet, setPet] = useState({})
+    const {initialState: {currentUser}} = useModel('@@initialState');
+    const initData = async () => {
+        const res = await getPetDetail(petId);
         setPet(res.data)
         setLoading(false); // 请求结束，设置 loading 为 false
     }
-    useEffect(()=>{
+    useEffect(() => {
         initData();
-    },[petId])
-    const handleDelete = (image)=>{
+    }, [petId])
+    const handleDelete = (image) => {
         deleteImageOfPet(image)
-        setPet({...pet,petImageList:[...pet.petImageList].filter(item=>item.id!==image.id)})
+        setPet({...pet, petImageList: [...pet.petImageList].filter(item => item.id !== image.id)})
     }
     if (loading) {
         return <Loading/>; // 在加载中显示 Spin 或其他加载提示
     }
-    if(!pet){
+    if (!pet) {
         return <NotFoundPage/>
     }
     return (
         <div>
             <BackForward/>
-            <div style={{ textAlign: 'center' }}>
+            <div style={{textAlign: 'center'}}>
                 <div>
                     <Avatar size={64} src={pet.petAvatar}/>
                     <h2>{pet.petName}</h2>
                     <p>{pet.petDescription}</p>
                 </div>
-                {currentUser.id===pet.userId&&<PetImageUpload petId={pet.petId} setPet={setPet} pet={pet}/>}
-                <div style={{ marginTop: '50px' }}>
-                    <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                {currentUser.id === pet.userId && <PetImageUpload petId={pet.petId} setPet={setPet} pet={pet}/>}
+                <div style={{marginTop: '50px'}}>
+                    <div style={{display: 'flex', flexWrap: 'wrap'}}>
                         {pet.petImageList.map((item) => (
                             <div key={item.id} className={'image-wrapper'}>
-                                <Image  className={'imageStyle'}   src={item.url}/>
-                                {      currentUser.id===pet.userId&&
+                                <Image className={'imageStyle'} src={item.url}/>
+                                {currentUser.id === pet.userId &&
                                     <Popconfirm
                                         title="Delete image"
                                         description="Are you sure to delete this image?"
-                                        onConfirm={()=>handleDelete(item)}
-                                        onCancel={()=>{}}
+                                        onConfirm={() => handleDelete(item)}
+                                        onCancel={() => {
+                                        }}
                                         okText="Yes"
                                         cancelText="No"
                                     >
@@ -78,4 +77,5 @@ function PetDetail() {
         </div>
     );
 }
+
 export default PetDetail;

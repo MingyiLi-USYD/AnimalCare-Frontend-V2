@@ -1,9 +1,8 @@
-import {Avatar, Button, Modal, Spin, Typography} from 'antd';
-import {connect, useRequest} from 'umi';
+import {Avatar, Button, Spin, Typography} from 'antd';
+import {connect, useModel, useParams, useRequest} from 'umi';
 import PetCardList from './Components/petCardList';
 import {getProfileById} from '@/services/userService';
 import PostCardList from "./Components/postCardList";
-import {useModel, useParams} from "umi";
 import PostDetail from "./Components/postDetail";
 import {useEffect, useState} from "react";
 import {getFriendshipStatus} from "@/services/friendService";

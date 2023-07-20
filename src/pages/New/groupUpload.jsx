@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
-import {message, Upload,Form} from 'antd';
-import {PlusOutlined, UploadOutlined} from '@ant-design/icons';
+import {Form, message, Upload} from 'antd';
+import {PlusOutlined} from '@ant-design/icons';
 
-const MultipleImageUpload = ({limit,name,round}) => {
+const MultipleImageUpload = ({limit, name, round}) => {
     const normFile = (e) => {
         if (Array.isArray(e)) {
             return e;
         }
-        return e?.fileList.filter((file) =>handleBeforeUpload(file) )
+        return e?.fileList.filter((file) => handleBeforeUpload(file))
     };
 
     const [fileList, setFileList] = useState([]);
@@ -16,7 +16,7 @@ const MultipleImageUpload = ({limit,name,round}) => {
 
         let fileList = [...info.fileList];
         fileList = fileList.slice(-limit); // 限制上传的文件数量
-        fileList = fileList.filter((file) =>handleBeforeUpload(file) )
+        fileList = fileList.filter((file) => handleBeforeUpload(file))
         setFileList(fileList);
     };
 
@@ -41,7 +41,7 @@ const MultipleImageUpload = ({limit,name,round}) => {
 
     const uploadButton = (
         <div>
-            <PlusOutlined />
+            <PlusOutlined/>
             <div
                 style={{
                     marginTop: 8,
@@ -55,15 +55,20 @@ const MultipleImageUpload = ({limit,name,round}) => {
 
     return (
         <Form.Item
-            label="Upload" valuePropName="fileList" getValueFromEvent={normFile} name={name} rules={[{ required: true, message: 'Must have image' }]}
+            label="Upload" valuePropName="fileList" getValueFromEvent={normFile} name={name}
+            rules={[{required: true, message: 'Must have image'}]}
         >
+            {
+                console.log(fileList)
+            }
             <Upload
                 fileList={fileList}
                 onChange={handleUpload}
                 onRemove={handleRemove}
-                beforeUpload={()=>false}
-                listType={round?"picture-circle":"picture-card"}
+                beforeUpload={() => false}
+                listType={round ? "picture-circle" : "picture-card"}
             >
+
                 {fileList.length >= limit ? null : uploadButton}
             </Upload>
         </Form.Item>

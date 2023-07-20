@@ -32,12 +32,12 @@ export  const routes = [
                     {
                         name: 'Post',
                         path: '/new/post',
-                        component: '@/pages/New/NewPost',
+                        component: '@/pages/New/newPost',
                     },
                     {
                         name: 'Pet',
                         path: '/new/pet',
-                        component: '@/pages/New/NewPet',
+                        component: '@/pages/New/newPet',
                     },
 
                 ],

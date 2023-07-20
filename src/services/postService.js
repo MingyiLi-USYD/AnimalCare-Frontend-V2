@@ -20,7 +20,6 @@ export const cancelLove = async (postId) =>
     });
 
 export const newPost = async (params) => {
-  const { postTopic, postContent, postTag, images,visible} = params;
   return  request('/api/post', {
     method: 'POST',
     data:params

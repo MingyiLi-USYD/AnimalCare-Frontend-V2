@@ -1,0 +1,22 @@
+@width:1000px;
+.new-page{
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  background-color: lightblue;
+   .new-container{
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     width: @width;
+     background-color: white;
+     .label{
+       padding: 50px 0;
+     }
+     form{
+       .form-selector{
+         width: 50%;
+       }
+     }
+   }
+}

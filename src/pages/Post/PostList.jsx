@@ -2,8 +2,8 @@ import React, {useEffect, useState} from 'react';
 import BackForward from "../../components/BackForward";
 import {Avatar, Button, List, Popconfirm, Switch} from "antd";
 import style from "../Pet/PetDetail.less";
-import {deletePostById, getMyPosts, setVisibility} from "../../services/postService";
-import {parseStringToList} from "../../utils/arrayUtils";
+import {deletePostById, getMyPosts, setVisibility} from "@/services/postService";
+import {parseStringToList} from "@/utils/arrayUtils";
 import {history} from "umi";
 
 function PostList() {
