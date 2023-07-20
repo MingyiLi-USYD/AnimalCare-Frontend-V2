@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { Upload, message, Progress } from 'antd';
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import {storage} from "../../../firebaseConfig";
-import {ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import {useState} from 'react';
+import {message, Upload} from 'antd';
+import {LoadingOutlined, PlusOutlined} from '@ant-design/icons';
+import {storage} from "@/firebaseConfig";
+import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
 import {v4 as uuidv4} from "uuid";
-import {useModel} from "../../../.umi/exports";
+import {useModel} from "umi";
 import UploadingProgress from "../../../components/UploadingProgress";
-import {addImageOfPet} from "../../../services/petService";
+import {addImageOfPet} from "@/services/petService";
 
 
 const beforeUpload = (file) => {
@@ -21,35 +21,35 @@ const beforeUpload = (file) => {
     return isJpgOrPng && isLt2M;
 };
 
-const PetImageUpload = ({ petId, setPet, pet }) => {
+const PetImageUpload = ({petId, setPet, pet}) => {
     const [loading, setLoading] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
-    const {initialState:{currentUser} } = useModel('@@initialState');
+    const {initialState: {currentUser}} = useModel('@@initialState');
 
-/*
-    const handleChange = (info) => {
-        if (info.event) {
-            setUploadProgress(info.event.percent);
-        }
+    /*
+        const handleChange = (info) => {
+            if (info.event) {
+                setUploadProgress(info.event.percent);
+            }
 
-        if (info.file.status === 'uploading') {
-            setLoading(true);
-            return;
-        }
+            if (info.file.status === 'uploading') {
+                setLoading(true);
+                return;
+            }
 
-        if (info.file.status === 'done') {
-            const imageUrl = info.file.response;
-            setPet({
-                ...pet,
-                petImageList: [...pet.petImageList, imageUrl],
-            });
-            setLoading(false);
-        }
-    };
-*/
+            if (info.file.status === 'done') {
+                const imageUrl = info.file.response;
+                setPet({
+                    ...pet,
+                    petImageList: [...pet.petImageList, imageUrl],
+                });
+                setLoading(false);
+            }
+        };
+    */
 
     const handleFirebaseUpload = async (file) => {
-        const storageRef = ref(storage, currentUser.userName+`petImages/${petId}/${uuidv4()}`);
+        const storageRef = ref(storage, currentUser.userName + `petImages/${petId}/${uuidv4()}`);
         //storageRef.child()
         const uploadTask = uploadBytesResumable(storageRef, file)
 
@@ -65,11 +65,11 @@ const PetImageUpload = ({ petId, setPet, pet }) => {
                 message.error('Failed to upload image');
             },
             async () => {
-              const downloadURL = await getDownloadURL( uploadTask.snapshot.ref)
+                const downloadURL = await getDownloadURL(uploadTask.snapshot.ref)
                 message.success('Image uploaded successfully');
-               console.log(downloadURL)
-                const {code,data} =  await addImageOfPet(petId,downloadURL)
-                if(code===1){
+                console.log(downloadURL)
+                const {code, data} = await addImageOfPet(petId, downloadURL)
+                if (code === 1) {
                     setLoading(false)
                     setPet({...pet, petImageList: [...pet.petImageList, data]});
                 }
@@ -79,8 +79,8 @@ const PetImageUpload = ({ petId, setPet, pet }) => {
 
     const uploadButton = (
         <div>
-            {loading ? <LoadingOutlined /> : <PlusOutlined />}
-            <div style={{ marginTop: 8 }}>Upload</div>
+            {loading ? <LoadingOutlined/> : <PlusOutlined/>}
+            <div style={{marginTop: 8}}>Upload</div>
         </div>
     );
 
@@ -104,7 +104,7 @@ const PetImageUpload = ({ petId, setPet, pet }) => {
                 {uploadButton}
             </Upload>
             {uploadProgress > 0 && uploadProgress < 100 && (
-               <UploadingProgress percent={uploadProgress}/>
+                <UploadingProgress percent={uploadProgress}/>
             )}
         </div>
     );

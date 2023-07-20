@@ -1,7 +1,7 @@
 import React from 'react';
-import './Friend.less'
-import FriendList from "./FriendList";
-import DetailInfo from "./DetailInfo";
+import './friend.less'
+import FriendList from "./friendList";
+import DetailInfo from "./detailInfo";
 
 const Friend = () => {
  return (

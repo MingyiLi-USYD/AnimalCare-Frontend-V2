@@ -20,11 +20,11 @@ export  const routes = [
             },
             {
                 path: '/home',
-                component: '@/pages/Home/index',
+                component: '@/pages/Home/home',
             },
             {
                 path: '/chat',
-                component: '@/pages/Chat/Chat',
+                component: '@/pages/Chat/chat',
             },
             {
                 path: '/new',
@@ -45,7 +45,7 @@ export  const routes = [
             {
                 name: '好友',
                 path: '/friend',
-                component: '@/pages/Friend/Friend',
+                component: '@/pages/Friend/friend',
             },
             {
                 path: '/dashboard',
@@ -71,23 +71,23 @@ export  const routes = [
             },
             {
                 path: '/post/:postId',
-                component: '@/pages/Post/PostDetail',
+                component: '@/pages/Post/postDetail',
             },
             {
                 path: '/pet/:petId',
-                component: '@/pages/Pet/PetDetail',
+                component: '@/pages/Pet/petDetail',
             },
             {
                 path: '/pet',
-                component: '@/pages/Pet/PetList',
+                component: '@/pages/Pet/petList',
             },
             {
                 path: '/post',
-                component: '@/pages/Post/PostList',
+                component: '@/pages/Post/postList',
             },
             {
                 path: '/setting',
-                component: './Setting/Setting',
+                component: '@/pages/Setting/setting',
             },
             { path: '/*', redirect:'/home'},
         ],

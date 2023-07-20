@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useModel} from "umi";
 import {Avatar, Button, Form, Input, Switch} from "antd";
-import './Setting.less'
+import './setting.less'
 import {updateUserProfile} from "@/services/userService";
 
 const {TextArea} = Input;

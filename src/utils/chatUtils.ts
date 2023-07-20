@@ -1,4 +1,4 @@
-import chat from "@/pages/Chat/Chat";
+import chat from "@/pages/Chat/chat";
 
 
 export function onChatReceiveService(chatRecord:ChatRecord, data:ChatMessage,fromUser:User,contact:User) {

@@ -1,10 +1,10 @@
 import {Avatar, Button, List, message, notification, Popconfirm} from 'antd';
 import BackForward from "../../components/BackForward";
-import style from './PetDetail.less'
+import style from './petDetail.less'
 import React, {useEffect, useState} from "react";
 import {deletePetById, getPets} from "../../services/petService";
 import {history} from "umi";
-import PetModal from "./Components/PetModal";
+import PetModal from "./Components/petModal";
 
 const PetList = () => {
     const [data,setData] = useState([]);

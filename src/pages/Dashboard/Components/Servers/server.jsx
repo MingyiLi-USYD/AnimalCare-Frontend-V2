@@ -1,5 +1,5 @@
 import React from 'react';
-import GaugeChart from "@/pages/Dashboard/Components/GaugeChart";
+import GaugeChart from "@/pages/Dashboard/Components/gaugeChart";
 import EnhancedIcon from "@/components/Icon/enhancedIcon";
 import {CPUIcon, RAMIcon, ServerIcon, TemperatureIcon} from "@/assets/Icons/icon";
 import EnhancedSwitch from "@/components/Switch/enhancedSwitch";

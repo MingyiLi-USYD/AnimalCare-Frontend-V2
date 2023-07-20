@@ -1,14 +1,14 @@
 import {connect} from 'umi';
-import {sendMessageToServer} from "../../services/chatService";
-import './Chat.less'
+import {sendMessageToServer} from "@/services/chatService";
+import './chat.less'
 import {Button, notification} from 'antd';
 import React, {useState} from 'react';
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
 import {FileAddOutlined, SmileOutlined} from "@ant-design/icons";
-import ChatContent from "./ChatContent";
-import ChatHeader from "./ChatHeader";
-import RecentChatFriendList from "./RecentChatFriendList";
+import ChatContent from "./chatContent";
+import ChatHeader from "./chatHeader";
+import RecentChatFriendList from "./recentChatFriendList";
 
 const Chat = (props) => {
 

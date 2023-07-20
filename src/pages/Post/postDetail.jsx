@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useParams} from "umi";
-import "./PostDetail.less"
+import "./postDetail.less"
 import {Avatar, Button, Carousel, Divider, Input, List, Skeleton} from "antd";
 import {parseStringToList} from "@/utils/arrayUtils";
 import Loading from "../../components/Loading";

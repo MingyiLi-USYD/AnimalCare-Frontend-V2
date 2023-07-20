@@ -3,7 +3,7 @@ import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'umi';
 import MySelector from "./Components/MySelector";
 import InfiniteScroll from 'react-infinite-scroll-component';
-import "./index.less"
+import "./home.less"
 import PostCard from "@/components/Cards/postCard";
 
 const HomePage = () => {

@@ -3,7 +3,7 @@ import {connect} from "../../.umi/exports";
 import {Avatar, Button, Dropdown, Modal} from "antd";
 import {DeleteOutlined, EllipsisOutlined} from '@ant-design/icons';
 import {history} from "umi";
-import RequestedFriendList from "./RequestedFriendList";
+import RequestedFriendList from "./requestedFriendList";
 
 function DetailInfo(props) {
     const {contact,dispatch} = props;

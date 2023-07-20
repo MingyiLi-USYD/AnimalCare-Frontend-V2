@@ -2,8 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {Avatar, Button, Image, Popconfirm} from "antd";
 import {useModel, useParams} from "umi";
 import {getPetDetail} from "@/services/api";
-import './PetDetail.less'
-import PetImageUpload from "./Components/PetImageUpload";
+import './petDetail.less'
+import PetImageUpload from "./Components/petImageUpload";
 import {deleteImageOfPet} from "@/services/petService";
 import BackForward from "../../components/BackForward";
 import NotFoundPage from "../404";
