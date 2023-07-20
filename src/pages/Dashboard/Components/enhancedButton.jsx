@@ -1,5 +1,5 @@
 import React from 'react';
-import { Statistics } from "@/assets/Icons/icon";
+import { StatisticsIcon } from "@/assets/Icons/icon";
 import {history,useLocation} from 'umi'
 
 function EnhancedButton({ name }) {
@@ -12,7 +12,7 @@ function EnhancedButton({ name }) {
     return (
         <div className={`enhanced-button ${active ? 'active' : ''}`} onClick={handleClick}>
             <div className={"button-logo"}>
-                <Statistics />
+                <StatisticsIcon />
             </div>
             <div className={"button-label"}>
                 Data Analysis
