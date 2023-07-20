@@ -64,7 +64,6 @@ const MultipleImageUpload = ({limit,name,round}) => {
                 beforeUpload={()=>false}
                 listType={round?"picture-circle":"picture-card"}
             >
-                {console.log(fileList.length,limit)}
                 {fileList.length >= limit ? null : uploadButton}
             </Upload>
         </Form.Item>

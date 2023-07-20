@@ -9,31 +9,28 @@
     height: @height;
     width: @width;
     background-color: white;
-    .pet-cards{
+    .pet-cards,.post-cards{
        display: flex;
         flex-direction: column;
-       justify-items: center;
       align-items: center;
        .label{
        }
        .card-list{
          display: flex;
           width: @width;
+         justify-content: space-around;
+         align-items: center;
          .visible-cards{
            width: 900px;
            height: 300px;
            overflow: hidden; /* 隐藏溢出内容 */
            .cards{
              display: flex;
-             background-color: #b3d4fc;
            }
          }
-
-         .pre,.next{
-           width: 150px;
-           height: 100px;
-           background-color: lightblue;
-         }
+          >button{
+            width: 80px;
+          }
        }
     }
   }
@@ -50,11 +47,3 @@
   }
 }
 
-.pet-card{
-  flex-shrink: 0; /* 固定子 div 宽度 */
-    height: 300px;
-    width: 300px;
-  padding: 20px;
-  background-color: #b3d4fc;
-  border-radius: 20px;
-}

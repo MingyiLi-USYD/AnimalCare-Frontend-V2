@@ -2,11 +2,11 @@ import React, {useState} from 'react';
 import {Button, Typography} from 'antd';
 import {animated, useSpring} from 'react-spring';
 import PetCard from "@/components/Cards/petCard";
+import PostCard from "@/components/Cards/postCard";
 
 const { Title } = Typography;
 
-const PetCardList = ({ data = [] }) => {
-    data=[...data]
+const PostCardList = ({ data = [],avatar }) => {
     const [offset, setOffset] = useState(0);
     const [disablePrev, setDisablePrev] = useState(true);
     const [disableNext, setDisableNext] = useState(data.length <= 3);
@@ -35,30 +35,30 @@ const PetCardList = ({ data = [] }) => {
     });
 
     return (
-        <div className="pet-cards">
+        <div className="post-cards">
             <div className="label">
                 <Title level={3} style={{ color: '#cccccc' }}>
-                    Pet Gallery
+                    Post Gallery
                 </Title>
             </div>
             <div className="card-list">
 
-                    <Button type="primary" onClick={handlePrev} disabled={disablePrev}>
-                        Previous
-                    </Button>
+                <Button type="primary" onClick={handlePrev} disabled={disablePrev}>
+                    Previous
+                </Button>
 
                 <div className="visible-cards">
                     <animated.div className="cards" style={cardsAnimation}>
-                        {data.map((pet) => <PetCard item={pet} key={pet.petId}/>
+                        {data.map((post) => <PostCard item={post} avatar={avatar} key={post.postId}/>
                         )}
                     </animated.div>
                 </div>
-                    <Button type="primary" onClick={handleNext} disabled={disableNext}>
-                        Next
-                    </Button>
+                <Button type="primary" onClick={handleNext} disabled={disableNext}>
+                    Next
+                </Button>
             </div>
         </div>
     );
 };
 
-export default PetCardList;
+export default PostCardList;

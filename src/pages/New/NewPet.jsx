@@ -109,14 +109,19 @@ const NewPet = () => {
                     rules={[{ required: true, message: 'Please input your topic !' }]}
                 >
                     <Input />
-                </Form.Item>
+                </Form.Item>{/*
                 <Form.Item
                     label="Description"
                     name={'petDescription'}
                     rules={[{ required: true, message: 'Please input your content !' }]}
                 >
-                    <TextArea rows={4} maxLength={250} showCount/>
-                </Form.Item>
+                    <TextArea showCount
+                              maxLength={300}
+                              style={{
+                                  height: 120,
+                                  resize: 'none',
+                              }}/>
+                </Form.Item>*/}
                 <Form.Item
                     label="Category"
                     name={'category'}

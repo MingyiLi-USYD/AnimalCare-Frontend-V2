@@ -1,13 +1,13 @@
 import {Button, Form, Input, Select, Switch} from 'antd';
 import MultipleImageUpload from './GroupUpload';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import DoneUpload from "../../components/DoneUpload";
 import UploadingProgress from "../../components/UploadingProgress";
 import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
-import {auth, storage} from "../../firebaseConfig";
+import {auth, storage} from "@/firebaseConfig";
 import {v4 as uuidv4} from "uuid";
-import {newPost} from "../../services/postService";
-import {getFirebaseIdToken} from "../../services/userService";
+import {newPost} from "@/services/postService";
+import {getFirebaseIdToken} from "@/services/userService";
 import {signInWithCustomToken} from "firebase/auth";
 import {useModel} from "umi";
 
@@ -81,8 +81,6 @@ const NewPost = () => {
     if(done){
         return <DoneUpload path={"/post"}/>
     }
-
-
     return (
 
         <div style={{display: 'flex',
@@ -111,13 +109,18 @@ const NewPost = () => {
                 >
                     <Input  style={{width:"50%"}} />
                 </Form.Item>
-                <Form.Item
+{/*                <Form.Item
                     label="Content"
                     name={'postContent'}
                     rules={[{ required: true, message: 'Please input your content !' }]}
                 >
-                    <TextArea rows={4} />
-                </Form.Item>
+                    <TextArea showCount
+                              maxLength={1000}
+                              style={{
+                                  height: 120,
+                                  resize: 'none',
+                              }}/>
+                </Form.Item>*/}
                 <Form.Item
                     label="Category"
                     name={'postTag'}

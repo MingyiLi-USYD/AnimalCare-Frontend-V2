@@ -3,25 +3,41 @@ import { Avatar } from 'antd';
 import { HeartOutlined } from '@ant-design/icons';
 import {history} from "umi";
 import Interaction from "../Interactions/interaction";
+import './cards.less'
+import {useDispatch, useSelector} from "../../.umi/exports";
 
-const PostCard = ({ item, loveList, handleLove, handleCancelLove }) => {
+const PostCard = ({item,avatar,index}) => {
+    const {loveList} = useSelector(state => state.userModel)
+    const dispatch = useDispatch();
+    const handleLove = (postId) => {
+        dispatch({
+            type: 'homeModel/lovePost',
+            payload: postId
+        })
+    };
+    const handleCancelLove = (postId) => {
+        dispatch({
+            type: 'homeModel/cancelLovePost',
+            payload: postId
+        })
+    };
 
     return (
-        <div className="list-item">
+        <div className="post-card">
             <div className="pic">
                 <img
-                    src={`https://source.unsplash.com/random/${item.index}`}
+                    src={`https://source.unsplash.com/random/${index}`}
                     onClick={() => {
                         history.push(`/post/${item.postId}`);
                     }}
                 />
             </div>
             <div className="item-description">{item.postContent}</div>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <div className={'bottom'}>
                 <div className="item-userinfo">
                     <Avatar
                         size={28}
-                        src={`https://source.unsplash.com/random/${item.index}`}
+                        src={avatar?avatar:item.userAvatar}
                         onClick={() => {
                             history.push(`/profile/${item.userId}`);
                         }}

@@ -1,0 +1,47 @@
+
+.pet-card,.post-card{
+  flex-shrink: 0;
+  width: 300px;
+  padding: 5px;
+  box-sizing: border-box;
+  img{
+    &:hover {
+      filter: brightness(60%); /* 亮度调整 */
+      cursor: pointer;
+    }
+  }
+  .pic{
+       img{
+         height: 200px;
+         width: 290px;
+         border-radius: 10px;
+         object-fit: cover;
+       }
+  }
+
+  .item-description{
+    font-size: 16px;
+    padding: 8px;
+    white-space: nowrap; /* 文字不换行 */
+    overflow: hidden; /* 隐藏超出文本的部分 */
+    text-overflow: ellipsis; /* 使用省略号表示被截断的文本 */
+  }
+  .bottom{
+    padding: 0 8px;
+    display: flex;
+    justify-content: space-between;
+    .item-userinfo{
+      font-size: 14px;
+      color: darkgrey;
+      .nickname{
+        margin-left: 5px;
+      }
+    }
+    .operation{
+      .loves{
+        padding-left: 5px;
+      }
+    }
+  }
+
+}

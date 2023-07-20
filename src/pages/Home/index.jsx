@@ -1,41 +1,27 @@
-import {HeartOutlined} from '@ant-design/icons';
-import {Avatar, Divider, Skeleton} from 'antd';
+import {Divider, Skeleton} from 'antd';
 import {useEffect} from 'react';
-import {history, useModel} from 'umi';
+import {useDispatch, useSelector} from 'umi';
 import MySelector from "./Components/MySelector";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import "./index.less"
-import {useDispatch, useSelector} from "umi";
-import Interaction from "../../components/Interactions/interaction";
+import PostCard from "@/components/Cards/postCard";
 
 const HomePage = () => {
-    const {loveList, startList} = useSelector(state => state.userModel)
-    const {postList,pages,total,selector,current} = useSelector(state => state.homeModel)
+    const {postList, pages, total, selector, current} = useSelector(state => state.homeModel)
     const dispatch = useDispatch();
-    const handleLove = (postId) => {
+
+
+    const initData = () => {
         dispatch({
-            type: 'homeModel/lovePost',
-            payload: postId
-        })
-    };
-    const handleCancelLove = (postId) => {
-        dispatch({
-            type: 'homeModel/cancelLovePost',
-            payload: postId
+            type: 'homeModel/fetchPosts',
+            payload: {
+                current,
+                selector
+            }
         })
     };
 
-    const initData =  () => {
-           dispatch({
-               type: 'homeModel/fetchPosts',
-               payload: {
-                   current,
-                   selector
-               }
-           })
-    };
-
-    const loadMoreData =  () => {
+    const loadMoreData = () => {
         dispatch({
             type: 'homeModel/loadMorePosts',
             payload: {
@@ -46,7 +32,7 @@ const HomePage = () => {
     };
 
     useEffect(() => {
-        if(postList.length===0){
+        if (postList.length === 0) {
             initData()
         }
     }, []);
@@ -54,7 +40,7 @@ const HomePage = () => {
     return (
         <div>
 
-            <MySelector />
+            <MySelector/>
             <div
                 id="scrollableDiv"
                 style={{
@@ -85,38 +71,7 @@ const HomePage = () => {
 
                     <div className={"list-container"}>
                         {
-                            postList.map((item, index) => <div key={index} className={"list-item"}>
-                                <div className={"pic"}><img src={`https://source.unsplash.com/random/${index}`}
-                                                            onClick={() => {
-                                                                history.push(`/post/${item.postId}`)
-                                                            }}/></div>
-                                <div className={"item-description"}>{item.postContent}</div>
-                                <div style={{display: "flex", justifyContent: "space-between"}}>
-                                    <div className={"item-userinfo"}>
-                                        <Avatar size={28} src={`https://source.unsplash.com/random/${index}`} onClick={()=>{
-                                            history.push(`/profile/${item.userId}`)
-                                        }}/>
-                                        <span className={"nickname"}>{item.nickName}</span>
-                                    </div>
-                                    <div className={"operation"}>
-                                        {
-                                            loveList.includes(item.postId) ?
-                                                <Interaction number={item.love} active={true}>
-                                                    <HeartOutlined onClick={() => {
-                                                        handleCancelLove(item.postId);
-                                                    }}/>
-                                                </Interaction>
-                                                :
-                                                <Interaction number={item.love}>
-                                                    <HeartOutlined onClick={() => {
-                                                        handleLove(item.postId,);
-                                                    }}/>
-                                                </Interaction>
-                                        }
-
-                                    </div>
-                                </div>
-                            </div>)
+                            postList.map((item, index) => <PostCard item={item} key={item.postId} index={index}/>)
                         }
 
                     </div>
