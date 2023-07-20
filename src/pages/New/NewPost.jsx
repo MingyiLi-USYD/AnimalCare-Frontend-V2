@@ -109,7 +109,7 @@ const NewPost = () => {
                 >
                     <Input  style={{width:"50%"}} />
                 </Form.Item>
-{/*                <Form.Item
+                <Form.Item
                     label="Content"
                     name={'postContent'}
                     rules={[{ required: true, message: 'Please input your content !' }]}
@@ -120,7 +120,7 @@ const NewPost = () => {
                                   height: 120,
                                   resize: 'none',
                               }}/>
-                </Form.Item>*/}
+                </Form.Item>
                 <Form.Item
                     label="Category"
                     name={'postTag'}
