@@ -5,6 +5,7 @@ const loginPath = '/login';
 import { persistEnhancer } from 'dva-model-persist';
 //  使用 localStorage
 import storage from 'dva-model-persist/lib/storage';
+/*
 export const dva = {
   config: {
     extraEnhancers: [
@@ -16,6 +17,7 @@ export const dva = {
     ],
   },
 };
+*/
 
 export const request = {
   timeout: 60000,

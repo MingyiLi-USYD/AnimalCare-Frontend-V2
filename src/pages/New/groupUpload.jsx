@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Form, message, Upload} from 'antd';
 import {PlusOutlined} from '@ant-design/icons';
 
-const MultipleImageUpload = ({limit, name, round}) => {
+const MultipleImageUpload = ({limit, name, round,fileList,setFileList}) => {
     const normFile = (e) => {
         if (Array.isArray(e)) {
             return e;
@@ -10,7 +10,6 @@ const MultipleImageUpload = ({limit, name, round}) => {
         return e?.fileList.filter((file) => handleBeforeUpload(file))
     };
 
-    const [fileList, setFileList] = useState([]);
 
     const handleUpload = (info) => {
 
@@ -58,9 +57,6 @@ const MultipleImageUpload = ({limit, name, round}) => {
             label="Upload" valuePropName="fileList" getValueFromEvent={normFile} name={name}
             rules={[{required: true, message: 'Must have image'}]}
         >
-            {
-                console.log(fileList)
-            }
             <Upload
                 fileList={fileList}
                 onChange={handleUpload}

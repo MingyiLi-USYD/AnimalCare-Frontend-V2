@@ -11,16 +11,20 @@ import {getFirebaseIdToken} from "@/services/userService";
 import {signInWithCustomToken} from "firebase/auth"
 import {useModel} from "umi";
 const { TextArea } = Input;
-const clearFormValues = (form) => {
-    form.resetFields();
-};
+
 
 const NewPet = () => {
+
+    const [fileList, setFileList] = useState([]);
     const {initialState:{currentUser} } = useModel('@@initialState');
     const [form] = Form.useForm();
     const [loading,setLoading] = useState(false)
     const [done,setDone] = useState(false);
     const [percent,setPercent] = useState(0)
+    const clearFormValues = (form) => {
+        setFileList([])
+        form.resetFields();
+    };
     const uploadCallback = (snapshot) => {
         // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
         const progress =  Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
@@ -104,7 +108,7 @@ const NewPet = () => {
                     }}
                     onFinish={finish}
                 >
-                    <MultipleImageUpload limit={1} name={"avatar"} round = {true}/>
+                    <MultipleImageUpload limit={1} name={"avatar"} round = {true} fileList={fileList} setFileList={setFileList}/>
                     <Form.Item
                         label="Name"
                         name={'petName'}

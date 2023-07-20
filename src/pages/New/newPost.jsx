@@ -1,4 +1,4 @@
-import {Button, Form, Input, Select, Switch} from 'antd';
+import {Button, Form, Input, Select, Switch, Upload} from 'antd';
 import MultipleImageUpload from './groupUpload';
 import {useState} from "react";
 import DoneUpload from "../../components/DoneUpload";
@@ -11,19 +11,27 @@ import {getFirebaseIdToken} from "@/services/userService";
 import {signInWithCustomToken} from "firebase/auth";
 import {useModel} from "umi";
 import './new.less'
+import {PlusOutlined} from "@ant-design/icons";
 const {TextArea} = Input;
-const clearFormValues = (form) => {
 
-    form.resetFields();
+const normFile = (e) => {
+    if (Array.isArray(e)) {
+        return e;
+    }
+    return e?.fileList;
 };
 
-
 const NewPost = () => {
+    const clearFormValues = (form) => {
+          setFileList([])
+         form.resetFields();
+    };
     const {initialState: {currentUser}} = useModel('@@initialState');
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false)
     const [done, setDone] = useState(false);
     const [percent, setPercent] = useState(0)
+    const [fileList, setFileList] = useState([]);
 
     const uploadMultipleImages = async (files) => {
         let totalSize = files.reduce((total, file) => total + file.originFileObj.size, 0);
@@ -130,7 +138,7 @@ const NewPost = () => {
                             <Select.Option value="dog">Dog</Select.Option>
                         </Select>
                     </Form.Item>
-                    <MultipleImageUpload limit={3} name={"images"} round={false}/>
+                    <MultipleImageUpload limit={3} name={"images"} round={false} fileList={fileList} setFileList={setFileList}/>
                     <Form.Item
                         valuePropName="checked"
                         getValueProps={value => value}

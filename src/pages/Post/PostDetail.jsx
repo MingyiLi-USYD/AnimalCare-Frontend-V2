@@ -128,7 +128,7 @@ function PostDetail() {
 
             <div className={"carousel"}>
 
-                <Carousel>
+                <Carousel autoplay={true}>
                     {parseStringToList(post.images).map((url, index) =>
                         (
                             <div key={index}>
