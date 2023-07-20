@@ -18,6 +18,16 @@
          object-fit: cover;
        }
   }
+  .pet-pic{
+    display: flex;
+    justify-content: center;
+    img{
+      height: 180px;
+      width: 180px;
+      border-radius: 140px;
+      object-fit: cover;
+    }
+  }
 
   .item-description{
     font-size: 16px;
@@ -25,6 +35,12 @@
     white-space: nowrap; /* 文字不换行 */
     overflow: hidden; /* 隐藏超出文本的部分 */
     text-overflow: ellipsis; /* 使用省略号表示被截断的文本 */
+  }
+  .item-pet-info{
+    font-size: 14px;
+    color: darkgrey;
+    display: flex;
+    justify-content: space-around;
   }
   .bottom{
     padding: 0 8px;

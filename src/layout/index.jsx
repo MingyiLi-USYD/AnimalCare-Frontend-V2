@@ -3,11 +3,12 @@ import {ProLayout} from '@ant-design/pro-components';
 import {CommentOutlined, DeleteOutlined, HomeOutlined, ScissorOutlined, UserOutlined} from '@ant-design/icons';
 import './index.less'
 import {history, Outlet, useModel} from 'umi'
-import MyAvatar from "../components/Avatar";
+
 import {Badge} from "antd";
 import {connect} from "../.umi/exports";
 import {allUnread} from "@/utils/chatUtils";
 import useSocket from "@/hooks/useSocket";
+import MyDropdown from "@/components/Dropdown/MyDropdown";
 
 const loginPath = '/login';
 
@@ -108,10 +109,10 @@ const BasicLayout = (props) => {
       navTheme="dark"
       menuDataRender={()=>customMenuData}
       avatarProps={{
-        //src: 'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
-        icon:<MyAvatar avatar={currentUser.avatar}/>,
+        src: currentUser.avatar,
         size: 'large',
         title: `${currentUser.nickname}`,
+        render:(props,dom)=><MyDropdown>{dom}</MyDropdown>,
       }}
       menuItemRender={(props,dom)=>{
        const {path,name} = props;

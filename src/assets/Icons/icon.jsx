@@ -34,7 +34,7 @@ const RAMIcon = (props)=>{
     </svg>
 }
 
-function Logo() {
+const CatIcon = (props)=> {
     const { width, height } = props;
     return (
         <svg className="icon"  aria-hidden="true" style={{ width, height }}>
@@ -42,10 +42,10 @@ function Logo() {
         </svg>
     );
 }
-function DogLogo() {
-
+const DogIcon = (props)=> {
+    const { width, height } = props;
     return (
-        <svg className="icon" style={{fontSize:"1.3em"}} aria-hidden="true">
+        <svg className="icon"  aria-hidden="true" style={{ width, height }}>
             <use xlinkHref="#icon-Dog"></use>
         </svg>
     );
@@ -58,4 +58,4 @@ function NewFriend() {
         </svg>
     );
 }
-export {StatisticsIcon,ServerIcon,TemperatureIcon,CPUIcon,RAMIcon} ;
+export {StatisticsIcon,ServerIcon,TemperatureIcon,CPUIcon,RAMIcon,DogIcon,CatIcon} ;

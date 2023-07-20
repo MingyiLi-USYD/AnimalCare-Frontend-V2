@@ -1,7 +1,7 @@
 import {LogoutOutlined, ProfileOutlined, SmileOutlined} from '@ant-design/icons';
-import {Dropdown} from 'antd';
+import {Dropdown, Tooltip} from 'antd';
 import {useModel,history} from 'umi';
-import {auth} from "../../firebaseConfig";
+import {auth} from "@/firebaseConfig";
 
 
 const MyDropdown = (props) => {
@@ -73,10 +73,12 @@ const MyDropdown = (props) => {
       }
         trigger={"click"}
     >
+            <Tooltip title="Account" placement="bottom">
+                {
+                    props.children
+                }
+            </Tooltip>
 
-        {
-            props.children
-        }
     </Dropdown>
 );}
 export default MyDropdown;
