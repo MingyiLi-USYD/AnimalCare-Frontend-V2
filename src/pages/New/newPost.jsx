@@ -1,6 +1,6 @@
-import {Button, Form, Input, Select, Switch, Upload} from 'antd';
+import {Avatar, Button, Form, Input, Select, Space, Switch, Upload} from 'antd';
 import MultipleImageUpload from './groupUpload';
-import {useState} from "react";
+import React, {useState} from "react";
 import DoneUpload from "../../components/DoneUpload";
 import UploadingProgress from "../../components/UploadingProgress";
 import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
@@ -9,29 +9,27 @@ import {v4 as uuidv4} from "uuid";
 import {newPost} from "@/services/postService";
 import {getFirebaseIdToken} from "@/services/userService";
 import {signInWithCustomToken} from "firebase/auth";
-import {useModel} from "umi";
+import {useModel, useSelector} from "umi";
 import './new.less'
-import {PlusOutlined} from "@ant-design/icons";
+import Picker from "@emoji-mart/react";
+import data from "@emoji-mart/data";
 const {TextArea} = Input;
-
-const normFile = (e) => {
-    if (Array.isArray(e)) {
-        return e;
-    }
-    return e?.fileList;
-};
 
 const NewPost = () => {
     const clearFormValues = (form) => {
           setFileList([])
          form.resetFields();
     };
+    const {friendList} = useSelector(state => state.FriendModel)
+    console.log(friendList)
     const {initialState: {currentUser}} = useModel('@@initialState');
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false)
     const [done, setDone] = useState(false);
     const [percent, setPercent] = useState(0)
     const [fileList, setFileList] = useState([]);
+    const [text,setText] = useState('')
+    const [index, setIndex] = useState(0)
 
     const uploadMultipleImages = async (files) => {
         let totalSize = files.reduce((total, file) => total + file.originFileObj.size, 0);
@@ -69,7 +67,26 @@ const NewPost = () => {
         }
     };
 
-    const finish = async (values) => {
+    const handleChange= (event)=>{
+        const text = event.target.value;
+        setText(text)
+    }
+    const appendData = (data) => {
+        setText(text + data.native)
+    }
+    const options = [];
+    for (let i = 0; i < friendList.length; i++) {
+        options.push({
+            value: friendList[i].id,
+            label: <Space><Avatar src={friendList[i].avatar}/> <span>{friendList[i].nickname}</span></Space>,
+        })
+
+    }
+
+
+        const finish = async (values) => {
+        console.log(values)
+        return
         if (!auth.currentUser) {
             const {data} = await getFirebaseIdToken()
             await signInWithCustomToken(auth, data)
@@ -94,7 +111,7 @@ const NewPost = () => {
 
         <div className={'new-page'}>
             <div className={'new-container'}>
-                <div className={'label'}>New Post</div>
+                <div className={'label'}>Create Photo story</div>
                 <Form
                     labelCol={{
                         span: 4,
@@ -121,12 +138,25 @@ const NewPost = () => {
                         name={'postContent'}
                         rules={[{required: true, message: 'Please input your content !'}]}
                     >
-                        <TextArea showCount
-                                  maxLength={1000}
-                                  style={{
-                                      height: 120,
-                                      resize: 'none',
-                                  }}/>
+                        <div>
+                            <TextArea showCount
+                                      maxLength={1000}
+                                      value={text}
+                                      onChange={handleChange}
+                                      style={{
+                                          height: 120,
+                                          resize: 'none',
+                                      }}/>
+                            <ButtonSelectors index={index} setIndex={setIndex} appendData={appendData}/>
+                        </div>
+
+                    </Form.Item>
+                    <Form.Item
+                        label="Share"
+                        name={'share'}
+                        initialValue={[]}
+                    >
+                        <Select size={"large"} mode={"multiple"} className={'form-selector'}  options={options} />
                     </Form.Item>
                     <Form.Item
                         label="Category"
@@ -168,3 +198,29 @@ const NewPost = () => {
 };
 export default () => <NewPost/>;
 
+const ButtonSelectors = ({index,appendData,setIndex})=>{
+    const disappear = ()=>{
+        setIndex(0)
+    }
+    const showEmotion = (e)=>{
+        e.stopPropagation();
+        setIndex(3)
+    }
+
+      if(index ===0){
+          return(
+              <Space>
+                  <Button>@ Topic</Button>
+                  <Button onClick={showEmotion}>@ Emotion</Button>
+              </Space>
+          )
+      }else if(index === 1){
+          return <div>
+              话题
+          </div>
+      }else {
+          return (
+              <Picker data={data} onEmojiSelect={appendData} onClickOutside={disappear} />
+          )
+      }
+}

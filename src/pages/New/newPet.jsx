@@ -92,7 +92,7 @@ const NewPet = () => {
        {/*         <Button onClick={()=>{console.log(auth.currentUser)}}>查看auth</Button>
                 <Button onClick={()=>{auth.signOut()}}>退出auth</Button>*/}
                 <div className={'label'}>
-                    New Pet
+                    Create Pet Profile
                 </div>
                 <Form
                     form={form}

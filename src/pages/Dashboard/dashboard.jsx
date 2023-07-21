@@ -1,7 +1,7 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import './dashboard.less'
 import EnhancedButton from "@/pages/Dashboard/Components/enhancedButton";
-import {Outlet, history} from "umi";
+import {Outlet} from "umi";
 
 
 function Dashboard() {
@@ -36,20 +36,3 @@ function Dashboard() {
 }
 
 export default Dashboard;
-
-/*             <div className={"pie-one"}>
-                 <PieChart/>
-             </div>
-             <div className={"pie-one"}>
-                 <PieChart/>
-             </div>
-             <div className={"pie-one"}>
-                 <PieChart/>
-             </div>
-             <div className={"pie-one"}>
-                 <PieChart/>
-             </div>*/
-
-/*
-<div className={"page-button"}></div>
-*/
