@@ -50,12 +50,20 @@ const DogIcon = (props)=> {
         </svg>
     );
 }
-function NewFriend() {
 
+const BackForwardIcon = (props)=> {
+    const { style,onClick} = props;
     return (
-        <svg className="icon" style={{fontSize:"2em"}} aria-hidden="true">
-            <use xlinkHref="#icon-jiahaoyou"></use>
-        </svg>
+        <MySVG name={'#icon-a-zuofanhuihoutui'} style={style} onClick={onClick}/>
     );
 }
-export {StatisticsIcon,ServerIcon,TemperatureIcon,CPUIcon,RAMIcon,DogIcon,CatIcon} ;
+const MySVG = (props)=>{
+    return(
+        <svg className='icon' aria-hidden="true" {...props}  >
+            <use xlinkHref={props.name}></use>
+        </svg>
+    )
+}
+
+
+export {StatisticsIcon,ServerIcon,TemperatureIcon,CPUIcon,RAMIcon,DogIcon,CatIcon,BackForwardIcon} ;

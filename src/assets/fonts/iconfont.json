@@ -6,6 +6,41 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "12872642",
+      "name": "公共-左箭头1",
+      "font_class": "gonggong-zuojiantou",
+      "unicode": "e64d",
+      "unicode_decimal": 58957
+    },
+    {
+      "icon_id": "12872648",
+      "name": "公共-右箭头1",
+      "font_class": "gonggong-youjiantou",
+      "unicode": "e64f",
+      "unicode_decimal": 58959
+    },
+    {
+      "icon_id": "27236566",
+      "name": "左,返回,后退",
+      "font_class": "a-zuofanhuihoutui",
+      "unicode": "e6b0",
+      "unicode_decimal": 59056
+    },
+    {
+      "icon_id": "31310775",
+      "name": "电压",
+      "font_class": "dianya",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    },
+    {
+      "icon_id": "33576876",
+      "name": "Disk2",
+      "font_class": "Disk2",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
       "icon_id": "1314403",
       "name": "温度",
       "font_class": "wendu",

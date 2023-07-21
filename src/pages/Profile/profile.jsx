@@ -51,8 +51,9 @@ const Profile = (props) => {
   }
   return (
     <div className={'profile-page'}>
+
         <div className={'profile-container'}>
-            <BackForward/>
+            <BackForward />
             <div style={{display:"flex",alignItems:"center"}}>
                 <Avatar src={data?.avatar} size={64} />
                 {

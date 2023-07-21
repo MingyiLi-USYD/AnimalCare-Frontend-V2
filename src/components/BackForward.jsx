@@ -1,10 +1,12 @@
 import React from 'react';
-import {BackwardOutlined} from "@ant-design/icons";
+
 import {history} from "umi";
+import {BackForwardIcon} from "@/assets/Icons/icon";
 
 function BackForward(props) {
+    const style = { height: '40px', width: '40px', cursor: 'pointer' };
     return (
-        <div><BackwardOutlined style={{fontSize:30,color:"blue"}} onClick={()=>{history.back()}}/></div>
+        <div><BackForwardIcon style={style} onClick={()=>history.back()}/></div>
     );
 }
 

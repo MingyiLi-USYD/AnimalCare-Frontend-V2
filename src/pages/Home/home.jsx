@@ -1,11 +1,11 @@
-import {Divider, Skeleton} from 'antd';
+import {Divider, Skeleton,Input } from 'antd';
 import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'umi';
 import MySelector from "./Components/MySelector";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import "./home.less"
 import PostCard from "@/components/Cards/postCard";
-
+const { Search } = Input;
 const HomePage = () => {
     const {postList, pages, total, selector, current} = useSelector(state => state.homeModel)
     const dispatch = useDispatch();
@@ -38,8 +38,8 @@ const HomePage = () => {
     }, []);
 
     return (
-        <div>
-
+        <div className={'home-page'}>
+            <Search  placeholder="input search text" enterButton="Search" size="large" onSearch={()=>{console.log('正在搜索')}} />
             <MySelector/>
             <div
                 id="scrollableDiv"
