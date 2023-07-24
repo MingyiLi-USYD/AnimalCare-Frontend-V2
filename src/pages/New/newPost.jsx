@@ -1,6 +1,7 @@
-import {Avatar, Button, Form, Input, Select, Space, Switch, Upload} from 'antd';
+import {Avatar, Button, Form, Input, Modal, Select, Space, Switch} from 'antd';
+import { history } from 'umi';
 import MultipleImageUpload from './groupUpload';
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import DoneUpload from "../../components/DoneUpload";
 import UploadingProgress from "../../components/UploadingProgress";
 import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
@@ -18,10 +19,11 @@ const {TextArea} = Input;
 const NewPost = () => {
     const clearFormValues = (form) => {
           setFileList([])
+          setText('')
          form.resetFields();
     };
+    const [open,setOpen] = useState(false)
     const {friendList} = useSelector(state => state.FriendModel)
-    console.log(friendList)
     const {initialState: {currentUser}} = useModel('@@initialState');
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false)
@@ -30,7 +32,32 @@ const NewPost = () => {
     const [fileList, setFileList] = useState([]);
     const [text,setText] = useState('')
     const [index, setIndex] = useState(0)
+    const [target,setTarget] = useState('');
+    const [lock,setLock] = useState(false)
 
+    useEffect(() => {
+        setLock(false)
+        if(text.length>0){
+        const unblock = history.block(({location})=>{
+
+           setOpen(true)
+            setTarget(location.pathname)
+            unblock()
+        })
+            return () => {
+                unblock(); // Unsubscribe from history changes when the component unmounts
+            };
+        }
+
+    }, [text,lock]);
+    function handleCancel() {
+          setLock(true)
+          setOpen(false)
+    }
+    function handleOk() {
+            setOpen(false)
+           history.push(target)
+    }
     const uploadMultipleImages = async (files) => {
         let totalSize = files.reduce((total, file) => total + file.originFileObj.size, 0);
         let uploadedSize = 0;
@@ -107,10 +134,16 @@ const NewPost = () => {
     if (done) {
         return <DoneUpload path={"/post"}/>
     }
+
+
     return (
 
         <div className={'new-page'}>
             <div className={'new-container'}>
+                <Modal open={open} onOk={handleOk} onCancel={handleCancel}   title="confirm leaving"  okText="confirm"
+                       cancelText="cancel">
+                    你确定要离开当前页面吗？未保存的内容将会丢失。
+                </Modal>
                 <div className={'label'}>Create Photo story</div>
                 <Form
                     labelCol={{
@@ -126,6 +159,7 @@ const NewPost = () => {
                     onFinish={finish}
                     form={form}
                 >
+                    <div className={'title'}>Content Editing</div>
                     <Form.Item
                         label="Title"
                         name={'topic'}
@@ -169,6 +203,8 @@ const NewPost = () => {
                         </Select>
                     </Form.Item>
                     <MultipleImageUpload limit={3} name={"images"} round={false} fileList={fileList} setFileList={setFileList}/>
+
+                    <div  className={'title'}>Post Setting</div>
                     <Form.Item
                         valuePropName="checked"
                         getValueProps={value => value}
@@ -184,7 +220,7 @@ const NewPost = () => {
                             justifyContent: 'space-between',
                         }}>
                             <Button danger style={{marginLeft: 200}} onClick={() => clearFormValues(form)}>
-                                Cancel
+                                Clear
                             </Button>
                             <Button type={'primary'} htmlType="submit">
                                 Upload
