@@ -1,5 +1,6 @@
-import {Avatar, Button, Form, Input, Modal, Select, Space, Switch} from 'antd';
-import { history } from 'umi';
+import {Avatar, Button, DatePicker, Form, Input, Modal, Radio, Select, Space, TimePicker} from 'antd';
+import moment from 'moment';
+import {history, useModel, useSelector} from 'umi';
 import MultipleImageUpload from './groupUpload';
 import React, {useEffect, useState} from "react";
 import DoneUpload from "../../components/DoneUpload";
@@ -10,54 +11,52 @@ import {v4 as uuidv4} from "uuid";
 import {newPost} from "@/services/postService";
 import {getFirebaseIdToken} from "@/services/userService";
 import {signInWithCustomToken} from "firebase/auth";
-import {useModel, useSelector} from "umi";
 import './new.less'
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
+
 const {TextArea} = Input;
 
 const NewPost = () => {
-    const clearFormValues = (form) => {
-          setFileList([])
-          setText('')
-         form.resetFields();
-    };
-    const [open,setOpen] = useState(false)
+    const [open, setOpen] = useState(false)
     const {friendList} = useSelector(state => state.FriendModel)
     const {initialState: {currentUser}} = useModel('@@initialState');
-    const [form] = Form.useForm();
     const [loading, setLoading] = useState(false)
     const [done, setDone] = useState(false);
     const [percent, setPercent] = useState(0)
     const [fileList, setFileList] = useState([]);
-    const [text,setText] = useState('')
+    const [text, setText] = useState('')
     const [index, setIndex] = useState(0)
-    const [target,setTarget] = useState('');
-    const [lock,setLock] = useState(false)
+    const [target, setTarget] = useState('');
+    const [lock, setLock] = useState(false)
+    const [postNow, setPostNow] = useState(true)
 
     useEffect(() => {
         setLock(false)
-        if(text.length>0){
-        const unblock = history.block(({location})=>{
+        if (text.length > 0) {
+            const unblock = history.block(({location}) => {
 
-           setOpen(true)
-            setTarget(location.pathname)
-            unblock()
-        })
+                setOpen(true)
+                setTarget(location.pathname)
+                unblock()
+            })
             return () => {
                 unblock(); // Unsubscribe from history changes when the component unmounts
             };
         }
 
-    }, [text,lock]);
+    }, [text, lock]);
+
     function handleCancel() {
-          setLock(true)
-          setOpen(false)
+        setLock(true)
+        setOpen(false)
     }
+
     function handleOk() {
-            setOpen(false)
-           history.push(target)
+        setOpen(false)
+        history.push(target)
     }
+
     const uploadMultipleImages = async (files) => {
         let totalSize = files.reduce((total, file) => total + file.originFileObj.size, 0);
         let uploadedSize = 0;
@@ -94,13 +93,17 @@ const NewPost = () => {
         }
     };
 
-    const handleChange= (event)=>{
+    const handleChange = (event) => {
         const text = event.target.value;
         setText(text)
     }
     const appendData = (data) => {
         setText(text + data.native)
     }
+    const disabledDate = (current) => {
+        return current && current < moment().endOf('day');
+    };
+
     const options = [];
     for (let i = 0; i < friendList.length; i++) {
         options.push({
@@ -110,8 +113,7 @@ const NewPost = () => {
 
     }
 
-
-        const finish = async (values) => {
+    const finish = async (values) => {
         console.log(values)
         return
         if (!auth.currentUser) {
@@ -140,7 +142,7 @@ const NewPost = () => {
 
         <div className={'new-page'}>
             <div className={'new-container'}>
-                <Modal open={open} onOk={handleOk} onCancel={handleCancel}   title="confirm leaving"  okText="confirm"
+                <Modal open={open} onOk={handleOk} onCancel={handleCancel} title="confirm leaving" okText="confirm"
                        cancelText="cancel">
                     你确定要离开当前页面吗？未保存的内容将会丢失。
                 </Modal>
@@ -157,7 +159,6 @@ const NewPost = () => {
                         width: 800,
                     }}
                     onFinish={finish}
-                    form={form}
                 >
                     <div className={'title'}>Content Editing</div>
                     <Form.Item
@@ -190,7 +191,7 @@ const NewPost = () => {
                         name={'share'}
                         initialValue={[]}
                     >
-                        <Select size={"large"} mode={"multiple"} className={'form-selector'}  options={options} />
+                        <Select size={"large"} mode={"multiple"} className={'form-selector'} options={options}/>
                     </Form.Item>
                     <Form.Item
                         label="Category"
@@ -202,25 +203,38 @@ const NewPost = () => {
                             <Select.Option value="dog">Dog</Select.Option>
                         </Select>
                     </Form.Item>
-                    <MultipleImageUpload limit={3} name={"images"} round={false} fileList={fileList} setFileList={setFileList}/>
+                    <MultipleImageUpload limit={3} name={"images"} round={false} fileList={fileList}
+                                         setFileList={setFileList}/>
 
-                    <div  className={'title'}>Post Setting</div>
-                    <Form.Item
-                        valuePropName="checked"
-                        getValueProps={value => value}
-                        label="Visible"
-                        name={'visible'}
-                        initialValue={true}
-                    >
-                        <Switch defaultChecked={true}/>
+                    <div className={'title'}>Post Setting</div>
+                    <Form.Item label={"Visibility"} name={'visible'} initialValue={3}>
+                        <Radio.Group>
+                            <Radio value={1}>Private</Radio>
+                            <Radio value={2}>Friend Only</Radio>
+                            <Radio value={3}>Public</Radio>
+                        </Radio.Group>
                     </Form.Item>
+                    <Form.Item label={"PostTime"} name={'time'} initialValue={postNow}>
+                        <Radio.Group onChange={e => setPostNow(e.target.value)}>
+                            <Radio value={true}>Right Now</Radio>
+                            <Radio value={false}>Later</Radio>
+                        </Radio.Group>
+                    </Form.Item>
+                    {
+                        !postNow && <div><Form.Item label="Post Date" name="date">
+                            <DatePicker disabledDate={disabledDate}/>
+                        </Form.Item>
+                            <Form.Item label="Post Time" name="time">
+                                <TimePicker format="HH:mm:ss"/>
+                            </Form.Item></div>
+                    }
                     <Form.Item>
                         <div style={{
                             display: 'flex',
                             justifyContent: 'space-between',
                         }}>
-                            <Button danger style={{marginLeft: 200}} onClick={() => clearFormValues(form)}>
-                                Clear
+                            <Button danger style={{marginLeft: 200}} onClick={() => {}}>
+                                Save Draft
                             </Button>
                             <Button type={'primary'} htmlType="submit">
                                 Upload
@@ -234,29 +248,29 @@ const NewPost = () => {
 };
 export default () => <NewPost/>;
 
-const ButtonSelectors = ({index,appendData,setIndex})=>{
-    const disappear = ()=>{
+const ButtonSelectors = ({index, appendData, setIndex}) => {
+    const disappear = () => {
         setIndex(0)
     }
-    const showEmotion = (e)=>{
+    const showEmotion = (e) => {
         e.stopPropagation();
         setIndex(3)
     }
 
-      if(index ===0){
-          return(
-              <Space>
-                  <Button>@ Topic</Button>
-                  <Button onClick={showEmotion}>@ Emotion</Button>
-              </Space>
-          )
-      }else if(index === 1){
-          return <div>
-              话题
-          </div>
-      }else {
-          return (
-              <Picker data={data} onEmojiSelect={appendData} onClickOutside={disappear} />
-          )
-      }
+    if (index === 0) {
+        return (
+            <Space>
+                <Button>@ Topic</Button>
+                <Button onClick={showEmotion}>@ Emotion</Button>
+            </Space>
+        )
+    } else if (index === 1) {
+        return <div>
+            话题
+        </div>
+    } else {
+        return (
+            <Picker data={data} onEmojiSelect={appendData} onClickOutside={disappear}/>
+        )
+    }
 }
