@@ -1,142 +1,82 @@
-import {Avatar, Button, DatePicker, Form, Input, Modal, Radio, Select, Space, TimePicker} from 'antd';
+import {Button, DatePicker, Form, Input, Modal, Radio, Select, Space, TimePicker} from 'antd';
 import moment from 'moment';
-import {history, useModel, useSelector} from 'umi';
 import MultipleImageUpload from './groupUpload';
-import React, {useEffect, useState} from "react";
+import React from "react";
 import DoneUpload from "../../components/DoneUpload";
 import UploadingProgress from "../../components/UploadingProgress";
-import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
-import {auth, storage} from "@/firebaseConfig";
-import {v4 as uuidv4} from "uuid";
-import {newPost} from "@/services/postService";
-import {getFirebaseIdToken} from "@/services/userService";
-import {signInWithCustomToken} from "firebase/auth";
 import './new.less'
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
+import usePost from "@/hooks/usePost";
 
 const {TextArea} = Input;
 
 const NewPost = () => {
-    const [open, setOpen] = useState(false)
-    const {friendList} = useSelector(state => state.FriendModel)
-    const {initialState: {currentUser}} = useModel('@@initialState');
-    const [loading, setLoading] = useState(false)
-    const [done, setDone] = useState(false);
-    const [percent, setPercent] = useState(0)
-    const [fileList, setFileList] = useState([]);
-    const [text, setText] = useState('')
-    const [index, setIndex] = useState(0)
-    const [target, setTarget] = useState('');
-    const [lock, setLock] = useState(false)
-    const [postNow, setPostNow] = useState(true)
+    const {
+        open,
+        loading,
+        done,
+        percent,
+        fileList,
+        text,
+        index,
+        postNow,
+        setPostNow,
+        setFileList,
+        setIndex,
+        handleCancel,
+        handleOk,
+        handleChange,
+        appendData,
+        finish,
+        options
+    } = usePost();
 
-    useEffect(() => {
-        setLock(false)
-        if (text.length > 0) {
-            const unblock = history.block(({location}) => {
+    const disabledDate = (current) => {
+        // Disable dates before today
+        const today = moment().startOf('day');
+        if (current < today) {
+            return true;
+        }
 
-                setOpen(true)
-                setTarget(location.pathname)
-                unblock()
-            })
-            return () => {
-                unblock(); // Unsubscribe from history changes when the component unmounts
+        // Disable dates more than one week in the future
+        const oneWeekLater = today.clone().add(1, 'week').endOf('day');
+        return current > oneWeekLater;
+    };
+
+/*
+    const disabledTime = (now) => {
+        const currentDay = moment();
+        const selectedDay = moment(now);
+        const isToday = currentDay.isSame(selectedDay, 'day');
+
+        if (isToday) {
+            // If the selected day is today, disable hours in the past, but allow all minutes and seconds
+            const currentHour = currentDay.hour();
+            return {
+                disabledHours: () => Array.from({ length: currentHour }, (_, i) => i),
+            };
+        } else {
+            // For dates other than today, allow all hours, minutes, and seconds
+            return {
+                disabledHours: () => [],
+                disabledMinutes: () => [],
+                disabledSeconds: () => [],
             };
         }
-
-    }, [text, lock]);
-
-    function handleCancel() {
-        setLock(true)
-        setOpen(false)
-    }
-
-    function handleOk() {
-        setOpen(false)
-        history.push(target)
-    }
-
-    const uploadMultipleImages = async (files) => {
-        let totalSize = files.reduce((total, file) => total + file.originFileObj.size, 0);
-        let uploadedSize = 0;
-        const images = []
-        try {
-            const uploadPromises = files.map((file) => {
-                const storageRef = ref(storage, currentUser.userName + '/' + uuidv4());
-                const uploadTask = uploadBytesResumable(storageRef, file.originFileObj);
-                return new Promise((resolve, reject) => {
-                    uploadTask.on(
-                        "state_changed",
-                        (snapshot) => {
-                            const {bytesTransferred} = snapshot
-                            const overallProgress = ((uploadedSize + bytesTransferred) / totalSize) * 100;
-                            setPercent(Math.round(overallProgress))
-                        },
-                        (error) => {
-                            reject(error);
-                        },
-                        () => {
-                            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                                images.push(downloadURL);
-                                uploadedSize += uploadTask.snapshot.totalBytes;
-                                resolve();
-                            });
-                        }
-                    );
-                })
-            })
-            await Promise.all(uploadPromises);
-            return images;
-        } catch (error) {
-            throw error;
-        }
     };
+*/
 
-    const handleChange = (event) => {
-        const text = event.target.value;
-        setText(text)
-    }
-    const appendData = (data) => {
-        setText(text + data.native)
-    }
-    const disabledDate = (current) => {
-        return current && current < moment().endOf('day');
-    };
 
-    const options = [];
-    for (let i = 0; i < friendList.length; i++) {
-        options.push({
-            value: friendList[i].id,
-            label: <Space><Avatar src={friendList[i].avatar}/> <span>{friendList[i].nickname}</span></Space>,
-        })
-
-    }
-
-    const finish = async (values) => {
-        console.log(values)
-        return
-        if (!auth.currentUser) {
-            const {data} = await getFirebaseIdToken()
-            await signInWithCustomToken(auth, data)
-        }
-        setLoading(true)
-        values.images = JSON.stringify(await uploadMultipleImages(values.images))
-        const {code} = await newPost(values)
-        if (code === 1) {
-            setLoading(false)
-            setDone(true)
-        }
-    };
     if (loading) {
         return (
             <UploadingProgress percent={percent}/>
-        )
-    }
-    if (done) {
-        return <DoneUpload path={"/post"}/>
+        );
     }
 
+    if (done) {
+        return <DoneUpload path={"/post"}/>;
+    }
 
     return (
 
@@ -184,7 +124,6 @@ const NewPost = () => {
                                       }}/>
                             <ButtonSelectors index={index} setIndex={setIndex} appendData={appendData}/>
                         </div>
-
                     </Form.Item>
                     <Form.Item
                         label="Share"
@@ -207,33 +146,71 @@ const NewPost = () => {
                                          setFileList={setFileList}/>
 
                     <div className={'title'}>Post Setting</div>
-                    <Form.Item label={"Visibility"} name={'visible'} initialValue={3}>
+                    <Form.Item label={"Visibility"} name={'visible'} initialValue={1}>
                         <Radio.Group>
-                            <Radio value={1}>Private</Radio>
+                            <Radio value={1}>Public</Radio>
                             <Radio value={2}>Friend Only</Radio>
-                            <Radio value={3}>Public</Radio>
+                            <Radio value={3}>Private</Radio>
                         </Radio.Group>
                     </Form.Item>
-                    <Form.Item label={"PostTime"} name={'time'} initialValue={postNow}>
+                    <Form.Item label={"PostTimeSelector"} name={'timeSelector'} initialValue={postNow}>
                         <Radio.Group onChange={e => setPostNow(e.target.value)}>
                             <Radio value={true}>Right Now</Radio>
                             <Radio value={false}>Later</Radio>
                         </Radio.Group>
                     </Form.Item>
                     {
-                        !postNow && <div><Form.Item label="Post Date" name="date">
-                            <DatePicker disabledDate={disabledDate}/>
-                        </Form.Item>
-                            <Form.Item label="Post Time" name="time">
+                        !postNow &&      <div>
+                            <Form.Item
+                                label="Post Date"
+                                name="date"
+                                rules={[
+                                    { required: true, message: 'Please select the post date!' },
+                                    {
+                                        validator: (_, value) => {
+                                            const selectedDate = moment(value);
+                                            if (selectedDate.isBefore(moment().startOf('day'))) {
+                                                return Promise.reject('Post Date must be after today!');
+                                            }
+                                            return Promise.resolve();
+                                        },
+                                    },
+                                ]}
+                            >
+                                <DatePicker disabledDate={disabledDate} />
+                            </Form.Item>
+                            <Form.Item
+                                label="Post Time"
+                                name="time"
+                                rules={[
+                                    { required: true, message: 'Please select the post time!' },
+                                    {
+                                        validator: (_, value) => {
+                                             if(!value){
+                                                 return Promise.reject('Please input validate time');
+                                             }
+
+                                            const currentTime = moment();
+                                            const selectedTime = value;
+                                            if (currentTime.isSame(selectedTime, 'day') && selectedTime.isBefore(currentTime)) {
+                                                return Promise.reject('Post Time must be after the current time!');
+                                            }
+                                            return Promise.resolve();
+                                        },
+                                    },
+                                ]}
+                            >
                                 <TimePicker format="HH:mm:ss"/>
-                            </Form.Item></div>
+                            </Form.Item>
+                        </div>
                     }
                     <Form.Item>
                         <div style={{
                             display: 'flex',
                             justifyContent: 'space-between',
                         }}>
-                            <Button danger style={{marginLeft: 200}} onClick={() => {}}>
+                            <Button danger style={{marginLeft: 200}} onClick={() => {
+                            }}>
                                 Save Draft
                             </Button>
                             <Button type={'primary'} htmlType="submit">

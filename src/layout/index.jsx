@@ -127,7 +127,7 @@ const BasicLayout = (props) => {
       logo={ 'https://img.alicdn.com/tfs/TB1YHEpwUT1gK0jSZFhXXaAtVXa-28-27.svg'}
       onPageChange={() => {
         const { location } = history;
-        console.log(initialState);
+        //console.log(initialState);
         // 如果没有登录，重定向到 login
         if (!initialState?.currentUser && location.pathname !== loginPath) {
         console.log("被重定向到登录页")

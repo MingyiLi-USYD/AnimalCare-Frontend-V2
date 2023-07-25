@@ -19,10 +19,11 @@ export const cancelLove = async (postId) =>
       method: 'DELETE',
     });
 
-export const newPost = async (params) => {
+export const newPost = async (params,date) => {
   return  request('/api/post', {
     method: 'POST',
-    data:params
+    data:params,
+    params: {date},
   });
 };
 
