@@ -1,6 +1,6 @@
 import {PetImage} from "@/pojo/petImage";
 
-export type Pet = {
+export interface Pet  {
     petId: number;
     userId: number;
     petName: string;
@@ -9,8 +9,8 @@ export type Pet = {
     petAvatar: string;
     petDescription: string;
     petVisible: boolean;
-};
+}
 
-export type PetDto = Pet & {
+export interface PetDto extends Pet  {
     petImage: PetImage[];
-};
+}

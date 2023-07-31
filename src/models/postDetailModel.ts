@@ -1,15 +1,32 @@
-import {cancelLove, getPostById, love} from "../services/postService";
-import {getCommentsById, getSubcommentsById, postComment, postSubcomment} from "../services/commentService";
+import {cancelLove, getPostById, love} from "@/services/postService";
+import {getCommentsById, getSubcommentsById, postComment, postSubcomment} from "@/services/commentService";
+import {PostDto} from "@/pojo/post";
+import {CommentDto} from "@/pojo/comment";
+import {DvaModel, EffectsMapObject} from "umi";
+import {MyAction, MyReducersMapObject, Page} from "@/services/dva";
+
+interface postDetailModelState {
+    pages: number;
+    total: number;
+    comments: CommentDto[];
+    post: PostDto;
+    text: string;
+    label: string;
+    active: boolean;
+    type: number;
+    commentId: number;
+    replyNickname: string;
+}
 
 
 
-export default {
+const postDetailModel:DvaModel<postDetailModelState,EffectsMapObject,MyReducersMapObject<postDetailModelState, MyAction<any>>> ={
     namespace:'postDetailModel',
     state:{
-        page:0,
+        pages:0,
         total:0,
         comments:[],
-        post:{},
+        post:{} as PostDto,
         text:"",
         label:"Share your idea",
         active:false,
@@ -19,12 +36,12 @@ export default {
     },
 
     reducers:{
-        fetchPostSuccess(state, { payload }) {
-            const {post,data} = payload
+        fetchPostSuccess(state, {payload}) {
+            const {post,commentPage}:{commentPage:Page<CommentDto>,post:PostDto} = payload
             state.post=post;
-            state.comments=data.records;
-            state.page = data.page;
-            state.total = data.total;
+            state.comments=commentPage.records;
+            state.pages = commentPage.pages;
+            state.total = commentPage.total;
             state.text = "";
             state.label = "Share your idea";
             state.active = false;
@@ -35,13 +52,16 @@ export default {
 
         fetchCommentsSuccess(state, { payload }) {
             state.comments= [...state.comments,...payload.records]
-            state.page=payload.pages
+            state.pages=payload.pages
             state.total=payload.total
 
         },
         fetchSubcommentsSuccess(state, { payload }) {
             const {data,commentId} = payload
-            state.comments.find(item=>item.id===commentId).subcommentDtos= data
+            const find = state.comments.find(comment=>comment.commentId===commentId);
+            if(find){
+                find.subcommentDtos=data
+            }
 
         },
 
@@ -67,7 +87,10 @@ export default {
            state.comments.unshift(payload)
         },
         addSubcommentSuccess(state, { payload }) {
-            state.comments.find(item=>item.id===payload.commentId).subcommentDtos.unshift(payload)
+            const find = state.comments.find(comment=>comment.commentId===payload.commentId);
+            if(find){
+                find.subcommentDtos.unshift(payload)
+            }
         },
         increaseLove(state) {
             state.post.love++;
@@ -91,7 +114,7 @@ export default {
         *fetchPostWithComments({ payload }, { call, put }) {
             const { data,code } = yield call(getPostById, payload);
             const { data:data2  } = yield call(getCommentsById, payload, 1, 10);
-            yield put({ type: 'fetchPostSuccess', payload: {post:data,data:data2} });
+            yield put({ type: 'fetchPostSuccess', payload: {post:data,commentPage:data2} });
 
         },
         *fetchComments({ payload }, { call, put }) {
@@ -135,3 +158,4 @@ export default {
 
 
 }
+export default postDetailModel

@@ -1,7 +1,7 @@
 // postImage.ts
-export type PostImage = {
+export interface PostImage  {
     imageId: number;
     postId: number;
     imageUrl: string;
     fileName: string;
-};
+}

@@ -29,8 +29,8 @@ const RecentChatFriendList = (props) => {
 
                 dataSource={chatRecordArray}
                 renderItem={(item, index) => (
-                    <List.Item key={item.chatUser.id}
-                               style={{background: item.chatUser.id === contact.id ? '#adb7c7' : index === hoveredIndex ? '#d8dee8' : 'transparent'}}
+                    <List.Item key={item.chatUser.userId}
+                               style={{background: item.chatUser.userId === contact.userId ? '#adb7c7' : index === hoveredIndex ? '#d8dee8' : 'transparent'}}
                                onMouseEnter={() => handleMouseEnter(index)} onMouseLeave={handleMouseLeave}
                                onClick={() => handleClick(item.chatUser)}>
                         <OneRecord data={item}/>

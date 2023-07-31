@@ -15,16 +15,16 @@ const RequestedFriendList = () => {
         return <Spin>loading</Spin>
     }
 
-    const handleReject = (requestId)=> {
+    const handleReject = (userId)=> {
         dispatch({
             type:'friendModel/rejectFriend',
-            payload: requestId
+            payload: userId
         })
     }
-    const handleApprove =   (requestId)=> {
+    const handleApprove =   (userId)=> {
         dispatch({
             type:'friendModel/approveFriend',
-            payload: requestId
+            payload: userId
         })
     }
 
@@ -36,7 +36,7 @@ const RequestedFriendList = () => {
                     align:'center',
                 }}
                 dataSource={requestList}
-                renderItem={({friendInfo,msg,requestId}) => (
+                renderItem={({friendInfo,msg}) => (
                     <List.Item>
                         <div className={'one-friend-request'}>
                             <div className={'last-avatar'}>
@@ -54,7 +54,7 @@ const RequestedFriendList = () => {
                                 <Popconfirm
                                     title="Reject the request"
                                     description="Are you sure to reject this request?"
-                                    onConfirm={()=>handleReject(requestId)}
+                                    onConfirm={()=>handleReject(friendInfo.userId)}
                                     okText="Yes"
                                     cancelText="No"
                                 >
@@ -63,7 +63,7 @@ const RequestedFriendList = () => {
                                 <Popconfirm
                                     title="Approve the request"
                                     description="Are you sure to approve this request?"
-                                    onConfirm={()=>handleApprove(requestId)}
+                                    onConfirm={()=>handleApprove(friendInfo.userId)}
                                     okText="Yes"
                                     cancelText="No"
                                 >

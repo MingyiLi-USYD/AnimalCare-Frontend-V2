@@ -1,20 +1,21 @@
-import chat from "@/pages/Chat/chat";
+import {ChatRecord, ChatRecordItem} from "@/entity/ChatRecord";
+import {User} from "@/pojo/user";
 
 
 export function onChatReceiveService(chatRecord:ChatRecord, data:ChatMessage,fromUser:User,contact:User) {
 
-    if (fromUser.id in chatRecord) {
-        let record = chatRecord[fromUser.id];
+    if (fromUser.userId in chatRecord) {
+        let record = chatRecord[fromUser.userId];
         record.chatList.push(data);
         record.chatUser = fromUser;
         record.latestTime = data.date;
         record.latestMsg = data.content;
-        if (contact.id !== fromUser.id) {
+        if (contact.userId !== fromUser.userId) {
             record.unRead++;
         }
-        chatRecord[fromUser.id] = record;
+        chatRecord[fromUser.userId] = record;
     } else {
-        chatRecord[fromUser.id] = {
+        chatRecord[fromUser.userId] = {
             chatList: [data],
             chatUser: fromUser,
             latestTime: data.date,
@@ -25,7 +26,7 @@ export function onChatReceiveService(chatRecord:ChatRecord, data:ChatMessage,fro
     return chatRecord;
 }
 export function onChatSendService(chatRecord: ChatRecord, data: ChatMessage, contact: User) {
-    const targetId = contact.id;
+    const targetId = contact.userId;
     const newChatRecord: ChatRecord = { ...chatRecord };
 
     if (newChatRecord.hasOwnProperty(targetId)) {
@@ -48,12 +49,12 @@ export function onChatSendService(chatRecord: ChatRecord, data: ChatMessage, con
 }
 
 export function getChat(allChat: ChatRecord, user: User) {
-    return allChat[user.id];
+    return allChat[user.userId];
 }
 
 export function onNewSessionService(chatRecord: ChatRecord, contact: User) {
     const newChatRecord: ChatRecord = { ...chatRecord };
-    newChatRecord[contact.id] = {
+    newChatRecord[contact.userId] = {
         chatList: [],
         chatUser: contact,
         latestTime: new Date().getTime(),
@@ -70,7 +71,7 @@ export function convertMapToList(chatRecord: ChatRecord) {
 
 export function resetUnread(chatRecord: ChatRecord, contact: User) {
     const newChatRecord: ChatRecord = { ...chatRecord };
-    const record = newChatRecord[contact.id];
+    const record = newChatRecord[contact.userId];
     record.unRead = 0;
     return newChatRecord;
 }
@@ -85,13 +86,13 @@ export function allUnread(chatRecordArray: ChatRecordItem[]) {
 
 export function onChatFetchService(chatRecord: ChatRecord, data: ChatMessage[], contact: User) {
     const newChatRecord: ChatRecord = { ...chatRecord };
-    let record = newChatRecord[contact.id];
+    let record = newChatRecord[contact.userId];
     record.chatList = data;
     return newChatRecord;
 }
 export function onAllChatFetchService(chatRecord: ChatRecord, chats: ChatRecordItem[]) {
      chats.forEach(chat=>{
-               const id  = chat.chatUser.id;
+               const id  = chat.chatUser.userId;
                if(chatRecord[id]){
                    //等待后期改进
                    chatRecord[id].chatUser=chat.chatUser;

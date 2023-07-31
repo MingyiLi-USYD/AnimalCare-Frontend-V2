@@ -12,7 +12,7 @@ import {newPost} from "@/services/postService";
 
 
 const usePost = () => {
-    const { friendList } = useSelector(state => state.FriendModel);
+    const { friendList } = useSelector(state => state.friendModel);
     const { initialState: { currentUser } } = useModel('@@initialState');
 
     const [open, setOpen] = useState(false);

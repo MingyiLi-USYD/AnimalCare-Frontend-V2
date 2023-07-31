@@ -2,7 +2,6 @@ import React, {useEffect, useRef, useState} from 'react';
 import {useParams} from "umi";
 import "./postDetail.less"
 import {Avatar, Button, Carousel, Divider, Input, List, Skeleton} from "antd";
-import {parseStringToList} from "@/utils/arrayUtils";
 import Loading from "../../components/Loading";
 import {HeartOutlined, MessageOutlined, PaperClipOutlined, SmileOutlined, StarOutlined} from '@ant-design/icons';
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -122,18 +121,19 @@ function PostDetail() {
         }
     };
 
+
     return (
 
         <div className={"post-container"}>
 
             <div className={"carousel"}>
 
-                <Carousel autoplay={true}>
-                    {parseStringToList(post.images).map((url, index) =>
+                <Carousel autoplay={false}>
+                    {post?.images?.map(({imageId,imageUrl}) =>
                         (
-                            <div key={index}>
+                            <div key={imageId}>
                                 <div className={"image-container"}
-                                     style={{backgroundSize: "contain", backgroundImage: `url(${url})`}}/>
+                                     style={{backgroundSize: "contain", backgroundImage: `url(${imageUrl})`}}/>
                             </div>
                         )
                     )}

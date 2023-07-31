@@ -68,7 +68,7 @@ export default {
         onStartNewSession(state, {payload}) {
             const contact = payload
             let {chatRecord} = state
-            if(!chatRecord.hasOwnProperty(contact.id)){
+            if(!chatRecord.hasOwnProperty(contact.userId)){
                 const newChatRecord = onNewSessionService(chatRecord,contact)
                 state.chatRecord=newChatRecord
                 state.chatRecordArray=convertMapToList(newChatRecord)

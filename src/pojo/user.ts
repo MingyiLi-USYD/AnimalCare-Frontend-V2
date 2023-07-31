@@ -3,7 +3,7 @@ import {Pet} from "@/pojo/pet";
 import {FriendshipDto} from "@/pojo/friendship";
 import {FriendRequestDto} from "@/pojo/friendRequest";
 
-export type User = {
+export interface User  {
     userId: number;
     uuid: string;
     username: string;
@@ -15,12 +15,12 @@ export type User = {
     avatar: string;
     avatarFile: string;
     tag: string;
-};
+}
 
-export type UserDto = User & {
+export interface UserDto extends User  {
     postList: Post[];
     petList: Pet[];
     loveList: Post[];
     friendshipDtoList: FriendshipDto[];
     friendRequestDtoList: FriendRequestDto[];
-};
+}
