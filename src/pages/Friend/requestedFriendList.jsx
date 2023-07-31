@@ -4,27 +4,27 @@ import {useDispatch, useSelector} from "umi";
 
 const RequestedFriendList = () => {
     const dispatch = useDispatch()
-    const {requestList} = useSelector(state => state.FriendModel)
+    const {requestList} = useSelector(state => state.friendModel)
     const [loading,setLoading] = useState(false);
     useEffect(()=>{
         dispatch({
-            type:"FriendModel/onViewFriendRequest",
+            type:"friendModel/onViewFriendRequest",
         })
     },[])
     if(loading){
         return <Spin>loading</Spin>
     }
 
-    const handleReject = (id)=> {
+    const handleReject = (requestId)=> {
         dispatch({
-            type:'FriendModel/rejectFriend',
-            payload: id
+            type:'friendModel/rejectFriend',
+            payload: requestId
         })
     }
-    const handleApprove =  async (id)=> {
+    const handleApprove =   (requestId)=> {
         dispatch({
-            type:'FriendModel/approveFriend',
-            payload: id
+            type:'friendModel/approveFriend',
+            payload: requestId
         })
     }
 
@@ -36,7 +36,7 @@ const RequestedFriendList = () => {
                     align:'center',
                 }}
                 dataSource={requestList}
-                renderItem={({friendInfo,msg}) => (
+                renderItem={({friendInfo,msg,requestId}) => (
                     <List.Item>
                         <div className={'one-friend-request'}>
                             <div className={'last-avatar'}>
@@ -54,7 +54,7 @@ const RequestedFriendList = () => {
                                 <Popconfirm
                                     title="Reject the request"
                                     description="Are you sure to reject this request?"
-                                    onConfirm={()=>handleReject(friendInfo.userId)}
+                                    onConfirm={()=>handleReject(requestId)}
                                     okText="Yes"
                                     cancelText="No"
                                 >
@@ -63,7 +63,7 @@ const RequestedFriendList = () => {
                                 <Popconfirm
                                     title="Approve the request"
                                     description="Are you sure to approve this request?"
-                                    onConfirm={()=>handleApprove(friendInfo.userId)}
+                                    onConfirm={()=>handleApprove(requestId)}
                                     okText="Yes"
                                     cancelText="No"
                                 >

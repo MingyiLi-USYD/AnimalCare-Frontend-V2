@@ -15,10 +15,10 @@ function DetailInfo(props) {
         history.push('/chat')
     }
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const handleDelete = async () => {
+    const handleDelete =  () => {
         dispatch({
-            type:'FriendModel/deleteFriend',
-            payload: contact.id
+            type:'friendModel/deleteFriend',
+            payload: contact.userId
         })
         setIsModalOpen(false);
     };
@@ -98,6 +98,6 @@ function DetailInfo(props) {
     );
 }
 
-export default connect(({FriendModel:{contact}})=>{
+export default connect(({friendModel:{contact}})=>{
 
     return {contact}})(DetailInfo);

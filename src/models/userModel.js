@@ -1,4 +1,3 @@
-import {getLoves} from "../services/postService";
 import {initUserInfo} from "../services/userService";
 
 export default {
@@ -32,8 +31,8 @@ export default {
             const { data,code } = yield call(initUserInfo);
             if(code===1){
                 yield put({ type: 'fetchLoveListSuccess', payload: data.loveIdList });
-                yield put({type: 'FriendModel/fetchFriendListSuccess', payload: data.friendshipDtoList});
-                yield put({type: 'FriendModel/fetchRequestListSuccess', payload: data.friendRequestDtoList});
+                yield put({type: 'friendModel/fetchFriendListSuccess', payload: data.friendshipDtoList});
+                yield put({type: 'friendModel/fetchRequestListSuccess', payload: data.friendRequestDtoList});
 
             }
         },

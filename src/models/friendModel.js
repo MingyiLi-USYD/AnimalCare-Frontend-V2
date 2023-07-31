@@ -1,7 +1,7 @@
 import {approveRequest, deleteFriend, getFriends, getRequestList, rejectRequest} from "../services/friendService";
 
 export default {
-    namespace: 'FriendModel',
+    namespace: 'friendModel',
     state: {
         contact: {},
         friendRequest: 0,
@@ -12,7 +12,7 @@ export default {
     reducers: {
         onDeletedByFriend(state, {payload}) {
             let {friendList} = state
-            state.friendList = friendList.filter(friend=>friend.id!==payload.id);
+            state.friendList = friendList.filter(item=>item.friendInfo.userId !==payload.userId);
         },
         approveFriendSuccess(state, {payload}) {
             let {friendList} = state
@@ -20,7 +20,7 @@ export default {
         },
         deleteFriendSuccess(state, {payload: userId}) {
             let {friendList} = state
-            state.friendList = friendList.filter(item => item.id !== userId)
+            state.friendList = friendList.filter(item => item.friendInfo.userId !== userId)
             state.contact={}
         },
 

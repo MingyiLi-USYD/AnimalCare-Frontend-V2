@@ -7,7 +7,7 @@ import {useSelector} from "umi";
 
 const FriendList = () => {
     const dispatch = useDispatch()
-    const {contact, friendList, requestList, friendRequest} = useSelector(state => state.FriendModel)
+    const {contact, friendList, requestList, friendRequest} = useSelector(state => state.friendModel)
     const [hoveredIndex, setHoveredIndex] = useState(-1);
 
 
@@ -19,7 +19,7 @@ const FriendList = () => {
     }
     const handleClick = (contact) => {
         dispatch({
-            type: 'FriendModel/onChangeContact',
+            type: 'friendModel/onChangeContact',
             payload: contact
         })
     }

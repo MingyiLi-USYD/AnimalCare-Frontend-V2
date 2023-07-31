@@ -3,13 +3,11 @@ import {ProLayout} from '@ant-design/pro-components';
 import {CommentOutlined, DeleteOutlined, HomeOutlined, ScissorOutlined, UserOutlined} from '@ant-design/icons';
 import './index.less'
 import {history, Outlet, useModel} from 'umi'
-
 import {Badge} from "antd";
 import {connect} from "../.umi/exports";
 import {allUnread} from "@/utils/chatUtils";
 import useSocket from "@/hooks/useSocket";
 import MyDropdown from "@/components/Dropdown/MyDropdown";
-
 const loginPath = '/login';
 
 const BasicLayout = (props) => {
@@ -140,6 +138,6 @@ const BasicLayout = (props) => {
   );
 };
 
-export default connect(({ChatModel:{chatRecordArray},FriendModel:{friendRequest}})=>{
+export default connect(({ChatModel:{chatRecordArray},friendModel:{friendRequest}})=>{
 
   return {chatRecordArray,friendRequest}})( BasicLayout);

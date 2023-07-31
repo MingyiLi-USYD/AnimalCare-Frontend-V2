@@ -1,3 +1,5 @@
+import {User} from "@/pojo/user";
+
 interface ChatRecordItem {
     chatList: ChatMessage[];
     chatUser: User;

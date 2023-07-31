@@ -1,9 +1,4 @@
-type User ={
-     id: number;
-     avatar: string;
-     nickname: string;
-     description: string;
-}
+import {User} from "@/pojo/user";
 
 type ResponseMessage<T> ={
      code: number;
