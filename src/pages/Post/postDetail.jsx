@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {history, useDispatch, useModel, useParams, useSelector} from "umi";
+import {history, useDispatch, useParams, useSelector} from "umi";
 import "./postDetail.less"
 import {Avatar, Button, Carousel, Divider, Input, List, Skeleton} from "antd";
 import Loading from "../../components/Loading";
