@@ -44,30 +44,6 @@ const NewPost = () => {
         return current > oneWeekLater;
     };
 
-/*
-    const disabledTime = (now) => {
-        const currentDay = moment();
-        const selectedDay = moment(now);
-        const isToday = currentDay.isSame(selectedDay, 'day');
-
-        if (isToday) {
-            // If the selected day is today, disable hours in the past, but allow all minutes and seconds
-            const currentHour = currentDay.hour();
-            return {
-                disabledHours: () => Array.from({ length: currentHour }, (_, i) => i),
-            };
-        } else {
-            // For dates other than today, allow all hours, minutes, and seconds
-            return {
-                disabledHours: () => [],
-                disabledMinutes: () => [],
-                disabledSeconds: () => [],
-            };
-        }
-    };
-*/
-
-
     if (loading) {
         return (
             <UploadingProgress percent={percent}/>

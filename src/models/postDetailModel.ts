@@ -5,7 +5,7 @@ import {CommentDto} from "@/pojo/comment";
 import {DvaModel, EffectsMapObject} from "umi";
 import {MyAction, MyReducersMapObject, Page} from "@/services/dva";
 
-interface postDetailModelState {
+export interface postDetailModelState {
     pages: number;
     total: number;
     comments: CommentDto[];
@@ -16,6 +16,7 @@ interface postDetailModelState {
     type: number;
     commentId: number;
     replyNickname: string;
+    loading: boolean;
 }
 
 
@@ -33,9 +34,16 @@ const postDetailModel:DvaModel<postDetailModelState,EffectsMapObject,MyReducersM
         type:0,
         commentId:0,
         replyNickname:"",
+        loading:false
     },
 
     reducers:{
+        loading(state, {payload}) {
+            state.loading = true
+        },
+        stopLoading(state, {payload}) {
+            state.loading = false
+        },
         fetchPostSuccess(state, {payload}) {
             const {post,commentPage}:{commentPage:Page<CommentDto>,post:PostDto} = payload
             state.post=post;
@@ -115,11 +123,12 @@ const postDetailModel:DvaModel<postDetailModelState,EffectsMapObject,MyReducersM
             const { data,code } = yield call(getPostById, payload);
             const { data:data2  } = yield call(getCommentsById, payload, 1, 10);
             yield put({ type: 'fetchPostSuccess', payload: {post:data,commentPage:data2} });
+            yield put({ type: 'stopLoading'});
 
         },
         *fetchComments({ payload }, { call, put }) {
-            const { postId, page, pageSize } = payload;
-            const { data } = yield call(getCommentsById, postId, page+1, pageSize);
+            const { postId, pages, pageSize } = payload;
+            const { data } = yield call(getCommentsById, postId, pages, pageSize);
             yield put({ type: 'fetchCommentsSuccess', payload: data });
         },
         *fetchSubcomments({ payload }, { call, put }) {

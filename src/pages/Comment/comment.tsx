@@ -8,13 +8,16 @@ import {formatTimestamp} from "../../utils/timeUtils";
 import SubComment from "./subComment";
 import {getSubcommentsById} from "../../services/commentService";
 import {useDispatch, useSelector} from "../../.umi/exports";
+import {CommentDto} from "@/pojo/comment";
 
-function Comment({comment,focus}) {
+function Comment({comment,focus}:{comment:CommentDto,focus:Function}) {
+
     const dispatch = useDispatch();
 
-    const {id,nickName,userAvatar,commentContent,
+    const {commentId: id,commentUser,commentContent,
         commentTime,postId,userId,commentLove,
         subcommentsLength,subcommentDtos} = comment;
+    // @ts-ignore
     const {post,total,page,comments,label,type,commentId,replyNickname} = useSelector(state=>state.postDetailModel)
     const handleLove = ()=>{
 
@@ -23,7 +26,7 @@ function Comment({comment,focus}) {
           focus()
         dispatch({
             type:'postDetailModel/onClickComment',
-            payload:{label:`@${nickName}`,type:1,commentId:id}
+            payload:{label:`@${commentUser.nickname}`,type:1,commentId:id}
         })
     }
 
@@ -37,11 +40,11 @@ function Comment({comment,focus}) {
     return (
         <div className={"comment-item"}>
             <div className={"left"}>
-                <Avatar size={32} src={userAvatar} onClick={()=>{history.push(`/profile/${userId}`)}}/>
+                <Avatar size={32} src={commentUser.avatar} onClick={()=>{history.push(`/profile/${userId}`)}}/>
             </div>
             <div className={"right"}>
                 <div className={"author-nickname"}>
-                    {nickName}
+                    {commentUser.nickname}
                 </div>
                 <div className={"content"}>
                     {commentContent}
@@ -52,12 +55,12 @@ function Comment({comment,focus}) {
                       </div>
                     <div className={"interactions"}>
                          <div className={"like"}>
-                             <Interaction number={commentLove}>
+                             <Interaction number={commentLove} active={false}>
                                  <HeartOutlined onClick={handleLove}/>
                              </Interaction>
                          </div>
                           <div className={"reply"}>
-                              <Interaction number={subcommentsLength}>
+                              <Interaction number={subcommentsLength} active={false}>
                                   <MessageOutlined onClick={handleComment}/>
                               </Interaction>
                           </div>

@@ -1,12 +1,11 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {useParams} from "umi";
+import {history, useDispatch, useModel, useParams, useSelector} from "umi";
 import "./postDetail.less"
 import {Avatar, Button, Carousel, Divider, Input, List, Skeleton} from "antd";
 import Loading from "../../components/Loading";
 import {HeartOutlined, MessageOutlined, PaperClipOutlined, SmileOutlined, StarOutlined} from '@ant-design/icons';
 import InfiniteScroll from "react-infinite-scroll-component";
 import Comment from "../Comment/comment";
-import {history, useDispatch, useSelector} from "umi";
 import Interaction from "../../components/Interactions/interaction";
 
 function PostDetail() {
@@ -15,24 +14,27 @@ function PostDetail() {
     const {postId} = params
     const commentContainerRef = useRef(null)
     const inputRef = useRef(null);
-    const [commentLoading, setCommentLoading] = useState(false)
-    const [loading, setLoading] = useState(false)
     const [active, setActive] = useState(false)
     const [text, setText] = useState("")
+
     const {
         post,
         total,
-        page,
+        pages,
         comments,
         label,
         type,
         commentId,
-        replyNickname
+        replyNickname,
     } = useSelector(state => state.postDetailModel)
     const {loveList, startList} = useSelector(state => state.userModel)
-
+    const {effects} = useSelector(state => state.loading)
+    const isLoading =   effects['postDetailModel/fetchComments']
+        ||effects['postDetailModel/lovePost']
+        ||effects['postDetailModel/cancelLovePost'];
     useEffect(() => {
-        if (postId !== post.postId) {
+        if (postId && postId !== post.postId) {
+
             dispatch({
                 type: 'postDetailModel/fetchPostWithComments',
                 payload: postId
@@ -43,7 +45,7 @@ function PostDetail() {
     const loadComment = () => {
         dispatch({
             type: 'postDetailModel/fetchComments',
-            payload: {postId, page, pageSize: 10}
+            payload: {postId, pages, pageSize: 10}
         })
     }
 
@@ -70,7 +72,7 @@ function PostDetail() {
             }
         }
     }
-    if (loading || commentLoading) {
+    if (effects['postDetailModel/fetchPostWithComments']) {
         return <Loading/>
     }
 
@@ -125,7 +127,9 @@ function PostDetail() {
     return (
 
         <div className={"post-container"}>
-
+            {
+                isLoading
+            }
             <div className={"carousel"}>
 
                 <Carousel autoplay={false}>
@@ -142,10 +146,10 @@ function PostDetail() {
             <div className={"content-info"}>
                 <div className={"author-info"}>
                     <div className={"user-info"}>
-                        <Avatar className={"avatar"} size={40} src={post.userAvatar} onClick={() => {
-                            history.push(`/profile/${post.userId}`)
+                        <Avatar className={"avatar"} size={40} src={post?.postUser?.avatar} onClick={() => {
+                            history.push(`/profile/${post?.userId}`)
                         }}/>
-                        <span className={"nickname"}>{post.nickName}</span>
+                        <span className={"nickname"}>{post?.postUser?.nickname}</span>
                     </div>
 
                     <Button style={{borderRadius: 20}} type={"primary"}>Subscribe</Button>
@@ -154,7 +158,7 @@ function PostDetail() {
                     <div className={"note-content"}>
                         <div className={"topic"}>
                             {
-                                post.topic
+                                post.postTitle
                             }
                         </div>
                         <div className={"description"}>
@@ -179,7 +183,7 @@ function PostDetail() {
                                 <List
                                     dataSource={comments}
                                     renderItem={(item) => (
-                                        <Comment key={item.id} comment={item} focus={handleFocus}/>
+                                        <Comment key={item.commentId} comment={item} focus={handleFocus}/>
                                     )}
                                 />
                             </InfiniteScroll>

@@ -4,9 +4,9 @@ import {newPet} from "@/services/petService";
 import {useState} from "react";
 import UploadingProgress from "../../components/UploadingProgress";
 import DoneUpload from "../../components/DoneUpload";
-import {ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
 import {auth, storage} from "@/firebaseConfig";
-import { v4 as uuidv4 } from 'uuid';
+import {v4 as uuidv4} from 'uuid';
 import {getFirebaseIdToken} from "@/services/userService";
 import {signInWithCustomToken} from "firebase/auth"
 import {useModel} from "umi";
