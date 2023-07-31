@@ -6,10 +6,16 @@ export const userLogin = async (body) => {
     data: body,
   });
 };
+
 export const getProfile = async () =>
   await request('/api/profile', {
     method: 'GET',
   });
+export  const initUserInfo = async () =>
+    await request('/api/user/init', {
+        method: 'GET',
+    });
+
 export const getProfileById =  async (id) =>
   await request(`/api/profile/${id}`, {
     method: 'GET',

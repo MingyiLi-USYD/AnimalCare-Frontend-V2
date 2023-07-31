@@ -18,7 +18,7 @@ const MyDropdown = (props) => {
         {
             key: '1',
             label: (
-            <a onClick={()=>{history.push(`/profile/${currentUser.id}`)}}>
+            <a onClick={()=>{history.push(`/profile/${currentUser.userId}`)}}>
             Profile
         </a>
             ),

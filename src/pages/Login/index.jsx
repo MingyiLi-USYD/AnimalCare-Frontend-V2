@@ -1,9 +1,11 @@
-import {Card, Col, Row} from 'antd';
+import {Button, Card, Col, Form, Input, Row} from 'antd';
 import {history, useModel} from "umi";
 import {userLogin} from "@/services/userService";
 import {flushSync} from "react-dom";
 import FirebaseUI from "./firebaseUI";
 import {useEffect} from "react";
+import {LockOutlined, UserOutlined} from "@ant-design/icons";
+import EmailSignUp from "@/pages/Login/EmailSignUp";
 
 
 const Login = () => {
@@ -41,7 +43,7 @@ const Login = () => {
    <Row align="middle" style={{ height: '100vh', background: '#f6f6f6' }}>
      <Col span={8} offset={8}>
        <Card>
-{/*         <Form
+         <Form
            name="normal_login"
            className="login-form"
            initialValues={{
@@ -50,7 +52,7 @@ const Login = () => {
            onFinish={onFinish}
          >
            <Form.Item
-             name="userName"
+             name="username"
              rules={[
                {
                  required: true,
@@ -90,7 +92,7 @@ const Login = () => {
              Or <a onClick={()=>history.push('/signup')}>register now!</a>
            </Form.Item>
          </Form>
-         <EmailSignUp/>*/}
+     {/*    <EmailSignUp/>*/}
          <FirebaseUI initialState={initialState} setInitialState={setInitialState}/>
        </Card>
      </Col>

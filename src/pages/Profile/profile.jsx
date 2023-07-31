@@ -67,7 +67,7 @@ const Profile = (props) => {
             <PetCardList data={data?.petList} />
 
             <PostDetail/>
-            <RelationDetail userId={data.id} relation={relation} avatar={data.avatar} nickname={data.nickname} setRelation={setRelation}  />
+            <RelationDetail userId={data.userId} relation={relation} avatar={data.avatar} nickname={data.nickname} setRelation={setRelation}  />
         </div>
     </div>
 

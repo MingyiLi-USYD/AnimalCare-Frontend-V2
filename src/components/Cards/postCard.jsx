@@ -9,6 +9,7 @@ import {useDispatch, useSelector} from "../../.umi/exports";
 const PostCard = ({item,avatar,index}) => {
     const {loveList} = useSelector(state => state.userModel)
     const dispatch = useDispatch();
+    const {postUser}=item;
     const handleLove = (postId) => {
         dispatch({
             type: 'homeModel/lovePost',
@@ -37,12 +38,12 @@ const PostCard = ({item,avatar,index}) => {
                 <div className="item-userinfo">
                     <Avatar
                         size={28}
-                        src={avatar?avatar:item.userAvatar}
-                        onClick={() => {
-                            history.push(`/profile/${item.userId}`);
+                        src={postUser?postUser.avatar:avatar}
+                        onClick={avatar?null:() => {
+                            history.push(`/profile/${postUser.userId}`);
                         }}
                     />
-                    <span className="nickname">{item.nickName}</span>
+                    <span className="nickname">{item.postUser?.nickname}</span>
                 </div>
                 <div className="operation">
                     {loveList.includes(item.postId) ? (

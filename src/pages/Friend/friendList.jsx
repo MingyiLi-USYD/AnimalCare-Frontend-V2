@@ -1,7 +1,7 @@
 import {Avatar, Badge, List} from 'antd';
 import {useDispatch} from "umi";
 import {useState} from 'react';
-import {NewFriend} from "../../assets/logo/Logo";
+import {NewFriend} from "@/assets/logo/Logo";
 import {useSelector} from "umi";
 
 
@@ -43,18 +43,18 @@ const FriendList = () => {
                     </List.Item>
                 }
                 {
-                    friendList.map((item, index) => (
-                        <List.Item key={item.id}
-                                   style={{background: item.id === contact.id ? '#adb7c7' : index === hoveredIndex ? '#d8dee8' : 'transparent'}}
+                    friendList.map(({friendInfo}, index) => (
+                        <List.Item key={friendInfo.userId}
+                                   style={{background: friendInfo.userId === contact.userId ? '#adb7c7' : index === hoveredIndex ? '#d8dee8' : 'transparent'}}
                                    onMouseEnter={() => handleMouseEnter(index)} onMouseLeave={handleMouseLeave}
-                                   onClick={() => handleClick(item)}>
+                                   onClick={() => handleClick(friendInfo)}>
                             <div style={{marginLeft: 20}}>
-                                <Avatar size={60} src={item.avatar} shape={"square"}/>
+                                <Avatar size={60} src={friendInfo.avatar} shape={"square"}/>
                                 <span style={{
                                     fontSize: 20,
                                     marginLeft: 10,
                                     verticalAlign: "middle"
-                                }}>{item.nickname}</span>
+                                }}>{friendInfo.nickname}</span>
                             </div>
                         </List.Item>
                     ))

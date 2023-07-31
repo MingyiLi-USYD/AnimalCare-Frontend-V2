@@ -3,7 +3,7 @@ import {auth} from "../../firebaseConfig";
 import {EmailAuthProvider, FacebookAuthProvider, GoogleAuthProvider} from 'firebase/auth'
 import {StyledFirebaseAuth} from "react-firebaseui";
 import {history, useModel} from "umi";
-import {thirdPartLogin} from "../../services/userService";
+import {thirdPartLogin} from "@/services/userService";
 import {flushSync} from "react-dom";
 
 
@@ -48,7 +48,7 @@ function FirebaseUi({}) {
                 const {photoURL,uid,email,displayName} = data.user;
                 const user = {
                   uuid:uid,
-                    userName:uid,
+                    username:uid,
                     nickname:displayName,
                     avatar:photoURL,
                     email,

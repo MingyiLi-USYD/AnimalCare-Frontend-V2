@@ -36,25 +36,25 @@ const RequestedFriendList = () => {
                     align:'center',
                 }}
                 dataSource={requestList}
-                renderItem={(item) => (
+                renderItem={({friendInfo,msg}) => (
                     <List.Item>
                         <div className={'one-friend-request'}>
                             <div className={'last-avatar'}>
-                                    <Avatar shape={'square'} size={64} src={item.avatar}/>
+                                    <Avatar shape={'square'} size={64} src={friendInfo.avatar}/>
                             </div>
                             <div className={'last-info'}>
                                 <div className={'nickname'}>
-                                    {item.nickname}
+                                    {friendInfo.nickname}
                                 </div>
                                 <div className={'last-msg'}>
-                                    {item.msg}
+                                    {msg}
                                 </div>
                             </div>
                             <div className={'operation'}>
                                 <Popconfirm
                                     title="Reject the request"
                                     description="Are you sure to reject this request?"
-                                    onConfirm={()=>{handleReject(item.id)}}
+                                    onConfirm={()=>handleReject(friendInfo.userId)}
                                     okText="Yes"
                                     cancelText="No"
                                 >
@@ -63,7 +63,7 @@ const RequestedFriendList = () => {
                                 <Popconfirm
                                     title="Approve the request"
                                     description="Are you sure to approve this request?"
-                                    onConfirm={()=>{handleApprove(item.id)}}
+                                    onConfirm={()=>handleApprove(friendInfo.userId)}
                                     okText="Yes"
                                     cancelText="No"
                                 >

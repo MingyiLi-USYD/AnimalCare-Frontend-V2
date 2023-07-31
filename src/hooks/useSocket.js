@@ -14,29 +14,29 @@ const useSocket = (currentUser) => {
   };
   const initUserInfo = ()=>{
     dispatch({
-      type:'userModel/fetchLoveList'
+      type:'userModel/initUserInfo'
     })
   }
-  const initFriendsInfo = ()=>{
+/*  const initFriendsInfo = ()=>{
     dispatch({
       type:'FriendModel/initFriendData'
     })
-  }
-  const initChatRecords = ()=>{
+  }*/
+/*  const initChatRecords = ()=>{
     dispatch({
       type:'ChatModel/fetchChatRecords'
     })
-  }
+  }*/
   useEffect(()=>{
     putProfileOnStore(currentUser);
     //initChatRecords()
     initUserInfo()
-    initFriendsInfo()
+    //initFriendsInfo()
   },[
-      currentUser.id
+      currentUser.userId
   ])
   useEffect(() => {
-    const userId = currentUser.id; // 从父组件的参数中获取 userId
+    const userId = currentUser.userId; // 从父组件的参数中获取 userId
     const token = localStorage.getItem('serverToken'); // 从本地存储中获取 token
     const socketInstance = io('', {
       reconnectionDelayMax: 10000,
@@ -75,7 +75,7 @@ const useSocket = (currentUser) => {
         socket.disconnect();
       }
     };
-  }, [currentUser.id]);
+  }, [currentUser.userId]);
 
   return {socket,disconnect};
 };

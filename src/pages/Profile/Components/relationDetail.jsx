@@ -1,7 +1,7 @@
 import {connect} from 'dva';
 import {Avatar, Button, Modal} from "antd";
 import React, {useRef} from "react";
-import {deleteFriend, sendFriendRequest} from "../../../services/friendService";
+import {deleteFriend, sendFriendRequest} from "@/services/friendService";
 import {useModel} from "umi";
 
 
