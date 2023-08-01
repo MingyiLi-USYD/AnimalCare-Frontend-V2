@@ -27,7 +27,7 @@ function PetDetail() {
     }, [petId])
     const handleDelete = (image) => {
         deleteImageOfPet(image)
-        setPet({...pet, petImageList: [...pet.petImageList].filter(item => item.id !== image.id)})
+        setPet({...pet, petImage: [...pet.petImage].filter(item => item.imageId !== image.imageId)})
     }
     if (loading) {
         return <Loading/>; // 在加载中显示 Spin 或其他加载提示
@@ -44,13 +44,13 @@ function PetDetail() {
                     <h2>{pet.petName}</h2>
                     <p>{pet.petDescription}</p>
                 </div>
-                {currentUser.id === pet.userId && <PetImageUpload petId={pet.petId} setPet={setPet} pet={pet}/>}
+                {currentUser.userId === pet.userId && <PetImageUpload petId={pet.petId} setPet={setPet} pet={pet}/>}
                 <div style={{marginTop: '50px'}}>
                     <div style={{display: 'flex', flexWrap: 'wrap'}}>
-                        {pet.petImageList.map((item) => (
-                            <div key={item.id} className={'image-wrapper'}>
-                                <Image className={'imageStyle'} src={item.url}/>
-                                {currentUser.id === pet.userId &&
+                        {pet.petImage.map((item) => (
+                            <div key={item.imageId} className={'image-wrapper'}>
+                                <Image className={'imageStyle'} src={item.imageUrl}/>
+                                {currentUser.userId === pet.userId &&
                                     <Popconfirm
                                         title="Delete image"
                                         description="Are you sure to delete this image?"

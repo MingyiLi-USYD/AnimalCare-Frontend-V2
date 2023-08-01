@@ -98,15 +98,11 @@ const usePost = () => {
     };
 
     const finish = async (values) => {
-       // console.log(values)
-        //let dateTimeCombined = null
         if (!postNow) {
             // If "Later" is selected, combine the selected date and time into a timestamp
             const datePart = values.date.format("YYYY-MM-DD");
             const timePart = values.time.format("HH:mm:ss");
-           // dateTimeCombined = `${datePart} ${timePart}`;
             values.estimateDate = `${datePart} ${timePart}`
-           // console.log(dateTimeCombined)
         }
         if (!auth.currentUser) {
             const { data } = await getFirebaseIdToken();
@@ -124,9 +120,10 @@ const usePost = () => {
 
     const options = [];
     for (let i = 0; i < friendList.length; i++) {
+        const user = friendList[i].friendInfo
         options.push({
-            value: friendList[i].id,
-            label: <Space><Avatar src={friendList[i].avatar}/> <span>{friendList[i].nickname}</span></Space>,
+            value: user.userId,
+            label: <Space><Avatar src={user.avatar}/> <span>{user.nickname}</span></Space>,
         });
     }
 

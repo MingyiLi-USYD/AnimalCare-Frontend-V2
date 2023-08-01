@@ -58,9 +58,9 @@ function PostList() {
                     ]}>
                         <List.Item.Meta
                             avatar={
-                                <Avatar shape={"square"} onClick={()=>history.push(`/post/${item.postId}`)} size={64} style={{cursor:"pointer"}} src={parseStringToList(item.images)[0]}/>
+                                <Avatar shape={"square"} onClick={()=>history.push(`/post/${item.postId}`)} size={64} style={{cursor:"pointer"}} src={item.coverImage}/>
                             }
-                            title={<a >{item.topic}</a>}
+                            title={<a >{item.postTitle}</a>}
                             description={item.postContent}
                         />
                     </List.Item>

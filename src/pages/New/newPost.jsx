@@ -1,7 +1,7 @@
 import {Button, DatePicker, Form, Input, Modal, Radio, Select, Space, TimePicker} from 'antd';
 import moment from 'moment';
 import MultipleImageUpload from './groupUpload';
-import React from "react";
+import React, {useState} from "react";
 import DoneUpload from "../../components/DoneUpload";
 import UploadingProgress from "../../components/UploadingProgress";
 import './new.less'
@@ -31,7 +31,8 @@ const NewPost = () => {
         finish,
         options
     } = usePost();
-
+    const [dates, setDates] = useState(null);
+    const [times, setTimes] = useState(null);
     const disabledDate = (current) => {
         // Disable dates before today
         const today = moment().startOf('day');
@@ -52,6 +53,11 @@ const NewPost = () => {
 
     if (done) {
         return <DoneUpload path={"/post"}/>;
+    }
+    function isSameDay(dateA, dateB) {
+        return dateA.year()===dateB.year()
+            &&dateA.month()===dateB.month()
+            &&dateA.date()===dateB.date();
     }
 
     return (
@@ -102,8 +108,8 @@ const NewPost = () => {
                         </div>
                     </Form.Item>
                     <Form.Item
-                        label="Share"
-                        name={'share'}
+                        label="Refer"
+                        name={'referFriends'}
                         initialValue={[]}
                     >
                         <Select size={"large"} mode={"multiple"} className={'form-selector'} options={options}/>
@@ -125,7 +131,6 @@ const NewPost = () => {
                     <Form.Item label={"Visibility"} name={'visible'} initialValue={true}>
                         <Radio.Group>
                             <Radio value={true}>Public</Radio>
-                          {/*  <Radio value={2}>Friend Only</Radio>*/}
                             <Radio value={false}>Private</Radio>
                         </Radio.Group>
                     </Form.Item>
@@ -136,7 +141,7 @@ const NewPost = () => {
                         </Radio.Group>
                     </Form.Item>
                     {
-                        !postNow &&      <div>
+                        !postNow && <div>
                             <Form.Item
                                 label="Post Date"
                                 name="date"
@@ -144,6 +149,9 @@ const NewPost = () => {
                                     { required: true, message: 'Please select the post date!' },
                                     {
                                         validator: (_, value) => {
+                                            if(!value){
+                                               return  Promise.reject('Please select date first!')
+                                            }
                                             const selectedDate = moment(value);
                                             if (selectedDate.isBefore(moment().startOf('day'))) {
                                                 return Promise.reject('Post Date must be after today!');
@@ -153,7 +161,7 @@ const NewPost = () => {
                                     },
                                 ]}
                             >
-                                <DatePicker disabledDate={disabledDate} />
+                                <DatePicker key={1} value={dates} disabledDate={disabledDate}  onChange={(dateJs) => setDates(dateJs)}/>
                             </Form.Item>
                             <Form.Item
                                 label="Post Time"
@@ -162,13 +170,16 @@ const NewPost = () => {
                                     { required: true, message: 'Please select the post time!' },
                                     {
                                         validator: (_, value) => {
-                                             if(!value){
-                                                 return Promise.reject('Please input validate time');
-                                             }
+                                            if(!value){
+                                                return Promise.reject('Please input validate time');
+                                            }
+                                            if(!dates){
+                                                return Promise.reject('Please choose date first');
+                                            }
 
                                             const currentTime = moment();
-                                            const selectedTime = value;
-                                            if (currentTime.isSame(selectedTime, 'day') && selectedTime.isBefore(currentTime)) {
+
+                                            if (isSameDay(times,dates) && value.isBefore(currentTime)) {
                                                 return Promise.reject('Post Time must be after the current time!');
                                             }
                                             return Promise.resolve();
@@ -176,7 +187,7 @@ const NewPost = () => {
                                     },
                                 ]}
                             >
-                                <TimePicker format="HH:mm:ss"/>
+                                <TimePicker key={2} format="HH:mm:ss" value = {times} onChange={(dateJs) => setTimes(dateJs)}/>
                             </Form.Item>
                         </div>
                     }

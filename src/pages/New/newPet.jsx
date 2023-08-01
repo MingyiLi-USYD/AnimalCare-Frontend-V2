@@ -1,7 +1,7 @@
-import {Button, Form, Input, Select, Spin, Switch} from 'antd';
+import {Button, DatePicker, Form, Input, Select, Spin, Switch} from 'antd';
 import MultipleImageUpload from './groupUpload';
 import {newPet} from "@/services/petService";
-import {useState} from "react";
+import React, {useState} from "react";
 import UploadingProgress from "../../components/UploadingProgress";
 import DoneUpload from "../../components/DoneUpload";
 import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
@@ -10,6 +10,7 @@ import {v4 as uuidv4} from 'uuid';
 import {getFirebaseIdToken} from "@/services/userService";
 import {signInWithCustomToken} from "firebase/auth"
 import {useModel} from "umi";
+import moment from "moment/moment";
 const { TextArea } = Input;
 
 
@@ -54,19 +55,24 @@ const NewPet = () => {
         }
     }
     const finish = async (values) => {
+
         if(!auth.currentUser){
            const {data} = await getFirebaseIdToken()
             await signInWithCustomToken(auth,data)
         }
         setLoading(true)
-        const storageRef = ref(storage, currentUser.userName +'/'+ uuidv4());
+        values.birthday = values.birthday.format("YYYY-MM-DD");
+        const avatarFile = currentUser.username +'/'+ uuidv4()
+        const storageRef = ref(storage,avatarFile );
         const uploadTask = uploadBytesResumable(storageRef, values.avatar[0].originFileObj)
         uploadTask.on('state_changed',
             uploadCallback,
             uploadError,
             async () =>  {
                 // Upload completed successfully, now we can get the download URL
-                values.image = await getDownloadURL(uploadTask.snapshot.ref)
+                values.petAvatar = await getDownloadURL(uploadTask.snapshot.ref)
+                values.avatarFile = avatarFile
+                console.log(values)
                 const {code} =await newPet(values)
                 if(code===1){
                     setLoading(false)
@@ -146,6 +152,15 @@ const NewPet = () => {
                         initialValue={true}
                     >
                         <Switch defaultChecked={true} />
+                    </Form.Item>
+                    <Form.Item
+                        label="Pet Birthday"
+                        name="birthday"
+                        rules={[
+                            { required: true, message: 'Please fill the birthday !' },
+                        ]}
+                    >
+                        <DatePicker/>
                     </Form.Item>
 
                     <Form.Item >

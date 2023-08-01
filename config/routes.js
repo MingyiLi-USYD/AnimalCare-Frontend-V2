@@ -89,6 +89,10 @@ export  const routes = [
                 path: '/setting',
                 component: '@/pages/Setting/setting',
             },
+            {
+                path: '/medical',
+                component: '@/pages/Medical/medical',
+            },
             { path: '/*', redirect:'/home'},
         ],
     },

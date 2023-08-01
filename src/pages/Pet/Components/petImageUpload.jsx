@@ -14,11 +14,11 @@ const beforeUpload = (file) => {
     if (!isJpgOrPng) {
         message.error('You can only upload JPG/PNG file!');
     }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-        message.error('Image must be smaller than 2MB!');
+    const isLt10M = file.size / 1024 / 1024 < 10;
+    if (!isLt10M) {
+        message.error('Image must be smaller than 10MB!');
     }
-    return isJpgOrPng && isLt2M;
+    return isJpgOrPng && isLt10M;
 };
 
 const PetImageUpload = ({petId, setPet, pet}) => {
@@ -49,7 +49,8 @@ const PetImageUpload = ({petId, setPet, pet}) => {
     */
 
     const handleFirebaseUpload = async (file) => {
-        const storageRef = ref(storage, currentUser.userName + `petImages/${petId}/${uuidv4()}`);
+        const fileName = currentUser.username + `petImages/${petId}/${uuidv4()}`
+        const storageRef = ref(storage,fileName );
         //storageRef.child()
         const uploadTask = uploadBytesResumable(storageRef, file)
 
@@ -65,13 +66,15 @@ const PetImageUpload = ({petId, setPet, pet}) => {
                 message.error('Failed to upload image');
             },
             async () => {
-                const downloadURL = await getDownloadURL(uploadTask.snapshot.ref)
+                const imageUrl = await getDownloadURL(uploadTask.snapshot.ref)
                 message.success('Image uploaded successfully');
-                console.log(downloadURL)
-                const {code, data} = await addImageOfPet(petId, downloadURL)
+                const {code, data} = await addImageOfPet(petId, {
+                    fileName,
+                    imageUrl
+                })
                 if (code === 1) {
                     setLoading(false)
-                    setPet({...pet, petImageList: [...pet.petImageList, data]});
+                    setPet({...pet, petImage: [...pet.petImage, data]});
                 }
             }
         );

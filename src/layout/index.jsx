@@ -1,6 +1,6 @@
 import React from 'react';
 import {ProLayout} from '@ant-design/pro-components';
-import {CommentOutlined, DeleteOutlined, HomeOutlined, ScissorOutlined, UserOutlined} from '@ant-design/icons';
+import {CommentOutlined, DeleteOutlined, HomeOutlined, ScissorOutlined, UserOutlined,MedicineBoxOutlined} from '@ant-design/icons';
 import './index.less'
 import {history, Outlet, useModel, useSelector} from 'umi'
 import {Badge, Spin} from "antd";
@@ -97,6 +97,12 @@ const BasicLayout = (props) => {
       key:'13',
       path: '/post',
       hideInMenu: true,
+    },
+    {
+      key:'15',
+      path: '/medical',
+      name: '宠物医院',
+      icon: <MedicineBoxOutlined />,
     },
   ];
 

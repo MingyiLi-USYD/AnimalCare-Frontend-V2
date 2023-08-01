@@ -1,6 +1,7 @@
 import {request} from "umi";
 
-export const getPets = async ()=>await request("/api/getPetList",{
+
+export const getPets = async ()=>await request("/api/pets",{
     method:'GET'
 })
 
@@ -13,17 +14,10 @@ export const updatePetById = async (petId,pet)=>await request(`/api/pet/${petId}
     data:pet
 })
 
-export const newPet = (params) => {
-    const { petName, petDescription, category,petVisible,image } = params;
+export const newPet = (data) => {
     return request('/api/pet', {
         method: 'POST',
-        params: {
-            petName,
-            petDescription,
-            category,
-            petVisible,
-            image
-        },
+        data
     });
 };
 
@@ -31,7 +25,7 @@ export const deleteImageOfPet = async (image)=>await request("/api/pet/image",{
     method:"DELETE",
     data:image
 })
-export const addImageOfPet = async (petId,imageUrl)=>await request(`/api/pet/image/${petId}`,{
+export const addImageOfPet = async (petId,data)=>await request(`/api/pet/image/${petId}`,{
     method:"POST",
-    params: {imageUrl}
+    data
 })
