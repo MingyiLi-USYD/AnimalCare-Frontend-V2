@@ -58,7 +58,7 @@ function DetailInfo(props) {
                             <span style={{marginLeft:5}}>男</span>
                         </div>
                         <div>
-                            Username:<span style={{marginLeft:5}}>{contact.userName}</span>
+                            Username:<span style={{marginLeft:5}}>{contact.username}</span>
                         </div>
                         <div>
                             Description:<span style={{marginLeft:5}}>{contact.description}</span>

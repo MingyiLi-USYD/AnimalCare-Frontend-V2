@@ -1,12 +1,20 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {history, useDispatch, useParams, useSelector} from "umi";
 import "./postDetail.less"
-import {Avatar, Button, Carousel, Divider, Input, List, Skeleton} from "antd";
+import {Avatar, Button, Carousel, Divider, Input, List, Skeleton, Spin} from "antd";
 import Loading from "../../components/Loading";
 import {HeartOutlined, MessageOutlined, PaperClipOutlined, SmileOutlined, StarOutlined} from '@ant-design/icons';
 import InfiniteScroll from "react-infinite-scroll-component";
 import Comment from "../Comment/comment";
 import Interaction from "../../components/Interactions/interaction";
+import {
+    addCommentAction, addSubcommentAction,
+    cancelLoveAction, cancelLovePost, fetchComment,
+    fetchCommentAction,
+    fetchPostAction,
+    fetchPostWithComments, loveAction, lovePost,
+    showCommentsAction
+} from "@/actions/postDetailActions";
 
 function PostDetail() {
     const dispatch = useDispatch();
@@ -28,25 +36,16 @@ function PostDetail() {
         replyNickname,
     } = useSelector(state => state.postDetailModel)
     const {loveList, startList} = useSelector(state => state.userModel)
-    const {effects} = useSelector(state => state.loading)
-    const isLoading =   effects['postDetailModel/fetchComments']
-        ||effects['postDetailModel/lovePost']
-        ||effects['postDetailModel/cancelLovePost'];
+    const {effects,global} = useSelector(state => state.loading)
+    //const isLoading =   effects[fetchComment] ||effects[lovePost] ||effects[cancelLovePost];
     useEffect(() => {
         if (postId && postId !== post.postId) {
-
-            dispatch({
-                type: 'postDetailModel/fetchPostWithComments',
-                payload: postId
-            })
+            dispatch(fetchPostAction(postId))
         }
     }, [])
 
     const loadComment = () => {
-        dispatch({
-            type: 'postDetailModel/fetchComments',
-            payload: {postId, pages, pageSize: 10}
-        })
+        dispatch(fetchCommentAction(postId,pages,10))
     }
 
     const handleInput = (e) => {
@@ -63,51 +62,33 @@ function PostDetail() {
         const commentContainer = commentContainerRef.current;
         if (commentContainer) {
             const commentContainerTop = commentContainer.getBoundingClientRect().top;
-            dispatch({
-                type: 'postDetailModel/onShowComments',
-                payload: {label: "Share your idea", type: 0}
-            })
+            dispatch(showCommentsAction())
             if (commentContainerTop > 0) {
                 commentContainer.scrollIntoView({behavior: 'smooth'});
             }
         }
     }
-    if (effects['postDetailModel/fetchPostWithComments']) {
+    if (effects[fetchPostWithComments]) {
         return <Loading/>
     }
 
     const handleLove = () => {
-        dispatch({
-            type: 'postDetailModel/lovePost',
-            payload: postId
-        })
+        dispatch(loveAction(postId))
     };
     const handleCancelLove = () => {
-        dispatch({
-            type: 'postDetailModel/cancelLovePost',
-            payload: postId
-        })
+        dispatch(cancelLoveAction(postId))
     };
 
 
     const handleSend = () => {
         if (type === 0) {
-            dispatch({
-                type: 'postDetailModel/addComment',
-                payload: {postId, commentContent: text}
-            })
+            dispatch(addCommentAction(postId,text))
         }
         if (type === 1) {
-            dispatch({
-                type: 'postDetailModel/addSubcomment',
-                payload: {commentId, commentContent: text}
-            })
+            dispatch(addSubcommentAction(commentId,text))
         }
         if (type === 2) {
-            dispatch({
-                type: 'postDetailModel/addSubcomment',
-                payload: {commentId, commentContent: text, replyNickname}
-            })
+            dispatch(addSubcommentAction(commentId,text,replyNickname))
         }
         afterSend()
     }
@@ -122,16 +103,12 @@ function PostDetail() {
             inputRef.current.focus();
         }
     };
-
+   console.log(global)
 
     return (
 
         <div className={"post-container"}>
-            {
-                isLoading
-            }
             <div className={"carousel"}>
-
                 <Carousel autoplay={false}>
                     {post?.images?.map(({imageId,imageUrl}) =>
                         (

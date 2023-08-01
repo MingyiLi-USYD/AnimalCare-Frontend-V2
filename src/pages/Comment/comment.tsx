@@ -4,9 +4,8 @@ import {Avatar} from "antd";
 import {HeartOutlined, MessageOutlined} from '@ant-design/icons';
 import Interaction from "../../components/Interactions/interaction";
 import {history} from "umi";
-import {formatTimestamp} from "../../utils/timeUtils";
+import {formatTimestamp} from "@/utils/timeUtils";
 import SubComment from "./subComment";
-import {getSubcommentsById} from "../../services/commentService";
 import {useDispatch, useSelector} from "../../.umi/exports";
 import {CommentDto} from "@/pojo/comment";
 

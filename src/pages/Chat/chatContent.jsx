@@ -17,8 +17,9 @@ const ChatContent = (props) => {
     const chat = getChat(chatRecord, contact);
 
     async function handleFetchHistory() {
-        const {code, data} = await retrieveMessageById(contact.id);
+        const {code, data} = await retrieveMessageById(contact.userId);
         if (code === 1) {
+            console.log(data)
             dispatch({
                 type: 'ChatModel/onFetchHistory',
                 payload: {data},
@@ -50,7 +51,7 @@ export default connect(
     },
 )(ChatContent);
 const OneRecord = ({data, me, target}) => {
-    const isMe = data.fromId === me.id
+    const isMe = data.fromId === me.userId
     return (
         <div className={`oneMessage ${isMe ? 'reverse' : ''}`}>
             <div>

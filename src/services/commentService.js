@@ -28,6 +28,5 @@ export const postSubcomment = (commentId,subcommentContent,targetNickname) =>
         data:{
             subcommentContent,
             targetNickname,
-
         }
     });
