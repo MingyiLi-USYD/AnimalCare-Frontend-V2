@@ -103,8 +103,6 @@ function PostDetail() {
             inputRef.current.focus();
         }
     };
-   console.log(global)
-
     return (
 
         <div className={"post-container"}>

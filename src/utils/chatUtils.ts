@@ -1,5 +1,6 @@
 import {ChatRecord, ChatRecordItem} from "@/entity/ChatRecord";
 import {User} from "@/pojo/user";
+import {ChatMessage} from "@/entity/Message";
 
 
 export function onChatReceiveService(chatRecord:ChatRecord, data:ChatMessage,fromUser:User,contact:User) {

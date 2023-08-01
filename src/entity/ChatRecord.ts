@@ -1,6 +1,7 @@
 import {User} from "@/pojo/user";
+import {ChatMessage} from "@/entity/Message";
 
-export type ChatRecordItem ={
+export interface ChatRecordItem {
     chatList: ChatMessage[];
     chatUser: User;
     latestTime: number;
@@ -8,6 +9,6 @@ export type ChatRecordItem ={
     unRead: number;
 }
 
-export type ChatRecord = {
+export interface ChatRecord  {
     [userId: string]: ChatRecordItem;
-};
+}

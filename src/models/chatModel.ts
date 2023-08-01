@@ -6,18 +6,28 @@ import {
     onChatSendService,
     onNewSessionService,
     resetUnread
-} from "../utils/chatUtils";
-import {getRequestList} from "../services/friendService";
-import {retrieveAllMessages} from "../services/chatService";
+} from "@/utils/chatUtils";
+import {retrieveAllMessages} from "@/services/chatService";
+import {ChatRecord, ChatRecordItem} from "@/entity/ChatRecord";
+import {User} from "@/pojo/user";
+import {DvaModel, EffectsMapObject} from "umi";
+import {MyAction, MyReducersMapObject} from "@/services/dva";
+import {CloudMessage} from "@/entity/Message";
+interface ChatModelState{
+    isConnected:boolean,
+    chatRecord: ChatRecord,
+    contact: User,
+    me: User,
+    chatRecordArray: ChatRecordItem[],
+}
 
-
-export default {
+const chatModel:DvaModel<ChatModelState,EffectsMapObject,MyReducersMapObject<ChatModelState,MyAction<any>>> = {
     namespace: 'ChatModel',
     state: {
         isConnected:false,
         chatRecord: {},
-        contact: {},
-        me: {},
+        contact: {} as User,
+        me: {} as User,
         chatRecordArray: [],
     },
 
@@ -28,7 +38,7 @@ export default {
         connect(state){
             state.isConnected=true;
         },
-        fetchChatRecordsSuccess(state, {payload: messages}) {
+        fetchChatRecordsSuccess(state, {payload: messages}:{payload:ChatRecordItem[]}) {
             let {chatRecord} = state
             const newChatRecord = onAllChatFetchService(chatRecord, messages)
             state.chatRecord=newChatRecord
@@ -48,10 +58,9 @@ export default {
             state.chatRecord=newChatRecord
             state.chatRecordArray=convertMapToList(newChatRecord)
         },
-        onFetchHistory(state, {payload}){
+        onFetchHistory(state, {payload}:{payload:CloudMessage}){
             let {chatRecord,contact} = state
-            const {data} =payload;
-           const newChatRecord =onChatFetchService(chatRecord,data,contact)
+            const newChatRecord =onChatFetchService(chatRecord,payload.chatList,contact)
             state.chatRecord=newChatRecord
             state.chatRecordArray=convertMapToList(newChatRecord)
         },
@@ -87,5 +96,4 @@ export default {
         },
     }
 }
-
-
+export default chatModel

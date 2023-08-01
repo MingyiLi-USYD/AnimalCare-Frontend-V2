@@ -1,28 +1,29 @@
 import {Avatar, Button, List} from 'antd';
 import {useEffect, useRef} from 'react';
-import {connect} from "umi";
+import {connect, useDispatch, useSelector} from "umi";
 import {getChat} from "@/utils/chatUtils";
 import {retrieveMessageById} from "@/services/chatService";
 
 
-const ChatContent = (props) => {
 
-    const {chatRecord, contact, me, dispatch} = props;
+const ChatContent = () => {
+    const {chatRecord, contact, me }=useSelector(state=>state.ChatModel)
+    const dispatch = useDispatch();
     const listRef = useRef(null);
     useEffect(() => {
         if (listRef.current) {
+
             listRef.current.scrollTop = listRef.current.scrollHeight;
         }
     }, [chatRecord[contact.userId].chatList.length]);
-    const chat = getChat(chatRecord, contact);
+    const chat= getChat(chatRecord, contact);
 
     async function handleFetchHistory() {
-        const {code, data} = await retrieveMessageById(contact.userId);
-        if (code === 1) {
-            console.log(data)
+        const {code, data}= await retrieveMessageById(contact.userId);
+        if (code === 1 ) {
             dispatch({
                 type: 'ChatModel/onFetchHistory',
-                payload: {data},
+                payload: data,
             })
         }
     }
@@ -45,11 +46,7 @@ const ChatContent = (props) => {
         </div>
     );
 };
-export default connect(
-    ({ChatModel: {chatRecord, contact, me}}) => {
-        return {chatRecord, contact, me};
-    },
-)(ChatContent);
+export default ChatContent;
 const OneRecord = ({data, me, target}) => {
     const isMe = data.fromId === me.userId
     return (

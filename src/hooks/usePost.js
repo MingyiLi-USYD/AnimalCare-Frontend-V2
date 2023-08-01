@@ -56,7 +56,8 @@ const usePost = () => {
         const images = [];
         try {
             const uploadPromises = files.map((file) => {
-                const storageRef = ref(storage, currentUser.userName + '/' + uuidv4());
+                const fileName = currentUser.username + '/' + uuidv4();
+                const storageRef = ref(storage, fileName);
                 const uploadTask = uploadBytesResumable(storageRef, file.originFileObj);
                 return new Promise((resolve, reject) => {
                     uploadTask.on(
@@ -70,8 +71,8 @@ const usePost = () => {
                             reject(error);
                         },
                         () => {
-                            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                                images.push(downloadURL);
+                            getDownloadURL(uploadTask.snapshot.ref).then((imageUrl) => {
+                                images.push({fileName,imageUrl});
                                 uploadedSize += uploadTask.snapshot.totalBytes;
                                 resolve();
                             });
@@ -98,12 +99,13 @@ const usePost = () => {
 
     const finish = async (values) => {
        // console.log(values)
-        let dateTimeCombined = null
+        //let dateTimeCombined = null
         if (!postNow) {
             // If "Later" is selected, combine the selected date and time into a timestamp
             const datePart = values.date.format("YYYY-MM-DD");
             const timePart = values.time.format("HH:mm:ss");
-            dateTimeCombined = `${datePart} ${timePart}`;
+           // dateTimeCombined = `${datePart} ${timePart}`;
+            values.estimateDate = `${datePart} ${timePart}`
            // console.log(dateTimeCombined)
         }
         if (!auth.currentUser) {
@@ -111,9 +113,9 @@ const usePost = () => {
             await signInWithCustomToken(auth, data);
         }
         setLoading(true);
-        values.images = JSON.stringify(await uploadMultipleImages(values.images));
-        console.log(values)
-        const { code } = await newPost(values,dateTimeCombined);
+        values.images = await uploadMultipleImages(values.images);
+
+        const { code } = await newPost(values);
         if (code === 1) {
             setLoading(false);
             setDone(true);

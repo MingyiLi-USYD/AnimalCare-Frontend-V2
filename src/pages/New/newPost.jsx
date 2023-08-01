@@ -79,8 +79,8 @@ const NewPost = () => {
                     <div className={'title'}>Content Editing</div>
                     <Form.Item
                         label="Title"
-                        name={'topic'}
-                        rules={[{required: true, message: 'Please input your topic !'}]}
+                        name={'postTitle'}
+                        rules={[{required: true, message: 'Please input your title !'}]}
                     >
                         <Input showCount maxLength={50}/>
                     </Form.Item>
@@ -110,7 +110,7 @@ const NewPost = () => {
                     </Form.Item>
                     <Form.Item
                         label="Category"
-                        name={'tag'}
+                        name={'postTag'}
                         rules={[{required: true, message: 'Please choose pet category !'}]}
                     >
                         <Select size={"large"} className={'form-selector'}>
@@ -122,11 +122,11 @@ const NewPost = () => {
                                          setFileList={setFileList}/>
 
                     <div className={'title'}>Post Setting</div>
-                    <Form.Item label={"Visibility"} name={'visible'} initialValue={1}>
+                    <Form.Item label={"Visibility"} name={'visible'} initialValue={true}>
                         <Radio.Group>
-                            <Radio value={1}>Public</Radio>
-                            <Radio value={2}>Friend Only</Radio>
-                            <Radio value={3}>Private</Radio>
+                            <Radio value={true}>Public</Radio>
+                          {/*  <Radio value={2}>Friend Only</Radio>*/}
+                            <Radio value={false}>Private</Radio>
                         </Radio.Group>
                     </Form.Item>
                     <Form.Item label={"PostTimeSelector"} name={'timeSelector'} initialValue={postNow}>
