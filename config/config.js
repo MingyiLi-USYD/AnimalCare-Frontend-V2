@@ -14,7 +14,8 @@ export default defineConfig({
   request: {},
   initialState: {
   },
-  access: {},
+  access: {
+  },
   dva:{
     immer: {
     },
