@@ -3,6 +3,7 @@ import {routes} from "./routes";
 
 
 export default defineConfig({
+  jsMinifier: 'terser',
   plugins: [
     '@umijs/plugins/dist/initial-state',
     '@umijs/plugins/dist/model',
