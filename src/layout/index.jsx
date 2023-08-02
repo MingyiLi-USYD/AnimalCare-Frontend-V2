@@ -2,9 +2,8 @@ import React from 'react';
 import {ProLayout} from '@ant-design/pro-components';
 import {CommentOutlined, DeleteOutlined, HomeOutlined, ScissorOutlined, UserOutlined,MedicineBoxOutlined} from '@ant-design/icons';
 import './index.less'
-import {history, Outlet, useModel, useSelector} from 'umi'
+import {history, Outlet, useModel, useSelector,connect, useAccess} from 'umi'
 import {Badge, Spin} from "antd";
-import {connect} from "../.umi/exports";
 import {allUnread} from "@/utils/chatUtils";
 import useSocket from "@/hooks/useSocket";
 import MyDropdown from "@/components/Dropdown/MyDropdown";
@@ -15,6 +14,8 @@ const BasicLayout = (props) => {
   const {initialState} = useModel('@@initialState');
   const {socket,disconnect}=useSocket(initialState.currentUser)
   const {global} = useSelector(state=>state.loading)
+  const access = useAccess();
+  console.log(access)
   const {currentUser}=initialState;
   const customMenuData= [
     {
@@ -99,10 +100,11 @@ const BasicLayout = (props) => {
       hideInMenu: true,
     },
     {
-      key:'15',
+      key:'16',
       path: '/medical',
       name: '宠物医院',
       icon: <MedicineBoxOutlined />,
+      access: 'normalRouteFilter',
     },
   ];
 

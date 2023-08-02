@@ -8,12 +8,13 @@ export default defineConfig({
     '@umijs/plugins/dist/model',
     '@umijs/plugins/dist/request',
     '@umijs/plugins/dist/dva',
+    '@umijs/plugins/dist/access',
   ],
   model: {},
   request: {},
   initialState: {
-
   },
+  access: {},
   dva:{
     immer: {
     },
