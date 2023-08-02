@@ -6,7 +6,7 @@ import Interaction from "../../components/Interactions/interaction";
 import {history} from "umi";
 import {formatTimestamp} from "@/utils/timeUtils";
 import SubComment from "./subComment";
-import {useDispatch, useSelector} from "../../.umi/exports";
+import {useDispatch, useSelector} from "umi";
 import {CommentDto} from "@/pojo/comment";
 
 function Comment({comment,focus}:{comment:CommentDto,focus:Function}) {

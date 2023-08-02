@@ -1,5 +1,4 @@
 import React from 'react';
-import {getDvaApp} from "../.umi/exports";
 import {Avatar, notification} from "antd";
 import {useDispatch} from "umi";
 

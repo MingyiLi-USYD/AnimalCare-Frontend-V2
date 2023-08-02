@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import './Header.less'
 import {Button} from "antd";
-import {connect} from "../../.umi/exports";
+import {connect} from "umi";
 
 
 const Header = (props) => {

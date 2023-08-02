@@ -1,10 +1,9 @@
 import React from 'react';
 import { Avatar } from 'antd';
 import { HeartOutlined } from '@ant-design/icons';
-import {history} from "umi";
+import {history,useDispatch, useSelector} from "umi";
 import Interaction from "../Interactions/interaction";
 import './cards.less'
-import {useDispatch, useSelector} from "../../.umi/exports";
 
 const PostCard = ({item,avatar,index}) => {
     const {loveList} = useSelector(state => state.userModel)

@@ -4,7 +4,7 @@ import {history} from "umi";
 import {formatTimestamp} from "@/utils/timeUtils";
 import Interaction from "../../components/Interactions/interaction";
 import {HeartOutlined, MessageOutlined} from "@ant-design/icons";
-import {useDispatch} from "../../.umi/exports";
+import {useDispatch} from "umi";
 import {SubcommentDto} from "@/pojo/subComment";
 
 
