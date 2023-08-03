@@ -4,6 +4,6 @@ export default function accessFactory(initialState) {
     const { userId, role } = initialState;
 
     return {
-        canViewMedical: false,
+        isRoot: false,
     };
 }

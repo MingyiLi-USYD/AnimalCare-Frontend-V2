@@ -45,3 +45,13 @@ export const getFirebaseIdToken = async () =>
     await request('/api/token', {
         method: 'GET',
     });
+
+export const getUsers = async (current,size,keywords) =>
+    await request('/api/users', {
+        method: 'GET',
+        params:{
+            current,
+            size,
+            keywords
+        }
+    });

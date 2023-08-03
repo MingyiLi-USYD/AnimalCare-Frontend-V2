@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {ProLayout} from '@ant-design/pro-components';
 import {CommentOutlined, DeleteOutlined, HomeOutlined, ScissorOutlined, UserOutlined,MedicineBoxOutlined} from '@ant-design/icons';
 import './index.less'
@@ -15,7 +15,6 @@ const BasicLayout = (props) => {
   const {socket,disconnect}=useSocket(initialState.currentUser)
   const {global} = useSelector(state=>state.loading)
   const access = useAccess();
-  console.log(access)
   const {currentUser}=initialState;
   const customMenuData= [
     {
@@ -104,15 +103,25 @@ const BasicLayout = (props) => {
       path: '/medical',
       name: '宠物医院',
       icon: <MedicineBoxOutlined />,
-      access: 'normalRouteFilter',
+      access: 'isRoot',
+    },
+    {
+      key:'17',
+      path: '/admin',
+      name: '权限管理',
+      icon: <MedicineBoxOutlined />,
+      access: 'isRoot',
     },
   ];
 
+  const [location, setLocation] = useState("/home")
+
   return (
     <ProLayout
+        location={location}
       layout={"side"}
       fixSiderbar
-      title="Umi App"
+      title="PetBook"
       navTheme="dark"
       menuDataRender={()=>customMenuData}
       avatarProps={{

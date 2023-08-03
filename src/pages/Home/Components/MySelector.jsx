@@ -19,6 +19,7 @@ function MySelector() {
                 width: 150,
             }}
             onChange={handleChange}
+            allowClear={true}
             options={[
                 {
                     value: 0,

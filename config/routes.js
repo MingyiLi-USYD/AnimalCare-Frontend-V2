@@ -92,7 +92,12 @@ export  const routes = [
             {
                 path: '/medical',
                 component: '@/pages/Medical/medical',
-                access: 'canViewMedical',
+                access: 'isRoot',
+            },
+            {
+                path: '/admin',
+                component: '@/pages/Admin/admin',
+                access: 'isRoot',
             },
             { path: '/*', redirect:'/home'},
         ],
