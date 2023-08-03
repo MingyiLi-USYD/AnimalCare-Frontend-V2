@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4116457 */
-  src: url('iconfont.woff2?t=1689888925219') format('woff2'),
-       url('iconfont.woff?t=1689888925219') format('woff'),
-       url('iconfont.ttf?t=1689888925219') format('truetype');
+  src: url('iconfont.woff2?t=1691044764847') format('woff2'),
+       url('iconfont.woff?t=1691044764847') format('woff'),
+       url('iconfont.ttf?t=1691044764847') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,22 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-PetAdvice:before {
+  content: "\e9e0";
+}
+
+.icon-Vaccine:before {
+  content: "\e9e3";
+}
+
+.icon-FirstAid:before {
+  content: "\e9e9";
+}
+
+.icon-DentalCleaning:before {
+  content: "\e9ea";
 }
 
 .icon-gonggong-zuojiantou:before {

@@ -57,6 +57,39 @@ const BackForwardIcon = (props)=> {
         <MySVG name={'#icon-a-zuofanhuihoutui'} style={style} onClick={onClick}/>
     );
 }
+const VaccineIcon = (props)=> {
+    return (
+        <svg className="icon"  aria-hidden="true"  {...props}>
+            <use xlinkHref='#icon-Vaccine'></use>
+        </svg>
+    );
+}
+
+
+const ConsultationIcon = (props)=> {
+    return (
+        <svg className="icon"  aria-hidden="true"  {...props}>
+            <use xlinkHref='#icon-PetAdvice'></use>
+        </svg>
+    );
+}
+
+const SurgeryIcon = (props)=> {
+    const { style,onClick} = props;
+    return (
+        <svg className="icon"  aria-hidden="true"  {...props}>
+            <use xlinkHref='#icon-FirstAid'></use>
+        </svg>
+    );
+}
+const DentalIcon = (props)=> {
+    const { style,onClick} = props;
+    return (
+        <svg className="icon"  aria-hidden="true"  {...props}>
+            <use xlinkHref='#icon-DentalCleaning'></use>
+        </svg>
+    );
+}
 const MySVG = (props)=>{
     return(
         <svg className='icon' aria-hidden="true" {...props}  >
@@ -64,6 +97,16 @@ const MySVG = (props)=>{
         </svg>
     )
 }
+const NewFriend=()=> {
+
+    return (
+        <svg className="icon" height={60} width={60} aria-hidden="true">
+            <use xlinkHref="#icon-jiahaoyou"></use>
+        </svg>
+    );
+}
 
 
-export {StatisticsIcon,ServerIcon,TemperatureIcon,CPUIcon,RAMIcon,DogIcon,CatIcon,BackForwardIcon} ;
+export {StatisticsIcon,ServerIcon,TemperatureIcon,CPUIcon,
+    RAMIcon,DogIcon,CatIcon,BackForwardIcon,VaccineIcon,
+    ConsultationIcon,SurgeryIcon,DentalIcon,NewFriend} ;

@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "11982923",
+      "name": "Pet Advice",
+      "font_class": "PetAdvice",
+      "unicode": "e9e0",
+      "unicode_decimal": 59872
+    },
+    {
+      "icon_id": "11982940",
+      "name": "Vaccine",
+      "font_class": "Vaccine",
+      "unicode": "e9e3",
+      "unicode_decimal": 59875
+    },
+    {
+      "icon_id": "11982959",
+      "name": "First Aid",
+      "font_class": "FirstAid",
+      "unicode": "e9e9",
+      "unicode_decimal": 59881
+    },
+    {
+      "icon_id": "11982976",
+      "name": "Dental Cleaning",
+      "font_class": "DentalCleaning",
+      "unicode": "e9ea",
+      "unicode_decimal": 59882
+    },
+    {
       "icon_id": "12872642",
       "name": "公共-左箭头1",
       "font_class": "gonggong-zuojiantou",

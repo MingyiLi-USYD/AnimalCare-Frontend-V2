@@ -55,3 +55,13 @@ export const getUsers = async (current,size,keywords) =>
             keywords
         }
     });
+
+
+export const changeUserStatus = async (userId,role,status) =>
+    await request(`/api/changeUser/${userId}`, {
+        method: 'GET',
+        params:{
+            role,
+            status,
+        }
+    });

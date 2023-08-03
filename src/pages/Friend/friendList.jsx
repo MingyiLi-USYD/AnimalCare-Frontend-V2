@@ -1,8 +1,8 @@
 import {Avatar, Badge, List} from 'antd';
-import {useDispatch} from "umi";
+import {useDispatch,useSelector} from "umi";
 import {useState} from 'react';
-import {NewFriend} from "@/assets/logo/Logo";
-import {useSelector} from "umi";
+import {NewFriend} from "@/assets/Icons/icon";
+
 
 
 const FriendList = () => {
