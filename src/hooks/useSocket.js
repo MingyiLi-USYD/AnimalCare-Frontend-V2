@@ -17,21 +17,11 @@ const useSocket = (currentUser) => {
       type:'userModel/initUserInfo'
     })
   }
-/*  const initFriendsInfo = ()=>{
-    dispatch({
-      type:'FriendModel/initFriendData'
-    })
-  }*/
-/*  const initChatRecords = ()=>{
-    dispatch({
-      type:'ChatModel/fetchChatRecords'
-    })
-  }*/
+
   useEffect(()=>{
     putProfileOnStore(currentUser);
     //initChatRecords()
     initUserInfo()
-    //initFriendsInfo()
   },[
       currentUser.userId
   ])

@@ -13,7 +13,6 @@ function PetModal({open, close, data, setData, selectedPet, notify}) {
     const handleOk = async () => {
 
         const newPet = {...pet, ...form.getFieldsValue()}
-        console.log(newPet)
         const {code} = await updatePetById(pet.petId, newPet)
         if (code === 1) {
             const newData = [...data]
@@ -64,12 +63,12 @@ function PetModal({open, close, data, setData, selectedPet, notify}) {
                         <Input/>
                     </Form.Item>
                     <Form.Item label="Description" name={'petDescription'} initialValue={petDescription}>
-                        <TextArea rows={4}/>
+                        <TextArea rows={4} />
                     </Form.Item>
                     <Form.Item
                         valuePropName="checked"
                         getValueProps={value => value}
-                        label="Public"
+                        label="Visiblity"
                         name={'petVisible'}
                         initialValue={checked}
                     >

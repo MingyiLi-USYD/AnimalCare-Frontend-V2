@@ -6,6 +6,9 @@ const addComment='postDetailModel/addComment'
 const addSubcomment='postDetailModel/addSubcomment'
 const showComments = 'postDetailModel/onShowComments'
 
+const subscribeUser = 'postDetailModel/subscribeUser'
+const unsubscribeUser = 'postDetailModel/unsubscribeUser'
+
 const loveAction= (postId) => {
       return{
           type: lovePost,
@@ -17,6 +20,18 @@ const cancelLoveAction= (postId) => {
     return{
         type: cancelLovePost,
         payload: postId
+    }
+}
+const subscribeUserAction= (userId) => {
+    return{
+        type: subscribeUser,
+        payload: userId
+    }
+}
+const unsubscribeUserAction= (userId) => {
+    return{
+        type: unsubscribeUser,
+        payload: userId
     }
 }
 
@@ -59,6 +74,8 @@ const showCommentsAction = ()=>{
         payload: {label: "Share your idea", type: 0}
     }
 }
+
+
 export {
     lovePost,
     cancelLovePost,
@@ -73,5 +90,7 @@ export {
     fetchCommentAction,
     addCommentAction,
     addSubcommentAction,
-    showCommentsAction
+    showCommentsAction,
+    subscribeUserAction,
+    unsubscribeUserAction,
 };

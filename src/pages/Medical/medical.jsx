@@ -4,7 +4,7 @@ import ServiceCard from "@/pages/Medical/Components/serviceCard";
 import {ConsultationIcon, DentalIcon, SurgeryIcon, VaccineIcon} from "@/assets/Icons/icon";
 const style= {
     height:'80px',
-    width:'80x',
+    width:'80px',
 }
 
 function Medical(props) {

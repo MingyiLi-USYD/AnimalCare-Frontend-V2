@@ -1,20 +1,23 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {history, useDispatch, useParams, useSelector} from "umi";
 import "./postDetail.less"
-import {Avatar, Button, Carousel, Divider, Input, List, Skeleton, Spin} from "antd";
+import {Avatar, Button, Carousel, Divider, Input, List, Skeleton} from "antd";
 import Loading from "../../components/Loading";
 import {HeartOutlined, MessageOutlined, PaperClipOutlined, SmileOutlined, StarOutlined} from '@ant-design/icons';
 import InfiniteScroll from "react-infinite-scroll-component";
 import Comment from "../Comment/comment";
 import Interaction from "../../components/Interactions/interaction";
 import {
-    addCommentAction, addSubcommentAction,
-    cancelLoveAction, cancelLovePost, fetchComment,
+    addCommentAction,
+    addSubcommentAction,
+    cancelLoveAction,
     fetchCommentAction,
     fetchPostAction,
-    fetchPostWithComments, loveAction, lovePost,
-    showCommentsAction
+    fetchPostWithComments,
+    loveAction,
+    showCommentsAction, subscribeUserAction, unsubscribeUserAction
 } from "@/actions/postDetailActions";
+import {subscribeUser} from "@/services/userService";
 
 function PostDetail() {
     const dispatch = useDispatch();
@@ -35,9 +38,9 @@ function PostDetail() {
         commentId,
         replyNickname,
     } = useSelector(state => state.postDetailModel)
+    const {subscriptionList} = useSelector(state => state.userModel)
     const {loveList, startList} = useSelector(state => state.userModel)
-    const {effects,global} = useSelector(state => state.loading)
-    //const isLoading =   effects[fetchComment] ||effects[lovePost] ||effects[cancelLovePost];
+    const {effects, global} = useSelector(state => state.loading)
     useEffect(() => {
         if (postId && postId !== post.postId) {
             dispatch(fetchPostAction(postId))
@@ -45,7 +48,7 @@ function PostDetail() {
     }, [])
 
     const loadComment = () => {
-        dispatch(fetchCommentAction(postId,pages,10))
+        dispatch(fetchCommentAction(postId, pages, 10))
     }
 
     const handleInput = (e) => {
@@ -82,13 +85,13 @@ function PostDetail() {
 
     const handleSend = () => {
         if (type === 0) {
-            dispatch(addCommentAction(postId,text))
+            dispatch(addCommentAction(postId, text))
         }
         if (type === 1) {
-            dispatch(addSubcommentAction(commentId,text))
+            dispatch(addSubcommentAction(commentId, text))
         }
         if (type === 2) {
-            dispatch(addSubcommentAction(commentId,text,replyNickname))
+            dispatch(addSubcommentAction(commentId, text, replyNickname))
         }
         afterSend()
     }
@@ -103,12 +106,18 @@ function PostDetail() {
             inputRef.current.focus();
         }
     };
+    const handleSubscribe = () => {
+        dispatch(subscribeUserAction(post.userId))
+    }
+    const handleUnsubscribe = () => {
+        dispatch(unsubscribeUserAction(post.userId))
+    }
     return (
 
         <div className={"post-container"}>
             <div className={"carousel"}>
                 <Carousel autoplay={false}>
-                    {post?.images?.map(({imageId,imageUrl}) =>
+                    {post?.images?.map(({imageId, imageUrl}) =>
                         (
                             <div key={imageId}>
                                 <div className={"image-container"}
@@ -126,8 +135,11 @@ function PostDetail() {
                         }}/>
                         <span className={"nickname"}>{post?.postUser?.nickname}</span>
                     </div>
-
-                    <Button style={{borderRadius: 20}} type={"primary"}>Subscribe</Button>
+                    {
+                        subscriptionList.includes(post.userId)?
+                            <Button style={{borderRadius: 20}} danger onClick={handleUnsubscribe}>Unsubscribe</Button>
+                            : <Button style={{borderRadius: 20}} type={"primary"} onClick={handleSubscribe}>Subscribe</Button>
+                    }
                 </div>
                 <div className={"note-scroller"} id="scrollableDiv">
                     <div className={"note-content"}>

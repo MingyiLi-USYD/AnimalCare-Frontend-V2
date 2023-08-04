@@ -65,3 +65,12 @@ export const changeUserStatus = async (userId,role,status) =>
             status,
         }
     });
+
+export const subscribeUser = async (userId) =>
+    await request(`/api/subscribe/${userId}`, {
+        method: 'Post',
+    });
+export const unsubscribeUser = async (userId) =>
+    await request(`/api/subscribe/${userId}`, {
+        method: 'Delete',
+    });

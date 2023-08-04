@@ -3,7 +3,7 @@ import {Avatar, Button, Input, message, Popconfirm, Select, Space, Table, Tag} f
 import {changeUserStatus, getUsers} from "@/services/userService";
 import { cloneDeep } from 'lodash';
 import './admin.less'
-import {useAccess} from "umi";
+import {history, useAccess} from "umi";
 const {Search} = Input;
 
 const PAGE_SIZE = 10; // 每页显示的数量
@@ -50,7 +50,7 @@ const App = () => {
             title: 'Username',
             dataIndex: 'username',
             key: 'username',
-            render: (text) => <a>{text}</a>,
+            render: (text,item) => <a onClick={()=>{history.push(`/profile/${item.userId}`)}}>{text}</a>,
         },
         {
             title: 'Status',
@@ -82,7 +82,7 @@ const App = () => {
                                 style={{
                                     width: 120,
                                 }}
-                                allowClear={true}
+                                allowClear={false}
                                 options={options}
                                 onChange={(value)=> handleSelectRole(value,record.userId)}
                                 disabled={!hasPermission(record.role)}

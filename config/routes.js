@@ -90,6 +90,29 @@ export  const routes = [
                 component: '@/pages/Setting/setting',
             },
             {
+                path: '/inbox',
+                component: '@/pages/Inbox/inbox',
+                routes: [
+                    {
+                        path: '/inbox',
+                        redirect: '/inbox/post',
+                    },
+                    {
+                        path: '/inbox/post',
+                        component: '@/pages/Inbox/Components/PostRelevant/postRelevantMessage',
+                    },
+                    {
+                        path: '/inbox/mention',
+                        component: '@/pages/Inbox/Components/BeMentioned/beMentionedMessage',
+                    },
+                    {
+                        path: '/inbox/system',
+                        component: '@/pages/Inbox/Components/System/systemMessage',
+                    },
+                ],
+
+            },
+            {
                 path: '/medical',
                 component: '@/pages/Medical/medical',
                 access: 'isRoot',

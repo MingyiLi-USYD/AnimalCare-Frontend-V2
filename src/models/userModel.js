@@ -4,7 +4,8 @@ export default {
     namespace:'userModel',
     state:{
         loveList:[],
-        startList:[]
+        startList:[],
+        subscriptionList:[]
     },
 
     reducers:{
@@ -21,8 +22,20 @@ export default {
             }
 
         },
+        addToSubscriptionList(state,{payload}){
+            !state.subscriptionList.includes(payload)&&state.subscriptionList.push(payload)
+        },
+        removeFromSubscriptionList(state,{payload}){
+            const index = state.subscriptionList.indexOf(payload);
+            if(index>=0){
+                state.subscriptionList.splice(index, 1);
+            }
+        },
         fetchLoveListSuccess(state,{payload}){
            state.loveList=payload
+        },
+        fetchSubscriptionListSuccess(state,{payload}){
+            state.subscriptionList=payload
         },
 
     },
@@ -31,6 +44,7 @@ export default {
             const { data,code } = yield call(initUserInfo);
             if(code===1){
                 yield put({ type: 'fetchLoveListSuccess', payload: data.loveIdList });
+                yield put({ type: 'fetchSubscriptionListSuccess', payload: data.subscribedUserIdList });
                 yield put({type: 'friendModel/fetchFriendListSuccess', payload: data.friendshipDtoList});
                 yield put({type: 'friendModel/fetchRequestListSuccess', payload: data.friendRequestDtoList});
 

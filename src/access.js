@@ -1,7 +1,13 @@
+import {history} from "umi";
 
 export default function accessFactory(initialState) {
+
+    if(history.location.pathname==='/login'){
+        return {
+
+        }
+    }
     const { currentUser:{role} } = initialState;
-    console.log(role)
     const rightMap= {
         User:0,
         Admin:1,

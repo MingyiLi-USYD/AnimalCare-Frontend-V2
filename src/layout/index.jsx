@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {ProLayout} from '@ant-design/pro-components';
-import {CommentOutlined, DeleteOutlined, HomeOutlined, ScissorOutlined, UserOutlined,MedicineBoxOutlined} from '@ant-design/icons';
+import {CommentOutlined, DeleteOutlined, HomeOutlined,
+  ScissorOutlined, UserOutlined,MedicineBoxOutlined,InboxOutlined} from '@ant-design/icons';
 import './index.less'
 import {history, Outlet, useModel, useSelector,connect, useAccess} from 'umi'
 import {Badge, Spin} from "antd";
@@ -62,12 +63,6 @@ const BasicLayout = (props) => {
       icon: <ScissorOutlined/>,
     },
     {
-      key:'7',
-      name: ' CRUD 示例',
-      path: '/table',
-      icon: <DeleteOutlined/>,
-    },
-    {
       key:'8',
       path: '/setting',
       hideInMenu: true,
@@ -97,6 +92,12 @@ const BasicLayout = (props) => {
       key:'13',
       path: '/post',
       hideInMenu: true,
+    },
+    {
+      key:'18',
+      path: '/inbox',
+      name:'消息',
+      icon: <InboxOutlined />,
     },
     {
       key:'16',

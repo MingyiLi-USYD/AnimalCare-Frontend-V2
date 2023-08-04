@@ -4,6 +4,7 @@ import {PostDto} from "@/pojo/post";
 import {CommentDto} from "@/pojo/comment";
 import {DvaModel, EffectsMapObject} from "umi";
 import {MyAction, MyReducersMapObject, Page} from "@/services/dva";
+import {subscribeUser, unsubscribeUser} from "@/services/userService";
 
 export interface postDetailModelState {
     pages: number;
@@ -154,6 +155,8 @@ const postDetailModel:DvaModel<postDetailModelState,EffectsMapObject,MyReducersM
             if(code===1){
                 yield put({ type: 'increaseLove'});
                 yield put({ type: 'userModel/addToLoveList', payload: postId });
+                yield put({ type: 'homeModel/increaseLove', payload: postId });
+
             }
         },
         *cancelLovePost({ payload:postId }, { call, put }) {
@@ -161,6 +164,19 @@ const postDetailModel:DvaModel<postDetailModelState,EffectsMapObject,MyReducersM
             if(code===1){
                 yield put({ type: 'decreaseLove'});
                 yield put({ type: 'userModel/removeFromLoveList', payload: postId });
+                yield put({ type: 'homeModel/decreaseLove', payload: postId });
+            }
+        },
+        *subscribeUser({ payload:userId }, { call, put }) {
+            const {code} = yield call(subscribeUser,userId);
+            if(code===1){
+                yield put({ type: 'userModel/addToSubscriptionList', payload: userId });
+            }
+        },
+        *unsubscribeUser({ payload:userId }, { call, put }) {
+            const {code} = yield call(unsubscribeUser,userId);
+            if(code===1){
+                yield put({ type: 'userModel/removeFromSubscriptionList', payload: userId });
             }
         },
     },

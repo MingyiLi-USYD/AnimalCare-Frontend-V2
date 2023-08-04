@@ -29,11 +29,11 @@ export default {
         changeSelectorSuccess(state, { payload }) {
                state.selector=payload
         },
-        increaseLove(state, { payload }) {
-            state.postList.find(item=>item.postId===payload).love++
+        increaseLove(state, { payload:postId }) {
+            state.postList.find(item=>item.postId===postId).love++
         },
-        decreaseLove(state, { payload }) {
-            state.postList.find(item=>item.postId===payload).love--
+        decreaseLove(state, { payload:postId }) {
+            state.postList.find(item=>item.postId===postId).love--
         },
     },
     effects: {
