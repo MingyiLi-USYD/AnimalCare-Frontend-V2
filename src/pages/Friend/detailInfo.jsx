@@ -39,7 +39,7 @@ function DetailInfo(props) {
         fontSize: '1.2em',  // 放大字体
         color: 'red',  // 设置颜色为红色
     };
-    if(contact.id===-2){
+    if(contact.userId===-2){
         return (
             <div className={'detail-info'}>
                  <RequestedFriendList dispatch={dispatch}/>

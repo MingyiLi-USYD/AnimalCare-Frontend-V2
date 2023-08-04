@@ -1,18 +1,11 @@
 import {Avatar, Badge, List} from 'antd';
-import {connect} from "umi";
-import {useState} from 'react';
+import {useDispatch, useSelector} from "umi";
 import {formatTimestamp} from "@/utils/timeUtils";
 
 
-const RecentChatFriendList = (props) => {
-    const {chatRecordArray, contact, dispatch} = props
-    const [hoveredIndex, setHoveredIndex] = useState(-1);
-    const handleMouseEnter = (index) => {
-        setHoveredIndex(index)
-    }
-    const handleMouseLeave = () => {
-        setHoveredIndex(-1)
-    }
+const RecentChatFriendList = () => {
+    const dispatch = useDispatch();
+    const {chatRecordArray, contact} = useSelector((state) => state.ChatModel);
     const handleClick = (contact) => {
         dispatch({
             type: 'ChatModel/onChangeContact',
@@ -23,15 +16,14 @@ const RecentChatFriendList = (props) => {
     return (
         <div
             id="scrollableDivRecent"
-            style={{borderRight: '3px solid black', height: '100%'}}
         >
             <List
 
                 dataSource={chatRecordArray}
-                renderItem={(item, index) => (
+                renderItem={(item) => (
                     <List.Item key={item.chatUser.userId}
-                               style={{background: item.chatUser.userId === contact.userId ? '#adb7c7' : index === hoveredIndex ? '#d8dee8' : 'transparent'}}
-                               onMouseEnter={() => handleMouseEnter(index)} onMouseLeave={handleMouseLeave}
+                               id={item.chatUser.userId === contact.userId ? 'active' : ''}
+                               className={'friend-item'}
                                onClick={() => handleClick(item.chatUser)}>
                         <OneRecord data={item}/>
                     </List.Item>
@@ -40,10 +32,7 @@ const RecentChatFriendList = (props) => {
         </div>
     );
 };
-export default connect(({ChatModel: {chatRecordArray, contact}}) => {
-
-    return {chatRecordArray, contact}
-})(RecentChatFriendList);
+export default RecentChatFriendList
 const OneRecord = ({data}) => {
     return (
         <div style={{display: "flex"}}>

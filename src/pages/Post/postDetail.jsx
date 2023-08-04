@@ -15,9 +15,13 @@ import {
     fetchPostAction,
     fetchPostWithComments,
     loveAction,
-    showCommentsAction, subscribeUserAction, unsubscribeUserAction
+    showCommentsAction,
+    subscribeUserAction,
+    unsubscribeUserAction
 } from "@/actions/postDetailActions";
-import {subscribeUser} from "@/services/userService";
+import Picker from "@emoji-mart/react";
+import data from "@emoji-mart/data";
+
 
 function PostDetail() {
     const dispatch = useDispatch();
@@ -27,6 +31,7 @@ function PostDetail() {
     const inputRef = useRef(null);
     const [active, setActive] = useState(false)
     const [text, setText] = useState("")
+    const [emo, setEmo] = useState(false)
 
     const {
         post,
@@ -47,9 +52,20 @@ function PostDetail() {
         }
     }, [])
 
+    useEffect(() => {
+        if (active && text.length === 0) {
+            setActive(false)
+        }
+        if (!active && text.length > 0) {
+            setActive(true)
+        }
+
+    }, [text])
+
     const loadComment = () => {
         dispatch(fetchCommentAction(postId, pages, 10))
     }
+
 
     const handleInput = (e) => {
         const input = e.target.value;
@@ -82,7 +98,6 @@ function PostDetail() {
         dispatch(cancelLoveAction(postId))
     };
 
-
     const handleSend = () => {
         if (type === 0) {
             dispatch(addCommentAction(postId, text))
@@ -98,9 +113,8 @@ function PostDetail() {
 
     const afterSend = () => {
         setText("")
-        setActive(false)
     }
-    const handleFocus = (label) => {
+    const handleFocus = () => {
 
         if (inputRef.current) {
             inputRef.current.focus();
@@ -112,6 +126,12 @@ function PostDetail() {
     const handleUnsubscribe = () => {
         dispatch(unsubscribeUserAction(post.userId))
     }
+    const appendText = (data) => {
+        setText(text + data.native)
+        setEmo(false)
+        handleFocus()
+    }
+
     return (
 
         <div className={"post-container"}>
@@ -136,9 +156,10 @@ function PostDetail() {
                         <span className={"nickname"}>{post?.postUser?.nickname}</span>
                     </div>
                     {
-                        subscriptionList.includes(post.userId)?
+                        subscriptionList.includes(post.userId) ?
                             <Button style={{borderRadius: 20}} danger onClick={handleUnsubscribe}>Unsubscribe</Button>
-                            : <Button style={{borderRadius: 20}} type={"primary"} onClick={handleSubscribe}>Subscribe</Button>
+                            : <Button style={{borderRadius: 20}} type={"primary"}
+                                      onClick={handleSubscribe}>Subscribe</Button>
                     }
                 </div>
                 <div className={"note-scroller"} id="scrollableDiv">
@@ -177,7 +198,13 @@ function PostDetail() {
                         </div>
                     </div>
                 </div>
+                {
+                    emo && <Picker onClickOutside={() => setEmo(false)} data={data} onEmojiSelect={appendText}/>
+                }
+
+
                 <div className={"actions"}>
+
                     {
                         loveList.includes(postId) ?
                             <Interaction number={post.love} active={true}>
@@ -195,11 +222,16 @@ function PostDetail() {
                     </Interaction>
                 </div>
                 <div className={"bottom"}>
+
                     <div className={"comment-wrapper"}>
                         <Input placeholder={label} value={text} onChange={handleInput} ref={inputRef}/>
                         <div className={`input-buttons ${active ? 'active' : 'inactive'}`}>
-                            <PaperClipOutlined/>
-                            <SmileOutlined/>
+                            <PaperClipOutlined onClick={() => {
+                            }}/>
+                            <SmileOutlined onClick={(e) => {
+                                e.stopPropagation();
+                                setEmo(true)
+                            }}/>
                             <Button size={"middle"} type={"primary"} onClick={handleSend}>Send</Button>
                         </div>
                     </div>
