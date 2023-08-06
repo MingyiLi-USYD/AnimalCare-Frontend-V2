@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {history, useDispatch, useParams, useSelector} from "umi";
 import "./postDetail.less"
-import {Avatar, Button, Carousel, Divider, Input, List, Skeleton} from "antd";
+import {Avatar, Button, Carousel, Divider, Input, List, Mentions, Skeleton} from "antd";
 import Loading from "../../components/Loading";
 import {HeartOutlined, MessageOutlined, PaperClipOutlined, SmileOutlined, StarOutlined} from '@ant-design/icons';
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -30,7 +30,8 @@ function PostDetail() {
     const commentContainerRef = useRef(null)
     const inputRef = useRef(null);
     const [active, setActive] = useState(false)
-    const [text, setText] = useState("")
+    const [text, setText] = useState('')
+    const [mentionedUsers, setMentionedUsers] = useState([]);
     const [emo, setEmo] = useState(false)
 
     const {
@@ -43,9 +44,18 @@ function PostDetail() {
         commentId,
         replyNickname,
     } = useSelector(state => state.postDetailModel)
-    const {subscriptionList} = useSelector(state => state.userModel)
-    const {loveList, startList} = useSelector(state => state.userModel)
+    const {loveList, startList,subscriptionList} = useSelector(state => state.userModel)
+    const {friendList} = useSelector(state => state.friendModel)
     const {effects, global} = useSelector(state => state.loading)
+    const mapFriendList = (friend)=>{
+        const {friendInfo:{userId,nickname}} = friend;
+        return {
+            label:nickname,
+            value:nickname,
+            key:userId,
+        }
+    }
+    const options= friendList.map(mapFriendList)
     useEffect(() => {
         if (postId && postId !== post.postId) {
             dispatch(fetchPostAction(postId))
@@ -59,7 +69,6 @@ function PostDetail() {
         if (!active && text.length > 0) {
             setActive(true)
         }
-
     }, [text])
 
     const loadComment = () => {
@@ -67,14 +76,8 @@ function PostDetail() {
     }
 
 
-    const handleInput = (e) => {
-        const input = e.target.value;
-        setText(input)
-        if (!active && input.length > 0) {
-            setActive(true)
-        } else if (active && input.length === 0) {
-            setActive(false)
-        }
+    const handleInput = (newValue) => {
+        setText(newValue);
     }
 
     const showComments = () => {
@@ -115,7 +118,6 @@ function PostDetail() {
         setText("")
     }
     const handleFocus = () => {
-
         if (inputRef.current) {
             inputRef.current.focus();
         }
@@ -160,6 +162,9 @@ function PostDetail() {
                             <Button style={{borderRadius: 20}} danger onClick={handleUnsubscribe}>Unsubscribe</Button>
                             : <Button style={{borderRadius: 20}} type={"primary"}
                                       onClick={handleSubscribe}>Subscribe</Button>
+                    }
+                    {
+                        <Button onClick={()=>console.log(mentionList)}>查看</Button>
                     }
                 </div>
                 <div className={"note-scroller"} id="scrollableDiv">
@@ -224,7 +229,7 @@ function PostDetail() {
                 <div className={"bottom"}>
 
                     <div className={"comment-wrapper"}>
-                        <Input placeholder={label} value={text} onChange={handleInput} ref={inputRef}/>
+                        <Mentions placeholder={label} value={text} onChange={handleInput} ref={inputRef} options={options}/>
                         <div className={`input-buttons ${active ? 'active' : 'inactive'}`}>
                             <PaperClipOutlined onClick={() => {
                             }}/>

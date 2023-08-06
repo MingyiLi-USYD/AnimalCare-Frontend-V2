@@ -30,3 +30,12 @@ export const postSubcomment = (commentId,subcommentContent,targetNickname) =>
             targetNickname,
         }
     });
+export const getAllCommentsToMyPost = (current,pageSize) =>
+    request('/api/comments', {
+        method: 'GET',
+        params:{
+            current,
+            pageSize
+        }
+    });
+

@@ -17,7 +17,7 @@ const Profile = (props) => {
     const {id} = params;
     const [relation, setRelation] = useState(0);
     const {initialState: {currentUser}} = useModel('@@initialState');
-    const userId = currentUser.id
+    const userId = currentUser.userId
     const {run, loading, data} = useRequest(getProfileById, {manual: true});
     useEffect(() => {
         run(id)

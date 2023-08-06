@@ -95,15 +95,19 @@ export  const routes = [
                 routes: [
                     {
                         path: '/inbox',
-                        redirect: '/inbox/post',
+                        redirect: '/inbox/comments',
                     },
                     {
-                        path: '/inbox/post',
-                        component: '@/pages/Inbox/Components/PostRelevant/postRelevantMessage',
+                        path: '/inbox/comments',
+                        component: '@/pages/Inbox/Components/Comments/commentPostMessages',
+                    },
+                    {
+                        path: '/inbox/loves',
+                        component: '@/pages/Inbox/Components/Loves/lovePostMessages',
                     },
                     {
                         path: '/inbox/mention',
-                        component: '@/pages/Inbox/Components/BeMentioned/beMentionedMessage',
+                        component: '@/pages/Inbox/Components/BeMentioned/mentionPostMessages',
                     },
                     {
                         path: '/inbox/system',

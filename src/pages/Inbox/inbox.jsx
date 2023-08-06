@@ -10,8 +10,13 @@ const items = [
         icon: <MailOutlined />,
     },
     {
-        label: 'Comment and Love received',
-        key: '/inbox/post',
+        label: 'Comments received',
+        key: '/inbox/comments',
+        icon: <AppstoreOutlined />,
+    },
+    {
+        label: 'Loves received',
+        key: '/inbox/loves',
         icon: <AppstoreOutlined />,
     },
     {

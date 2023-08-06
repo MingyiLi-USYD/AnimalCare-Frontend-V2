@@ -45,3 +45,17 @@ export const setVisibility = async (postId,visibility)=>request(`/api/post/${pos
     visibility
   }
 })
+export const getAllPostsMentionToMe = async (current,pageSize)=>request('/api/mentioned/posts',{
+    method:'GET',
+    params:{
+        current,
+        pageSize,
+    }
+})
+export const getAllLovesToMyPost = async (current,pageSize)=>request('/api/loved/posts',{
+    method:'GET',
+    params:{
+        current,
+        pageSize,
+    }
+})

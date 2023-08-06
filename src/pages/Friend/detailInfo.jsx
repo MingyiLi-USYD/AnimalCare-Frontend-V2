@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
-import {connect} from "../../.umi/exports";
 import {Avatar, Button, Dropdown, Modal} from "antd";
 import {DeleteOutlined, EllipsisOutlined} from '@ant-design/icons';
-import {history} from "umi";
+import {history,connect} from "umi";
 import RequestedFriendList from "./requestedFriendList";
 
 function DetailInfo(props) {
