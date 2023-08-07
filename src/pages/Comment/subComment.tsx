@@ -25,7 +25,6 @@ function SubComment({data,focus}:{data:SubcommentDto,focus:Function}) {
         })
     }
     // @ts-ignore
-    // @ts-ignore
     return (
         <div className={"comment-item"}>
             <div className={"left"}>

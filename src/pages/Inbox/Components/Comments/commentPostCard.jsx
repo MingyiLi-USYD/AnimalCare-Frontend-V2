@@ -1,19 +1,44 @@
 import React, {useState} from 'react';
-import {Avatar, Button, Input, Space} from "antd";
-import {SmileOutlined} from "@ant-design/icons";
+import {Avatar, Button, Dropdown, Input, Space} from "antd";
+import {DeleteOutlined, SmileOutlined} from "@ant-design/icons";
+import {formatTimestamp} from "@/utils/timeUtils";
+import {history} from "umi";
+import {MoreInfoIcon} from "@/assets/Icons/icon";
+import {markCommentAsRead, postSubcomment, postSubcommentAndRead} from "@/services/commentService";
+import {addSubcomment} from "@/actions/postDetailActions";
+import PostInfo from "@/pages/Inbox/Components/PostInfo/postInfo";
+
+const iconSize = {
+    width: '45px',
+    height: '45px',
+}
 
 function CommentPostCard({data}) {
     const [text, setText] = useState('');
     const {
-        commentUser: {nickname, avatar}, commentContent,
-        relevantPost: {coverImage,postTitle,postTime,postContent}
+        commentUser: {nickname, avatar}, commentContent, commentId,
+        relevantPost,
     } = data
     const handleInput = (e) => {
         setText(e.target.value)
     }
     const handleReply = () => {
-
+        const data = {
+            subcommentContent: text,
+            targetNickname: nickname,
+            commentId,
+        }
+        postSubcommentAndRead(data)
     }
+    const items = [
+        {
+            key: '1',
+            danger: true,
+            label: 'Mark Read',
+            icon: <DeleteOutlined/>,
+            onClick: () => markCommentAsRead(commentId)
+        },
+    ];
     return (
         <div className={'post-relevant-card'}>
             <div className={'card-left'}>
@@ -36,9 +61,17 @@ function CommentPostCard({data}) {
                 </div>
             </div>
             <div className={'card-right'}>
-                <div>{postTitle}</div>
-                <div>{postContent}</div>
-                <div className={'image-container'} style={{backgroundImage: `url(${coverImage})`}}/>
+               <PostInfo {...relevantPost} />
+            </div>
+            <div className={'operation'}>
+                <Dropdown
+                    menu={{
+                        items,
+                    }}
+                    trigger={['click']}
+                >
+                    <MoreInfoIcon {...iconSize}  />
+                </Dropdown>
             </div>
         </div>
     );

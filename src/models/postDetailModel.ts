@@ -16,7 +16,7 @@ export interface postDetailModelState {
     active: boolean;
     type: number;
     commentId: number;
-    replyNickname: string;
+    targetNickname: string;
     loading: boolean;
 }
 
@@ -34,7 +34,7 @@ const postDetailModel:DvaModel<postDetailModelState,EffectsMapObject,MyReducersM
         active:false,
         type:0,
         commentId:0,
-        replyNickname:"",
+        targetNickname:"",
         loading:false
     },
 
@@ -56,7 +56,7 @@ const postDetailModel:DvaModel<postDetailModelState,EffectsMapObject,MyReducersM
             state.active = false;
             state.type = 0;
             state.commentId = 0;
-            state.replyNickname = "";
+            state.targetNickname = "";
         },
 
         fetchCommentsSuccess(state, { payload }) {
@@ -86,10 +86,10 @@ const postDetailModel:DvaModel<postDetailModelState,EffectsMapObject,MyReducersM
             state.commentId=commentId
         },
         onClickSubcomment(state, { payload }) {
-            const {label,type,replyNickname,commentId}=payload
+            const {label,type,targetNickname,commentId}=payload
             state.label=label
             state.type=type
-            state.replyNickname=replyNickname
+            state.targetNickname=targetNickname
             state.commentId=commentId
         },
         addCommentSuccess(state, { payload }) {
@@ -144,8 +144,8 @@ const postDetailModel:DvaModel<postDetailModelState,EffectsMapObject,MyReducersM
             }
         },
         *addSubcomment({ payload }, { call, put }) {
-            const {replyNickname,commentId,commentContent} = payload;
-            const { data,code } = yield call(postSubcomment, commentId,commentContent,replyNickname?replyNickname:null);
+            const {targetNickname,commentId,commentContent} = payload;
+            const { data,code } = yield call(postSubcomment, commentId,commentContent,targetNickname?targetNickname:null);
             if(code===1){
                 yield put({ type: 'addSubcommentSuccess', payload: data });
             }

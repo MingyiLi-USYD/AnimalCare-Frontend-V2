@@ -30,6 +30,13 @@ export const postSubcomment = (commentId,subcommentContent,targetNickname) =>
             targetNickname,
         }
     });
+
+export const postSubcommentAndRead = (data) =>
+    request('/api/comment/reply', {
+        method: 'POST',
+        data
+    });
+
 export const getAllCommentsToMyPost = (current,pageSize) =>
     request('/api/comments', {
         method: 'GET',
@@ -39,3 +46,7 @@ export const getAllCommentsToMyPost = (current,pageSize) =>
         }
     });
 
+export const markCommentAsRead = (commentId) =>
+    request(`/api/comment/read/${commentId}`, {
+        method: 'GET',
+    });

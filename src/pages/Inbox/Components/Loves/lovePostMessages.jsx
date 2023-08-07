@@ -4,6 +4,7 @@ import {Divider, List, Skeleton} from 'antd';
 import LovePostCard from "./lovePostCard";
 import {getAllLovesToMyPost} from "@/services/postService";
 import usePage from "@/hooks/usePage";
+import CommentPostCard from "@/pages/Inbox/Components/Comments/commentPostCard";
 
 const App = () => {
     const {data, loading, total, loadMoreData} = usePage(getAllLovesToMyPost, 3);
@@ -32,7 +33,7 @@ const App = () => {
                     <List
                         dataSource={data}
                         renderItem={(item) => (
-                            <LovePostCard data={item}/>
+                              <LovePostCard data={item}/>
                         )}
                     />
                 </InfiniteScroll>

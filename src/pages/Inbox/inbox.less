@@ -1,4 +1,3 @@
-
 // mixins.less
 .scrollbar-style() {
   &::-webkit-scrollbar {
@@ -14,14 +13,16 @@
     background-color: #555; // Set the color of the scrollbar thumb on hover
   }
 }
-.inbox-page{
+
+.inbox-page {
   display: flex;
   justify-content: center; // Horizontally center the container
-  align-items: center;     // Vertically center the container
-  .inbox-container{
+  align-items: center; // Vertically center the container
+  .inbox-container {
     width: 1000px;
     background-color: lightblue;
-    .post-relevant-messages{
+
+    .post-relevant-messages {
       // styles.less
       .scroll-list {
         height: 90vh;
@@ -32,72 +33,126 @@
         &:hover {
           overflow: auto; // Show scrollbar on hover
         }
+
         .scrollbar-style();
       }
 
 
-      .post-relevant-card{
-             display: flex;
-             justify-content: space-between;
-             margin: 30px;
-             height: 300px;
-             min-width: 700px;
-             background-color: white;
-             border-radius: 20px;
-             padding: 0 20px;
-           .card-left{
-             height: 300px;
-             width: 300px;
-             .comment-content {
-               height: 200px;
-               background-color: lightblue;
-               overflow: hidden; // Initially hide the scrollbar
-               position: relative; // Add position: relative to ensure the child pseudo-element can be positioned inside
+      .post-relevant-card {
+        display: flex;
+        position: relative;
+        justify-content: space-between;
+        margin: 30px;
+        height: 300px;
+        min-width: 700px;
+        background-color: white;
+        border-radius: 20px;
+        padding: 10px 50px 10px 10px;
+        &:hover{
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* 鼠标悬停时添加阴影效果 */
+        }
+        .card-left {
+          height: 300px;
+          width: 300px;
 
-               &:hover {
-                 overflow: auto; // Show scrollbar on hover
-               }
-               .scrollbar-style()
+          .comment-content {
+            height: 170px;
+            width: 280px;
+            margin: 10px 0;
+            overflow: hidden; // Initially hide the scrollbar
+            position: relative; // Add position: relative to ensure the child pseudo-element can be positioned inside
 
-             }
-             .reply-wrapper{
-               overflow: hidden;
-               display: flex;
-               .input-buttons {
-                 display: flex;
-                 font-size: 20px;
-                 span {
-                   margin: 0 5px;
-                 }
-                 button {
-                   width: 70px;
-                   margin-left: 5px;
-                 }
-               }
-               .active{
-                 transform: translateX(0px);
-                 transition: transform 0.3s ease;
-               }
-               .inactive{
-                 transform: translateX(72px);
-                 transition: transform 0.3s ease;
-               }
-               }
-           }
-           .card-right{
-             height: 300px;
-             width: 400px;
-             padding: 5px;
-             .image-container{
-               width: 300px;
-               height: 200px;
-               background-repeat: no-repeat;
-               background-size: contain;
-               background-position: center;
-             }
+            &:hover {
+              overflow: auto; // Show scrollbar on hover
+            }
 
-           }
-         }
+            .scrollbar-style()
+
+          }
+
+          .reply-wrapper {
+            overflow: hidden;
+            display: flex;
+
+            .input-buttons {
+              display: flex;
+              font-size: 20px;
+
+              span {
+                margin: 0 5px;
+              }
+
+              button {
+                width: 70px;
+                margin-left: 5px;
+              }
+            }
+
+            .active {
+              transform: translateX(0px);
+              transition: transform 0.3s ease;
+            }
+
+            .inactive {
+              transform: translateX(72px);
+              transition: transform 0.3s ease;
+            }
+          }
+        }
+
+        .card-right {
+          border-radius: 10px;
+          padding: 5px;
+          height: 280px;
+          width: 400px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          font-weight: bold;
+          .header{
+            display: flex;
+            width: 400px;
+            margin-bottom: 10px;
+            align-items: center;
+            text-align: center;
+            .title {
+              font-size: 18px;
+              color: gray;
+              width: 300px;
+              display: -webkit-box;
+              -webkit-line-clamp: 2;
+              -webkit-box-orient: vertical;
+              overflow: hidden;
+            }
+            .time{
+              font-size: 15px;
+              width: 100px;
+            }
+          }
+
+          .image-info{
+            display: flex;
+            align-items: center;
+            .image-container {
+              width: 300px;
+              height: 200px;
+              background-repeat: no-repeat;
+              background-size: contain;
+              background-position: center;
+            }
+          }
+        }
+        .operation{
+          position: absolute; /* 设置为绝对定位 */
+          top: -5px; /* 距离父元素顶部的距离 */
+          right: 0; /* 距离父元素右边的距离 */
+          svg{
+            &:hover{
+              cursor: pointer;
+            }
+          }
+        }
+      }
     }
   }
 }

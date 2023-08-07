@@ -83,13 +83,21 @@ const SurgeryIcon = (props)=> {
     );
 }
 const DentalIcon = (props)=> {
-    const { style,onClick} = props;
+
     return (
         <svg className="icon"  aria-hidden="true"  {...props}>
             <use xlinkHref='#icon-DentalCleaning'></use>
         </svg>
     );
 }
+const MoreInfoIcon=(props)=> {
+    return (
+        <svg className="icon"  aria-hidden="true"  {...props} >
+            <use xlinkHref='#icon-gengduo'></use>
+        </svg>
+    );
+}
+
 const MySVG = (props)=>{
     return(
         <svg className='icon' aria-hidden="true" {...props}  >
@@ -106,7 +114,6 @@ const NewFriend=()=> {
     );
 }
 
-
 export {StatisticsIcon,ServerIcon,TemperatureIcon,CPUIcon,
     RAMIcon,DogIcon,CatIcon,BackForwardIcon,VaccineIcon,
-    ConsultationIcon,SurgeryIcon,DentalIcon,NewFriend} ;
+    ConsultationIcon,SurgeryIcon,DentalIcon,NewFriend,MoreInfoIcon} ;

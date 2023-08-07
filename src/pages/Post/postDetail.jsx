@@ -42,7 +42,7 @@ function PostDetail() {
         label,
         type,
         commentId,
-        replyNickname,
+        targetNickname,
     } = useSelector(state => state.postDetailModel)
     const {loveList, startList,subscriptionList} = useSelector(state => state.userModel)
     const {friendList} = useSelector(state => state.friendModel)
@@ -109,7 +109,7 @@ function PostDetail() {
             dispatch(addSubcommentAction(commentId, text))
         }
         if (type === 2) {
-            dispatch(addSubcommentAction(commentId, text, replyNickname))
+            dispatch(addSubcommentAction(commentId, text, targetNickname))
         }
         afterSend()
     }

@@ -54,8 +54,8 @@ const addCommentAction = (postId, commentContent) => {
         payload: { postId, commentContent }
     };
 };
-const addSubcommentAction = (commentId, commentContent, replyNickname) => {
-    if (!replyNickname) {
+const addSubcommentAction = (commentId, commentContent, targetNickname) => {
+    if (!targetNickname) {
         return {
             type: addSubcomment,
             payload: { commentId, commentContent }
@@ -63,7 +63,7 @@ const addSubcommentAction = (commentId, commentContent, replyNickname) => {
     } else {
         return {
             type: addSubcomment,
-            payload: { commentId, commentContent, replyNickname }
+            payload: { commentId, commentContent, targetNickname }
         };
     }
 };

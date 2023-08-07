@@ -1,19 +1,28 @@
 import React, {useState} from 'react';
-import {Avatar, Button, Input, Space} from "antd";
-import {SmileOutlined} from "@ant-design/icons";
+import {Avatar, Dropdown, Space} from "antd";
+import PostInfo from "@/pages/Inbox/Components/PostInfo/postInfo";
+import {MoreInfoIcon} from "@/assets/Icons/icon";
+import {DeleteOutlined} from "@ant-design/icons";
+import {markCommentAsRead} from "@/services/commentService";
 
+const iconSize = {
+    width: '45px',
+    height: '45px',
+}
 function LovePostCard({data}) {
-    const [text, setText] = useState('');
     const {
-        userInfo: {nickname, avatar}, commentContent,
-        relevantPost: {coverImage}
+        userInfo: {nickname, avatar},
+        relevantPost
     } = data
-    const handleInput = (e) => {
-        setText(e.target.value)
-    }
-    const handleReply = () => {
-
-    }
+    const items = [
+        {
+            key: '1',
+            danger: true,
+            label: 'Mark Read',
+            icon: <DeleteOutlined/>,
+            onClick: () => markCommentAsRead(commentId)
+        },
+    ];
     return (
         <div className={'post-relevant-card'}>
             <div className={'card-left'}>
@@ -27,16 +36,19 @@ function LovePostCard({data}) {
                 <div className={'comment-content'}>
                     {`${nickname} 很喜欢你这个post`}
                 </div>
-                <div className={"reply-wrapper"}>
-                    <Input placeholder={`Reply`} value={text} onChange={handleInput}/>
-                    <div className={`input-buttons ${text.length > 0 ? 'active' : 'inactive'}`}>
-                        <SmileOutlined/>
-                        <Button size={"middle"} type={"primary"} onClick={handleReply}>Reply</Button>
-                    </div>
-                </div>
             </div>
             <div className={'card-right'}>
-                <div className={'image-container'} style={{backgroundImage: `url(${coverImage})`}}/>
+                <PostInfo {...relevantPost}/>
+            </div>
+            <div className={'operation'}>
+                <Dropdown
+                    menu={{
+                        items,
+                    }}
+                    trigger={['click']}
+                >
+                    <MoreInfoIcon {...iconSize}  />
+                </Dropdown>
             </div>
         </div>
     );
