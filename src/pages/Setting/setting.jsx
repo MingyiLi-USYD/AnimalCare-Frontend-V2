@@ -9,41 +9,24 @@ import {useSelector} from "@@/exports";
 const {TextArea} = Input;
 
 function Setting() {
-    const {chatRecord} = useSelector(state => state.ChatModel)
-    const retrieveData=()=>{
-        const map = new Map();
-        Object.keys(chatRecord).forEach(
-            key=> chatRecord[key].latestTime&&map.set(key,chatRecord[key].latestTime)
-        )
-        const keys = Object.fromEntries(map)
-
-        retrievePartlyMessages(keys);
-    }
+    const [form] = Form.useForm();
     const {
         initialState, setInitialState
     } = useModel('@@initialState');
     const {currentUser} = initialState;
     const [user, setUser] = useState(currentUser);
-    const handleNameChange = (e) => {
-        //console.log(value)
+    const finish = async (user) => {
+        const {data,code} =await updateUserProfile(user);
+        if(code===1){
+            setInitialState({...initialState, currentUser: {...currentUser,...user}})
+        }
 
-        setUser({...user, nickname: e.target.value})
-    }
-    const handleDescriptionChange = (e) => {
-        setUser({...user, description: e.target.value})
-
-    }
-    const handleSave = () => {
-        updateUserProfile(user)
-        setInitialState({...initialState, currentUser: user})
     }
     const handleReset = (e) => {
-        setUser(currentUser)
+        form.resetFields();
     }
     return (
-
         <div className={"info-container"}>
-            <Button type={"primary"} onClick={retrieveData}>点我</Button>
             <Avatar size={64} src={user.avatar}/>
             <h2>{currentUser.nickname}</h2>
             <p>{currentUser.description}</p>
@@ -58,12 +41,25 @@ function Setting() {
                 style={{
                     maxWidth: 800,
                 }}
+                onFinish={finish}
+                form={form}
             >
-                <Form.Item label="Nickname">
-                    <Input value={user.nickname} onChange={handleNameChange}/>
+                <Form.Item label="Nickname" name={'nickname'} initialValue={user.nickname}>
+                    <Input showCount maxLength={15}/>
                 </Form.Item>
-                <Form.Item label="Description">
-                    <TextArea rows={4} value={user.description} onChange={handleDescriptionChange}/>
+                <Form.Item label="Description" name={'description'} initialValue={user.description}>
+                    <TextArea rows={4} showCount maxLength={500}
+                              style={{
+                                  height: 120,
+                                  resize: 'none',
+                              }}/>
+                </Form.Item>
+                <Form.Item label="Email"  name={'email'}  rules={[
+                    {
+                        type: 'email',
+                    },
+                ]} initialValue={user.email}>
+                    <Input/>
                 </Form.Item>
                 <Form.Item label="Mute Message:">
                     <Switch defaultChecked={true}/>
@@ -76,12 +72,11 @@ function Setting() {
                         <Button danger onClick={handleReset}>
                             Reset
                         </Button>
-                        <Button type={'primary'} style={{marginLeft: 200}} onClick={handleSave}>
+                        <Button type={'primary'} style={{marginLeft: 200}} htmlType="submit">
                             Save
                         </Button>
                     </div>
                 </Form.Item>
-
             </Form>
         </div>
 

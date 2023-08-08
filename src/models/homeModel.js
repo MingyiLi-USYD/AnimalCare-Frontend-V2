@@ -39,8 +39,8 @@ export default {
     },
     effects: {
         *fetchPosts({ payload }, { call, put }) {
-            const {  selector } = payload
-            const { data,code } = yield call(getPosts,1,11,selector);
+            const {  selector,keywords } = payload
+            const { data,code } = yield call(getPosts,1,11,selector,keyswords);
             if(code===1){
                 yield put({ type: 'fetchPostsSuccess', payload: data });
             }
@@ -71,7 +71,6 @@ export default {
         *changeSelector({ payload:selector }, { call, put }) {
             yield put({ type: 'fetchPosts', payload: {selector} });
             yield put({ type: 'changeSelectorSuccess', payload: selector });
-
         },
     },
 

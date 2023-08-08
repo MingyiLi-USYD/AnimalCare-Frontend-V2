@@ -20,7 +20,16 @@ const useSocket = (currentUser) => {
       type:'userModel/initUserInfo'
     })
   }
+  const {chatRecord} = useSelector(state => state.ChatModel)
+  const retrieveData=()=>{
+    const map = new Map();
+    Object.keys(chatRecord).forEach(
+        key=> chatRecord[key].latestTime&&map.set(key,chatRecord[key].latestTime)
+    )
+    const keys = Object.fromEntries(map)
 
+    retrievePartlyMessages(keys);
+  }
 
   useEffect(()=>{
     initUserInfo()
