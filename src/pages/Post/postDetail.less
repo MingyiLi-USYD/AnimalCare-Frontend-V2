@@ -45,11 +45,15 @@
         display: none;
       }
       .note-content{
+        text-align: center;
         .topic{
           height: 50px;
           font-size: 20px;
           color: black;
-          text-align: center;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
         }
         .description{
           padding: 10px;

@@ -37,9 +37,13 @@ const HomePage = () => {
         }
     }, []);
 
+    const handleSearch =(value)=>{
+
+    }
+
     return (
         <div className={'home-page'}>
-            <Search  placeholder="input search text" enterButton="Search" size="large" onSearch={()=>{console.log('正在搜索')}} />
+            <Search  placeholder="input search text" enterButton="Search" size="large" onSearch={handleSearch} />
             <MySelector/>
             <div
                 id="scrollableDiv"

@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {Divider, List, Skeleton} from 'antd';
-import {getAllPostsMentionToMe} from "@/services/postService";
 import usePage from "@/hooks/usePage";
-
+import MentionPostCard from "@/pages/Inbox/Components/BeMentioned/mentionPostCard";
+import {getAllMentions} from "@/services/mentionService";
 const MentionPostMessages = () => {
-    const {total,data,loading,loadMoreData} = usePage(getAllPostsMentionToMe,3);
+    const {total,data,loading,loadMoreData} = usePage(getAllMentions,3);
     return (
         <div className={'post-relevant-messages'}>
             <div
@@ -30,7 +30,7 @@ const MentionPostMessages = () => {
                     <List
                         dataSource={data}
                         renderItem={(item) => (
-                            <div style={{backgroundColor: "blue", height: 300, width: 400}}>111</div>
+                         <MentionPostCard data={item}/>
                         )}
                     />
                 </InfiniteScroll>

@@ -1,8 +1,14 @@
 import { request } from 'umi';
-export const getPosts = async (page,pageSize,selector) =>
-    await request(`/api/post?currPage=${page}&pageSize=${pageSize}&order=${selector}`, {
+export const getPosts = async (current,pageSize,order,keywords) =>
+    await request('/api/posts', {
       method: 'GET',
-    }).catch((error) => console.log(error));
+        params:{
+           current,
+            pageSize,
+            order,
+            keywords,
+        }
+    })
 
 
 export const getLoves = async () =>
@@ -45,14 +51,8 @@ export const setVisibility = async (postId,visibility)=>request(`/api/post/${pos
     visibility
   }
 })
-export const getAllPostsMentionToMe = async (current,pageSize)=>request('/api/mentioned/posts',{
-    method:'GET',
-    params:{
-        current,
-        pageSize,
-    }
-})
-export const getAllLovesToMyPost = async (current,pageSize)=>request('/api/loved/posts',{
+
+export const getAllLovesToMyPost = async (current,pageSize)=>request('/api/lovePosts',{
     method:'GET',
     params:{
         current,

@@ -13,8 +13,16 @@ export const retrieveMessageById = async (id)=>
             method:"GET",
         })
 export const retrieveAllMessages = async ()=>
-    await request('/api/chat/retrieve',
+    await request('/api/chat/retrieve/all',
         {
             method:"GET",
+        }
+    )
+
+export const retrievePartlyMessages = async (data)=>
+    await request('/api/chat/retrieve/partly',
+        {
+            method:"POST",
+            data,
         }
     )

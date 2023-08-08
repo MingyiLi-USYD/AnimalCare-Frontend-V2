@@ -8,6 +8,7 @@ export default {
         total:0,
         selector:0,
         pages:0,
+        keywords:'',
     },
 
     reducers:{
@@ -44,9 +45,9 @@ export default {
                 yield put({ type: 'fetchPostsSuccess', payload: data });
             }
         },
-        *loadMorePosts({ payload }, { call, put }) {
-            const { current, selector } = payload
-            const { data,code } = yield call(getPosts,current+1,11,selector);
+        *loadMorePosts({payload}, { call, put }) {
+            const { current, selector,keywords} = payload
+            const { data,code } = yield call(getPosts,current+1,11,selector,keywords);
             if(code===1){
                 yield put({ type: 'loadMorePostsSuccess', payload: data });
             }

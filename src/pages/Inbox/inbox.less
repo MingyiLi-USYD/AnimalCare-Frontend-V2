@@ -56,12 +56,15 @@
           width: 300px;
 
           .comment-content {
+            text-align: center;
             height: 170px;
             width: 280px;
             margin: 10px 0;
-            overflow: hidden; // Initially hide the scrollbar
-            position: relative; // Add position: relative to ensure the child pseudo-element can be positioned inside
-
+            overflow: hidden; /* Initially hide the scrollbar */
+            position: relative; /* Add position: relative to ensure the child pseudo-element can be positioned inside */
+            display: flex; /* Use Flexbox */
+            align-items: center; /* Vertically center the content */
+            justify-content: center; /* Horizontally center the content */
             &:hover {
               overflow: auto; // Show scrollbar on hover
             }

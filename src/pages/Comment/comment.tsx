@@ -13,11 +13,9 @@ function Comment({comment,focus}:{comment:CommentDto,focus:Function}) {
 
     const dispatch = useDispatch();
 
-    const {commentId: id,commentUser,commentContent,
+    const {commentId,commentUser,commentContent,
         commentTime,postId,userId,commentLove,
         subcommentsLength,subcommentDtos} = comment;
-    // @ts-ignore
-    const {post,total,page,comments,label,type,commentId,replyNickname} = useSelector(state=>state.postDetailModel)
     const handleLove = ()=>{
 
     }
@@ -25,14 +23,14 @@ function Comment({comment,focus}:{comment:CommentDto,focus:Function}) {
           focus()
         dispatch({
             type:'postDetailModel/onClickComment',
-            payload:{label:`@${commentUser.nickname}`,type:1,commentId:id}
+            payload:{label:`@${commentUser.nickname}`,type:1,commentId}
         })
     }
 
     const handleLoadMore = async ()=>{
         dispatch({
             type:'postDetailModel/fetchSubcomments',
-            payload:id
+            payload:commentId
         })
     }
 

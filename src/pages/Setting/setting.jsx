@@ -3,10 +3,22 @@ import {useModel} from "umi";
 import {Avatar, Button, Form, Input, Switch} from "antd";
 import './setting.less'
 import {updateUserProfile} from "@/services/userService";
+import {retrievePartlyMessages} from "@/services/chatService";
+import {useSelector} from "@@/exports";
 
 const {TextArea} = Input;
 
 function Setting() {
+    const {chatRecord} = useSelector(state => state.ChatModel)
+    const retrieveData=()=>{
+        const map = new Map();
+        Object.keys(chatRecord).forEach(
+            key=> chatRecord[key].latestTime&&map.set(key,chatRecord[key].latestTime)
+        )
+        const keys = Object.fromEntries(map)
+
+        retrievePartlyMessages(keys);
+    }
     const {
         initialState, setInitialState
     } = useModel('@@initialState');
@@ -31,6 +43,7 @@ function Setting() {
     return (
 
         <div className={"info-container"}>
+            <Button type={"primary"} onClick={retrieveData}>点我</Button>
             <Avatar size={64} src={user.avatar}/>
             <h2>{currentUser.nickname}</h2>
             <p>{currentUser.description}</p>

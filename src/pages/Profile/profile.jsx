@@ -1,5 +1,5 @@
-import {Avatar, Button, Spin, Typography} from 'antd';
-import {useModel, useParams, useRequest} from 'umi';
+import {Avatar, Button, Space, Spin, Typography} from 'antd';
+import {useDispatch, useModel, useParams, useRequest} from 'umi';
 import PetCardList from './Components/petCardList';
 import {getProfileById} from '@/services/userService';
 import PostCardList from "./Components/postCardList";
@@ -9,14 +9,20 @@ import {getFriendshipStatus} from "@/services/friendService";
 import BackForward from "../../components/BackForward";
 import RelationDetail from "./Components/relationDetail";
 import './profile.less'
+import {FollowerIcon, FollowIcon, PetIcon, PostIcon} from "@/assets/Icons/icon";
 
 const {Title, Paragraph} = Typography;
 
 const Profile = (props) => {
+    const style = {
+        height:'40px',
+        width:'40px',
+    }
     const params = useParams();
     const {id} = params;
     const [relation, setRelation] = useState(0);
     const {initialState: {currentUser}} = useModel('@@initialState');
+    const dispatch = useDispatch();
     const userId = currentUser.userId
     const {run, loading, data} = useRequest(getProfileById, {manual: true});
     useEffect(() => {
@@ -33,12 +39,12 @@ const Profile = (props) => {
     }
 
     const handleAdd = () => {
-        props.dispatch({
+        dispatch({
             type: 'RelationModel/openModal',
         });
     }
     const handleDelete = () => {
-        props.dispatch({
+       dispatch({
             type: 'RelationModel/openModal',
         });
     }
@@ -54,13 +60,42 @@ const Profile = (props) => {
 
             <div className={'profile-container'}>
                 <BackForward/>
-                <div style={{display: "flex", alignItems: "center"}}>
-                    <Avatar src={data?.avatar} size={64}/>
-                    {
-                        relationList[relation]
-                    }
-                </div>
+                <div className={'header'} >
+                    <Space className={'avatar-info'}>
+                        <Avatar src={data?.avatar} size={64}/>
+                            <div  className={'operation'} >
+                                <div>
+                                    {
+                                        relationList[relation]
+                                    }
+                                </div>
+                                <div>
+                                    {
+                                        <Button type={"primary"}>Subscription</Button>
+                                    }
+                                </div>
 
+                            </div>
+                    </Space>
+                    <Space className={'number-info'}>
+                        <Space>
+                            <PetIcon {...style}/>
+                            <span className={'number'}>{`Pets: 5`}</span>
+                        </Space>
+                        <Space>
+                            <PostIcon {...style}/>
+                            <span className={'number'}>{`Posts: 5`}</span>
+                        </Space>
+                        <Space>
+                            <FollowIcon {...style}/>
+                            <span className={'number'}>{`Subscribe: 5`}</span>
+                        </Space>
+                        <Space>
+                            <FollowerIcon {...style}/>
+                            <span className={'number'}>{`Subscriber: 5`}</span>
+                        </Space>
+                    </Space>
+                </div>
                 <Title level={3}>{data.nickname}</Title>
                 <Paragraph>{data?.description}</Paragraph>
                 <PostCardList data={data?.postList} avatar={currentUser.avatar}/>

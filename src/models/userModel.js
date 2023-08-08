@@ -42,8 +42,12 @@ export default {
     effects:{
         *initUserInfo({ payload }, { call, put }) {
             const { data,code } = yield call(initUserInfo);
+            const {userId,username,role,email,avatar} = data;
+            const user= {userId,username,role,email,avatar};
             if(code===1){
+
                 yield put({ type: 'fetchLoveListSuccess', payload: data.loveIdList });
+                yield put({ type: 'ChatModel/onFetchProfile', payload: user });
                 yield put({ type: 'fetchSubscriptionListSuccess', payload: data.subscribedUserIdList });
                 yield put({type: 'friendModel/fetchFriendListSuccess', payload: data.friendshipDtoList});
                 yield put({type: 'friendModel/fetchRequestListSuccess', payload: data.friendRequestDtoList});

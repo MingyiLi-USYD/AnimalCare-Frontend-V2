@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
 import io  from 'socket.io-client';
-import {useDispatch} from "umi";
+import {useDispatch, useSelector} from "umi";
 import useMessageWorker from "@/hooks/useMessageWorker";
+import {retrievePartlyMessages} from "@/services/chatService";
+
 
 const useSocket = (currentUser) => {
   const dispatch = useDispatch();
+
   const [socket, setSocket] = useState(null);
-  const {putProfileOnStore,messageService}=useMessageWorker();
+  const {messageService}=useMessageWorker();
   const disconnect = () => {
     if (socket) {
       socket.disconnect();
@@ -18,9 +21,8 @@ const useSocket = (currentUser) => {
     })
   }
 
+
   useEffect(()=>{
-    putProfileOnStore(currentUser);
-    //initChatRecords()
     initUserInfo()
   },[
       currentUser.userId

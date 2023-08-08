@@ -163,9 +163,6 @@ function PostDetail() {
                             : <Button style={{borderRadius: 20}} type={"primary"}
                                       onClick={handleSubscribe}>Subscribe</Button>
                     }
-                    {
-                        <Button onClick={()=>console.log(mentionList)}>查看</Button>
-                    }
                 </div>
                 <div className={"note-scroller"} id="scrollableDiv">
                     <div className={"note-content"}>
