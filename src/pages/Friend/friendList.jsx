@@ -48,7 +48,6 @@ const FriendList = () => {
                 }
 
             </List>
-
         </div>
     );
 };

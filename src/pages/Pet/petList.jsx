@@ -1,6 +1,6 @@
 import {Avatar, Button, List, message, notification, Popconfirm} from 'antd';
 import BackForward from "../../components/BackForward";
-import style from './petDetail.less'
+import './petDetail.less'
 import React, {useEffect, useState} from "react";
 import {deletePetById, getPets} from "@/services/petService";
 import {history} from "umi";
@@ -47,7 +47,7 @@ const PetList = () => {
 
     return (
 
-        <div>
+        <div className={'pets-page'}>
             {
                 contextHolder
             }
@@ -62,7 +62,7 @@ const PetList = () => {
                 renderItem={(item,index) => (
 
                     <List.Item   actions={[
-                        <Button type={"primary"}  className={style.button} key="list-loadmore-edit" onClick={()=>handleEdit(index)}>Edit</Button>,
+                        <Button type={"primary"}  className={'edit-button'} key="list-loadmore-edit" onClick={()=>handleEdit(index)}>Edit</Button>,
                         <Popconfirm
                             title="Delete pet"
                             description="Are you sure to delete this pet?"
@@ -70,7 +70,7 @@ const PetList = () => {
                             onCancel={cancel}
                             okText="Yes"
                             cancelText="No">
-                            <Button danger className={style.button} key="list-loadmore-more">Delete</Button>
+                            <Button danger className={'edit-button'} key="list-loadmore-more">Delete</Button>
                         </Popconfirm>
                     ]}>
                         <List.Item.Meta

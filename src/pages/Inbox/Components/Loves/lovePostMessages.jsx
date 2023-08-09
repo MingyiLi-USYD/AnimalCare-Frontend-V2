@@ -2,13 +2,14 @@ import React from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {Divider, List, Skeleton} from 'antd';
 import LovePostCard from "./lovePostCard";
-import {getAllLovesToMyPost} from "@/services/postService";
 import usePage from "@/hooks/usePage";
-import CommentPostCard from "@/pages/Inbox/Components/Comments/commentPostCard";
+import {getLovePostsToMe} from "@/services/lovePostService";
 
 const App = () => {
-    const {data, loading, total, loadMoreData} = usePage(getAllLovesToMyPost, 3);
-
+    const {data, loading, total, loadMoreData,setData} = usePage(getLovePostsToMe, 3);
+    const handleRemoveFromState = (loveId) => {
+        setData(data.filter(lovePost => lovePost.loveId !== loveId))
+    }
     return (
         <div className={'post-relevant-messages'}>
             <div
@@ -33,7 +34,7 @@ const App = () => {
                     <List
                         dataSource={data}
                         renderItem={(item) => (
-                              <LovePostCard data={item}/>
+                            <LovePostCard data={item} removeLovePost={handleRemoveFromState}/>
                         )}
                     />
                 </InfiniteScroll>

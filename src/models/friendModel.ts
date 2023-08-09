@@ -1,9 +1,10 @@
-import {approveRequest, deleteFriend, getFriends, getRequestList, rejectRequest} from "@/services/friendService";
+import {approveRequest, deleteFriend, getFriends, rejectRequest} from "@/services/friendService";
 import {User} from "@/pojo/user";
 import {FriendRequestDto} from "@/pojo/friendRequest";
 import {FriendshipDto} from "@/pojo/friendship";
 import {DvaModel, EffectsMapObject} from "umi";
 import {MyAction, MyReducersMapObject} from "@/services/dva";
+import {getAllFriendRequests} from "@/services/friendRequestService";
 
 
 interface FriendModelState  {
@@ -44,8 +45,7 @@ interface FriendModelState  {
                 contact: payload
             }
         },
-        onReceiveFriendRequest(state, {payload: friendRequest}) {
-            state.requestList.unshift(friendRequest)
+        onReceiveFriendRequest(state,) {
             state.friendRequest++
         },
         deleteFriendRequest(state, {payload: userId}) {
@@ -70,21 +70,12 @@ interface FriendModelState  {
             }
         },
         * fetchRequestList(_, {call, put}) {
-            const {data, code} = yield call(getRequestList);
+            const {data, code} = yield call(getAllFriendRequests);
             if (code === 1) {
                 yield put({type: 'fetchRequestListSuccess', payload: data});
+                yield put({type: 'onViewFriendRequest'});
             }
         },
-/*        * initFriendData(_, {call, all, put}) {
-            const [responseA, responseB] = yield all([call(getFriends), call(getRequestList)]);
-            if (responseA.code === 1) {
-                yield put({type: 'fetchFriendListSuccess', payload: responseA.data});
-            }
-            if (responseB.code === 1) {
-                yield put({type: 'fetchRequestListSuccess', payload: responseB.data});
-            }
-        },*/
-
         * approveFriend({payload: userId}, {call, put}) {
             const {data, code} = yield call(approveRequest, userId);
             if (code === 1) {

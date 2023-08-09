@@ -5,7 +5,11 @@ import usePage from "@/hooks/usePage";
 import MentionPostCard from "@/pages/Inbox/Components/BeMentioned/mentionPostCard";
 import {getAllMentions} from "@/services/mentionService";
 const MentionPostMessages = () => {
-    const {total,data,loading,loadMoreData} = usePage(getAllMentions,3);
+    const {total,data,loading,loadMoreData,setData} = usePage(getAllMentions,3);
+    const handleRemoveFromState = (mentionId) => {
+        setData(data.filter(mention => mention.mentionId !== mentionId))
+    }
+
     return (
         <div className={'post-relevant-messages'}>
             <div
@@ -30,7 +34,7 @@ const MentionPostMessages = () => {
                     <List
                         dataSource={data}
                         renderItem={(item) => (
-                         <MentionPostCard data={item}/>
+                         <MentionPostCard data={item} removeMention={handleRemoveFromState} />
                         )}
                     />
                 </InfiniteScroll>

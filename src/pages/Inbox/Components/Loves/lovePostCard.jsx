@@ -4,13 +4,16 @@ import PostInfo from "@/pages/Inbox/Components/PostInfo/postInfo";
 import {MoreInfoIcon} from "@/assets/Icons/icon";
 import {DeleteOutlined} from "@ant-design/icons";
 import {markCommentAsRead} from "@/services/commentService";
+import {markLovePostAsRead} from "@/services/lovePostService";
 
 const iconSize = {
     width: '45px',
     height: '45px',
 }
-function LovePostCard({data}) {
+
+function LovePostCard({data,removeLovePost}) {
     const {
+        loveId,
         userInfo: {nickname, avatar},
         relevantPost
     } = data
@@ -20,7 +23,13 @@ function LovePostCard({data}) {
             danger: true,
             label: 'Mark Read',
             icon: <DeleteOutlined/>,
-            onClick: () => markCommentAsRead(commentId)
+            onClick: async () => {
+                const {code} = await markLovePostAsRead(loveId)
+                if(code===1){
+                    removeLovePost(loveId)
+                }
+            }
+
         },
     ];
     return (
@@ -34,7 +43,7 @@ function LovePostCard({data}) {
                     </Space>
                 </div>
                 <div className={'comment-content'}>
-                    {`${nickname} 很喜欢你这个post`}
+                    {`${nickname} really love this post`}
                 </div>
             </div>
             <div className={'card-right'}>

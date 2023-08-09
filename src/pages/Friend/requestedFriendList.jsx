@@ -1,15 +1,15 @@
 import {Avatar, Button, List, Popconfirm, Spin} from 'antd';
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "umi";
+import {fetchFriendRequests} from "@/actions/friendActions";
 
 const RequestedFriendList = () => {
     const dispatch = useDispatch()
     const {requestList} = useSelector(state => state.friendModel)
     const [loading,setLoading] = useState(false);
     useEffect(()=>{
-        dispatch({
-            type:"friendModel/onViewFriendRequest",
-        })
+        //同步拿到所有的请求
+        dispatch(fetchFriendRequests())
     },[])
     if(loading){
         return <Spin>loading</Spin>

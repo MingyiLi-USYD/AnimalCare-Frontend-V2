@@ -23,7 +23,7 @@ function UsePage(request,pageSize=3) {
     useEffect(() => {
         loadMoreData();
     }, []);
-    return {loading,data,currentPage,total,loadMoreData}
+    return {loading,data,currentPage,total,loadMoreData,setData}
 }
 
 export default UsePage;

@@ -14,11 +14,10 @@ const serviceMessageType = {
     MENTION: "MENTION"
 }
 
-const UseMessageWorker = (props)=>{
+const UseMessageWorker = ()=>{
        const dispatch = useDispatch()
   function messageService(data) {
            const {fromUser} = data
-        console.log(data)
         if(data.code===2){
             if(data.message.type===serviceMessageType.ADD_FRIEND){
                 notification.success({
@@ -27,7 +26,6 @@ const UseMessageWorker = (props)=>{
                 });
                 dispatch({
                     type:"friendModel/onReceiveFriendRequest",
-                    payload:fromUser
                 })
             }
             else if(data.message.type===serviceMessageType.DELETE_FRIEND){
@@ -46,8 +44,8 @@ const UseMessageWorker = (props)=>{
                     description:  <SystemMsg {...fromUser}/>,
                 });
                 dispatch({
-                    type:"FriendModel/approveFriendSuccess",
-                    payload:fromUser
+                    type:"friendModel/approveFriendSuccess",
+                    payload:fromUser  //需要先从数据库查一遍 再同步到好友中 是实时的
                 })
             }
             else if(data.message.type===serviceMessageType.REJECT_ADD_FRIEND){
@@ -73,7 +71,6 @@ const UseMessageWorker = (props)=>{
                             });*/
             }
         }else if(data.code===1){
-            console.log(data)
             dispatch({
                 type:"ChatModel/onReceive",
                 payload:data,

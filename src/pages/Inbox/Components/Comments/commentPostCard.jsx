@@ -1,11 +1,9 @@
 import React, {useState} from 'react';
 import {Avatar, Button, Dropdown, Input, Space} from "antd";
 import {DeleteOutlined, SmileOutlined} from "@ant-design/icons";
-import {formatTimestamp} from "@/utils/timeUtils";
-import {history} from "umi";
 import {MoreInfoIcon} from "@/assets/Icons/icon";
-import {markCommentAsRead, postSubcomment, postSubcommentAndRead} from "@/services/commentService";
-import {addSubcomment} from "@/actions/postDetailActions";
+import {markCommentAsRead, postSubcommentAndRead} from "@/services/commentService";
+
 import PostInfo from "@/pages/Inbox/Components/PostInfo/postInfo";
 
 const iconSize = {
@@ -13,7 +11,7 @@ const iconSize = {
     height: '45px',
 }
 
-function CommentPostCard({data}) {
+function CommentPostCard({data,removeComment}) {
     const [text, setText] = useState('');
     const {
         commentUser: {nickname, avatar}, commentContent, commentId,
@@ -22,13 +20,18 @@ function CommentPostCard({data}) {
     const handleInput = (e) => {
         setText(e.target.value)
     }
-    const handleReply = () => {
+
+    const handleReply = async () => {
         const data = {
             subcommentContent: text,
             targetNickname: nickname,
             commentId,
         }
-        postSubcommentAndRead(data)
+        const {code} = await postSubcommentAndRead(data)
+        if (code === 1) {
+            removeComment(commentId)
+        }
+
     }
 
     const items = [
@@ -37,49 +40,50 @@ function CommentPostCard({data}) {
             danger: true,
             label: 'Mark Read',
             icon: <DeleteOutlined/>,
-            onClick: () => markCommentAsRead(commentId).then(
-                ()=>{
-                    //移动div 1秒 然后删除内容
+            onClick: async () => {
+                const {code} = await markCommentAsRead(commentId)
+                if (code === 1) {
+                    removeComment(commentId)
                 }
-            )
+            }
         },
     ];
     return (
 
-              <div className={'post-relevant-card'}>
-                  <div className={'card-left'}>
-                      <div className={'user-info'}>
-                          <Space>
-                              <Avatar size={60} src={avatar}/>
-                              <span>{nickname}</span>
-                              <span>09:35</span>
-                          </Space>
-                      </div>
-                      <div className={'comment-content'}>
-                          {commentContent}
-                      </div>
-                      <div className={"reply-wrapper"}>
-                          <Input placeholder={`Reply`} value={text} onChange={handleInput}/>
-                          <div className={`input-buttons ${text.length > 0 ? 'active' : 'inactive'}`}>
-                              <SmileOutlined/>
-                              <Button size={"middle"} type={"primary"} onClick={handleReply}>Reply</Button>
-                          </div>
-                      </div>
-                  </div>
-                  <div className={'card-right'}>
-                      <PostInfo {...relevantPost} />
-                  </div>
-                  <div className={'operation'}>
-                      <Dropdown
-                          menu={{
-                              items,
-                          }}
-                          trigger={['click']}
-                      >
-                          <MoreInfoIcon {...iconSize}  />
-                      </Dropdown>
-                  </div>
-              </div>
+        <div className={'post-relevant-card'}>
+            <div className={'card-left'}>
+                <div className={'user-info'}>
+                    <Space>
+                        <Avatar size={60} src={avatar}/>
+                        <span>{nickname}</span>
+                        <span>09:35</span>
+                    </Space>
+                </div>
+                <div className={'comment-content'}>
+                    {commentContent}
+                </div>
+                <div className={"reply-wrapper"}>
+                    <Input placeholder={`Reply`} value={text} onChange={handleInput}/>
+                    <div className={`input-buttons ${text.length > 0 ? 'active' : 'inactive'}`}>
+                        <SmileOutlined/>
+                        <Button size={"middle"} type={"primary"} onClick={handleReply}>Reply</Button>
+                    </div>
+                </div>
+            </div>
+            <div className={'card-right'}>
+                <PostInfo {...relevantPost} />
+            </div>
+            <div className={'operation'}>
+                <Dropdown
+                    menu={{
+                        items,
+                    }}
+                    trigger={['click']}
+                >
+                    <MoreInfoIcon {...iconSize}  />
+                </Dropdown>
+            </div>
+        </div>
     );
 }
 

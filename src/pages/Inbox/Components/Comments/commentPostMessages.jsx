@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {Divider, List, Skeleton} from 'antd';
 import CommentPostCard from "./commentPostCard";
@@ -6,9 +6,10 @@ import {getAllCommentsToMyPost} from "@/services/commentService";
 import usePage from "@/hooks/usePage";
 
 const App = () => {
-
-    const {data,loading,total,loadMoreData} = usePage(getAllCommentsToMyPost,3);
-
+    const {data, loading, total, loadMoreData, setData} = usePage(getAllCommentsToMyPost, 3);
+    const handleRemoveFromState = (commentId) => {
+        setData(data.filter(comment => comment.commentId !== commentId))
+    }
     return (
         <div className={'post-relevant-messages'}>
             <div
@@ -33,7 +34,7 @@ const App = () => {
                     <List
                         dataSource={data}
                         renderItem={(item) => (
-                            <CommentPostCard data={item}/>
+                            <CommentPostCard data={item} removeComment={handleRemoveFromState}/>
                         )}
                     />
                 </InfiniteScroll>

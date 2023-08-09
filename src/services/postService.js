@@ -51,10 +51,3 @@ export const setVisibility = async (postId,visibility)=>request(`/api/post/${pos
   }
 })
 
-export const getAllLovesToMyPost = async (current,pageSize)=>request('/api/lovePosts',{
-    method:'GET',
-    params:{
-        current,
-        pageSize,
-    }
-})

@@ -15,7 +15,7 @@ const iconSize = {
     height: '45px',
 }
 
-function MentionPostCard({data}) {
+function MentionPostCard({data,removeMention}) {
     const [text, setText] = useState('');
     const {
         mentionId,
@@ -33,16 +33,24 @@ function MentionPostCard({data}) {
             danger: true,
             label: 'Mark Read',
             icon: <DeleteOutlined/>,
-            onClick: () => markMentionAsRead(mentionId)
+            onClick:async () => {
+             const {code} =  await  markMentionAsRead(mentionId)
+                if(code===1){
+                    removeMention(mentionId)
+                }
+            }
         },
     ];
 
-   const handleComment = ()=>{
+   const handleComment = async ()=>{
        const data= {
            postId,
            commentContent:text,
        }
-       replyMention(data,mentionId)
+    const {code} =  await replyMention(data,mentionId)
+       if(code===1){
+           removeMention(mentionId)
+       }
    }
 
     return (

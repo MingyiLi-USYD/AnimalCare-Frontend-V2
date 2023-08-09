@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Avatar, Button, Image, Popconfirm,Spin} from "antd";
 import {useModel, useParams} from "umi";
-
 import './petDetail.less'
 import PetImageUpload from "./Components/petImageUpload";
 import {deleteImageOfPet, getPetById} from "@/services/petService";
@@ -36,7 +35,7 @@ function PetDetail() {
         return <NotFoundPage/>
     }
     return (
-        <div>
+        <div className={'pet-detail'}>
             <BackForward/>
             <div style={{textAlign: 'center'}}>
                 <div>

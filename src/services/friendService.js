@@ -1,44 +1,40 @@
 import {request} from "umi";
 
-export const getFriendshipStatus = async (id)=>await request(`/api/friends/status/${id}`,
+export const getFriendshipStatus = async (id) => await request(`/api/friends/status/${id}`,
     {
-        method:"GET"
+        method: "GET"
     }
 )
-export const sendFriendRequest = async (id,msg)=>await request(`/api/friendRequest/${id}`,
+export const sendFriendRequest = async (id, msg) => await request(`/api/friendRequest/${id}`,
     {
-        method:"POST",
-        params:{
+        method: "POST",
+        params: {
             msg
         }
     }
 )
 
-export const getFriends = async ()=>await request('/api/friends', {
-        method: 'GET',
-    });
+export const getFriends = async () => await request('/api/friends', {
+    method: 'GET',
+});
 
 
-export const deleteFriend = async (id)=>await request(`/api/friends/${id}`,
+export const deleteFriend = async (id) => await request(`/api/friends/${id}`,
     {
-        method:"DELETE"
+        method: "DELETE"
     }
 )
 
-export const getRequestList = async ()=>await request('/api/friendRequests',
+
+
+export const approveRequest = async (id) => await request(`/api/friendRequest/${id}`,
     {
-        method:"GET"
+        method: "GET"
     }
 )
 
-export const approveRequest = async (id)=>await request(`/api/friendRequest/${id}`,
+export const rejectRequest = async (id) => await request(`/api/friendRequest/${id}`,
     {
-        method:"GET"
-    }
-)
-
-export const rejectRequest = async (id)=>await request(`/api/friendRequest/${id}`,
-    {
-        method:"DELETE"
+        method: "DELETE"
     }
 )

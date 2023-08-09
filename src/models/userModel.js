@@ -48,7 +48,6 @@ export default {
             const {userId,username,role,email,avatar} = data;
             const user= {userId,username,role,email,avatar};
             if(code===1){
-
                 yield put({ type: 'fetchLoveListSuccess', payload: data.loveIdList });
                 yield put({ type: 'ChatModel/onFetchProfile', payload: user });
                 yield put({ type: 'fetchSubscribeListSuccess', payload: data.subscribeIdList });

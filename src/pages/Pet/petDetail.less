@@ -1,42 +1,53 @@
-.imageStyle{
-  width: 200px !important;
-  height: 200px !important;
-  object-fit: cover;
-  margin: 5px;
-  background:#000;
-  border:5px solid #fff;
-  box-shadow:1px 1px 5px #333;
-  &:hover{
-    border: 4px solid blue;
-  }
-}
 
-.button{
-  width: 70px;
-  &:hover{
-    transform: scale(1.1);
-    border: 2px solid #3e8e41;
+  .edit-button{
+    width: 70px;
+    &:hover{
+      transform: scale(1.1);
+      border: 2px solid #3e8e41;
+    }
+  }
+.edit-pet-modal{
+   .pet-edit-content{
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+   }
+  .footer{
+     display: flex;
+    justify-content: space-around;
   }
 }
-.image-wrapper {
-  position: relative;
-  margin: 10px;
-  .delete-button {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    display: none;
+.pet-detail{
+  .imageStyle{
+    width: 200px !important;
+    height: 200px !important;
+    object-fit: cover;
+    margin: 5px;
+    background:#000;
+    border:5px solid #fff;
+    box-shadow:1px 1px 5px #333;
+    &:hover{
+      border: 4px solid blue;
+    }
   }
-  &:hover{
-    .delete-button{
-      display: block;
-      &:hover{
-        transform: scale(1.1);
-        background-color: red;
-        color: white;
+  .image-wrapper {
+    position: relative;
+    margin: 10px;
+    .delete-button {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      display: none;
+    }
+    &:hover{
+      .delete-button{
+        display: block;
+        &:hover{
+          transform: scale(1.1);
+          background-color: red;
+          color: white;
+        }
       }
     }
   }
 }
-
-

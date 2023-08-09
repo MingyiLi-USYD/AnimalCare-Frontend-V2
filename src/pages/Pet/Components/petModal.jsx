@@ -1,17 +1,16 @@
 import React from 'react';
-import {Avatar, Button, Form, Input, Modal, Switch} from "antd";
+import {Avatar, Button, DatePicker, Form, Input, Modal, Radio, Switch} from "antd";
 import {updatePetById} from "@/services/petService";
+import  '../petDetail.less'
+import moment from "moment";
 
 const {TextArea} = Input;
 
 function PetModal({open, close, data, setData, selectedPet, notify}) {
     const pet = data[selectedPet]
-    const petName = pet.petName
-    const petDescription = pet.petDescription
-    const checked = pet.petVisible
+    const {petName,petDescription,petVisible,birthday}= pet
     const [form] = Form.useForm();
     const handleOk = async () => {
-
         const newPet = {...pet, ...form.getFieldsValue()}
         const {code} = await updatePetById(pet.petId, newPet)
         if (code === 1) {
@@ -20,32 +19,31 @@ function PetModal({open, close, data, setData, selectedPet, notify}) {
             setData(newData)
             notify('topRight', newPet.petName)
             close()
-        } else {
-
         }
-
     }
     const handleCancel = () => {
         close()
     }
     return (
         <Modal
+            className={'edit-pet-modal'}
             title="Edit Pet"
             open={open}
             onCancel={handleCancel}
-            footer={[<Button type={'primary'} key={"Save"} onClick={handleOk}>
-                Save
-            </Button>]}
+            footer={[
+                <div  key={'footer'} className={'footer'}>
+                    <Button className={'edit-button'} danger>
+                        Reset
+                    </Button>
+                    <Button  className={'edit-button'} type={'primary'} onClick={handleOk}>
+                        Save
+                    </Button>
+                </div>]}
         >
-            <div style={{
-                display: 'flex',
-                flexDirection: "column",
-                alignItems: "center"
-            }}>
+            <div  className={'pet-edit-content'}>
                 <Avatar size={64} src={pet.petAvatar}/>
                 <h2>{pet.petName}</h2>
                 <p>{pet.petDescription}</p>
-
                 <Form
                     labelCol={{
                         span: 8,
@@ -63,17 +61,28 @@ function PetModal({open, close, data, setData, selectedPet, notify}) {
                         <Input/>
                     </Form.Item>
                     <Form.Item label="Description" name={'petDescription'} initialValue={petDescription}>
-                        <TextArea rows={4} />
+                        <TextArea rows={4} showCount maxLength={500}
+                                  style={{
+                                      height: 120,
+                                      resize: 'none',
+                                  }}/>
                     </Form.Item>
-                    <Form.Item
-                        valuePropName="checked"
-                        getValueProps={value => value}
-                        label="Visiblity"
-                        name={'petVisible'}
-                        initialValue={checked}
+                    <Form.Item label={"Visibility"} name={'petVisible'} initialValue={petVisible}>
+                        <Radio.Group>
+                            <Radio value={true}>Public</Radio>
+                            <Radio value={false}>Private</Radio>
+                        </Radio.Group>
+                    </Form.Item>
+{/*                    <Form.Item
+                        label="Pet Birthday"
+                        name="birthday"
+                        rules={[
+                            { required: true, message: 'Please fill the birthday !' },
+                        ]}
+                        initialValue={moment(birthday)}
                     >
-                        <Switch defaultChecked={checked}/>
-                    </Form.Item>
+                        <DatePicker />
+                    </Form.Item>*/}
                 </Form>
             </div>
         </Modal>
@@ -82,23 +91,3 @@ function PetModal({open, close, data, setData, selectedPet, notify}) {
 
 export default PetModal;
 
-/*
-<div style={{  display: 'flex',
-    flexDirection: "column",
-    justifyContent:"center",
-    alignItems: "center" }}>
-
-    <Avatar size={64} src={`/common/download?name=${pet.petAvatar}`}/>
-    <h2>{pet.petName}</h2>
-    <p>{pet.petDescription}</p>
-    <div>
-        <span style={{color:"blue"}}>PetName: </span>
-        <Input value={petName} style={{width:'40%',fontsize:40}}  showCount maxLength={15} onChange={handleNameChange} />
-    </div>
-    <div>PetVisible to Public: <Switch defaultChecked={false} /></div>
-
-    <label>PetDescription: </label>
-    <TextArea  rows={4} value={petDescription} style={{width:'100%',fontsize:40}}   maxLength={50} onChange={handleDescriptionChange} />
-
-
-</div>*/
