@@ -10,7 +10,6 @@ export const getPosts = async (current,pageSize,order,keywords) =>
         }
     })
 
-
 export const getLoves = async () =>
     await request('/api/loves', {
         method: 'GET',
@@ -38,7 +37,7 @@ export const getPostById = (postId)=>{
   })
 }
 
-export const getMyPosts = async ()=>request("/api/posts",{
+export const getMyPosts = async ()=>request("/api/my/posts",{
   method:'GET',
 })
 

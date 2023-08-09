@@ -18,7 +18,6 @@ export default {
             state.current=1
             state.total=total
             state.pages=pages
-
         },
         loadMorePostsSuccess(state, { payload }) {
             const {records,current,total,pages} = payload
@@ -36,11 +35,17 @@ export default {
         decreaseLove(state, { payload:postId }) {
             state.postList.find(item=>item.postId===postId).love--
         },
+        changeKeywords(state, { payload:keywords }) {
+            state.keywords=keywords
+        },
+        changeSelector(state, { payload:selector }) {
+            state.selector=selector
+        },
     },
     effects: {
         *fetchPosts({ payload }, { call, put }) {
             const {  selector,keywords } = payload
-            const { data,code } = yield call(getPosts,1,11,selector,keyswords);
+            const { data,code } = yield call(getPosts,1,11,selector,keywords);
             if(code===1){
                 yield put({ type: 'fetchPostsSuccess', payload: data });
             }
@@ -68,10 +73,10 @@ export default {
                 yield put({ type: 'postDetailModel/syncDecreaseInDetail', payload: postId});
             }
         },
-        *changeSelector({ payload:selector }, { call, put }) {
+/*        *changeSelector({ payload:selector }, { call, put }) {
             yield put({ type: 'fetchPosts', payload: {selector} });
             yield put({ type: 'changeSelectorSuccess', payload: selector });
-        },
+        },*/
     },
 
     }

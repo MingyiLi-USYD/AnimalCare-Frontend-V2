@@ -7,7 +7,7 @@ import "./home.less"
 import PostCard from "@/components/Cards/postCard";
 const { Search } = Input;
 const HomePage = () => {
-    const {postList, pages, total, selector, current} = useSelector(state => state.homeModel)
+    const {postList, pages, total, selector, current,keywords} = useSelector(state => state.homeModel)
     const dispatch = useDispatch();
 
 
@@ -15,8 +15,8 @@ const HomePage = () => {
         dispatch({
             type: 'homeModel/fetchPosts',
             payload: {
-                current,
-                selector
+                selector,
+                keywords
             }
         })
     };
@@ -32,13 +32,14 @@ const HomePage = () => {
     };
 
     useEffect(() => {
-        if (postList.length === 0) {
             initData()
-        }
-    }, []);
+    }, [selector,keywords]);
 
     const handleSearch =(value)=>{
-
+        dispatch({
+            type: 'homeModel/changeKeywords',
+            payload: value
+        })
     }
 
     return (

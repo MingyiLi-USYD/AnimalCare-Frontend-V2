@@ -71,7 +71,8 @@ const Profile = (props) => {
                                 </div>
                                 <div>
                                     {
-                                        <Button type={"primary"}>Subscription</Button>
+                                        id!==userId&&
+                                        <Button type={"primary"}>Subscribe</Button>
                                     }
                                 </div>
 
@@ -80,19 +81,19 @@ const Profile = (props) => {
                     <Space className={'number-info'}>
                         <Space>
                             <PetIcon {...style}/>
-                            <span className={'number'}>{`Pets: 5`}</span>
+                            <span className={'number'}>{`Pets: ${data.petList.length}`}</span>
                         </Space>
                         <Space>
                             <PostIcon {...style}/>
-                            <span className={'number'}>{`Posts: 5`}</span>
+                            <span className={'number'}>{`Posts: ${data.postList.length}`}</span>
                         </Space>
                         <Space>
                             <FollowIcon {...style}/>
-                            <span className={'number'}>{`Subscribe: 5`}</span>
+                            <span className={'number'}>{`Subscribe:${data.subscribeStringList.length}`}</span>
                         </Space>
                         <Space>
                             <FollowerIcon {...style}/>
-                            <span className={'number'}>{`Subscriber: 5`}</span>
+                            <span className={'number'}>{`Subscriber: ${data.subscriberStringList.length}`}</span>
                         </Space>
                     </Space>
                 </div>
