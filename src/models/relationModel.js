@@ -1,20 +1,16 @@
 export default {
-    namespace:'RelationModel',
+    namespace:'relationModel',
     state:{
         open:false,
     },
 
     reducers:{
-        openModal(){
-            return{
-                open: true
-            }
+        openModal(state,){
+          state.open=true
         },
-        closeModal(){
-            return{
-                open: false,
-            }
+        closeModal(state,){
+            state.open=false
         },
     }
-
 }
+

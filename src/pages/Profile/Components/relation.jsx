@@ -3,6 +3,7 @@ import {Button} from "antd";
 import {getFriendshipStatus} from "@/services/friendService";
 import {useDispatch, useModel, useSelector} from "umi";
 import RelationDetail from "./relationDetail";
+import {openDeleteModal} from "@/actions/relationActions";
 
 
 function Relation(user) {
@@ -13,14 +14,10 @@ function Relation(user) {
     const myId = currentUser.userId
     const [relation, setRelation] = useState(0)
     const handleAdd = () => {
-        dispatch({
-            type: 'RelationModel/openModal',
-        });
+        dispatch(openDeleteModal());
     }
     const handleDelete = () => {
-        dispatch({
-            type: 'RelationModel/openModal',
-        });
+        dispatch(openDeleteModal());
     }
 
     const relationList = [null, <Button key={1} danger onClick={handleDelete}>Delete</Button>
@@ -48,7 +45,6 @@ function Relation(user) {
                 }
             </div>
             <div>
-
                 {
 
                     userId!==myId&&(subscribeList.includes(userId)?<Button danger>

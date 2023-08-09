@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {Avatar, Button, Image, Popconfirm,Spin} from "antd";
 import {useModel, useParams} from "umi";
-import {getPetDetail} from "@/services/api";
+
 import './petDetail.less'
 import PetImageUpload from "./Components/petImageUpload";
-import {deleteImageOfPet} from "@/services/petService";
+import {deleteImageOfPet, getPetById} from "@/services/petService";
 import BackForward from "../../components/BackForward";
 import NotFoundPage from "../404";
 import Loading from "../../components/Loading";
@@ -18,7 +18,7 @@ function PetDetail() {
     const [pet, setPet] = useState({})
     const {initialState: {currentUser}} = useModel('@@initialState');
     const initData = async () => {
-        const res = await getPetDetail(petId);
+        const res = await getPetById(petId);
         setPet(res.data)
         setLoading(false); // 请求结束，设置 loading 为 false
     }

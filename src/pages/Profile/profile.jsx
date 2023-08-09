@@ -3,7 +3,7 @@ import {useDispatch, useModel, useParams, useRequest} from 'umi';
 import PetCardList from './Components/petCardList';
 import {getProfileById} from '@/services/userService';
 import PostCardList from "./Components/postCardList";
-import PostDetail from "./Components/postDetail";
+import PostDetail from "./Components/petBrief";
 import {useEffect, useState} from "react";
 import {getFriendshipStatus} from "@/services/friendService";
 import BackForward from "../../components/BackForward";

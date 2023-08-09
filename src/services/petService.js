@@ -29,3 +29,8 @@ export const addImageOfPet = async (petId,data)=>await request(`/api/pet/image/$
     method:"POST",
     data
 })
+
+export const getPetById = (id) =>
+    request(`/api/pet/${id}`, {
+        method: 'GET',
+    });

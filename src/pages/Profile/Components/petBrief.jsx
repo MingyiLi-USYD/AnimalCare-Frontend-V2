@@ -1,9 +1,11 @@
 import {Avatar, Carousel, Modal} from 'antd';
 import { useEffect } from 'react';
-import { useRequest } from 'umi';
+import {useDispatch, useRequest, useSelector} from 'umi';
 import { connect} from 'dva';
 import {getPostById} from "@/services/postService";
 import {parseStringToList} from "@/utils/arrayUtils";
+import {getPetById, getPets} from "@/services/petService";
+import {closePetBriefModal} from "@/actions/petBriefActions";
 
 const carouselImageStyle = {
     objectFit: 'cover',  // 自动裁剪图片
@@ -11,28 +13,27 @@ const carouselImageStyle = {
     display: 'block',   // 显示为块级元素
     margin: '0 auto',   // 水平居中
 };
-const PostDetail = (props) => {
-    let { open, postId } = props;
-    const { run, loading, data } = useRequest(getPostById, {
+const PetBrief = () => {
+
+    const { run, loading, data } = useRequest(getPetById, {
         manual: true,
     });
+    const dispatch=useDispatch()
+    const {open,petId} = useSelector(state => state.petBriefModel)
     useEffect(() => {
-        open && run(`${postId}`);
-    }, [open]);
+
+       //run(`${petId}`);
+    }, [petId]);
     return (
         <>
             {data && (
                 <Modal
                     footer={[]}
                     title="Post Detail Modal"
-                    open={props.open}
-                    onCancel={() => {
-                        props.dispatch({
-                            type: 'PostModel/closeModal',
-                        });
-                    }}
+                    open={open}
+                    onCancel={() => dispatch(closePetBriefModal())}
                 >
-                    <div style={{ textAlign: 'center' }}>
+                {/*    <div style={{ textAlign: 'center' }}>
                         <div>
                             <Avatar size={64} src={data.userAvatar}/>
                             <h2>{data.topic}</h2>
@@ -51,13 +52,11 @@ const PostDetail = (props) => {
                                 ))}
                             </Carousel>
                         </div>
-                    </div>
+                    </div>*/}
                 </Modal>
             )}
         </>
     );
 };
-export default connect(({ PostModel }) => {
-    return { ...PostModel };
-})(PostDetail);
+export default PetBrief
 

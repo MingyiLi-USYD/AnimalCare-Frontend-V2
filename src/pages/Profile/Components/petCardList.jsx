@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Button, Typography} from 'antd';
 import {animated, useSpring} from 'react-spring';
 import PetCard from "@/components/Cards/petCard";
+import PetBrief from "@/pages/Profile/Components/petBrief";
 
 const { Title } = Typography;
 
@@ -57,6 +58,7 @@ const PetCardList = ({ data = [] }) => {
                         Next
                     </Button>
             </div>
+            <PetBrief/>
         </div>
     );
 };

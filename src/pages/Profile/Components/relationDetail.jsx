@@ -2,16 +2,16 @@ import {connect} from 'dva';
 import {Avatar, Button, Modal} from "antd";
 import React, {useRef} from "react";
 import {deleteFriend, sendFriendRequest} from "@/services/friendService";
-import {useModel} from "umi";
+import {useDispatch, useModel, useSelector} from "umi";
+import {closeDeleteModal} from "@/actions/relationActions";
 
 
-const RelationDetail = ({userId,nickname,avatar,relation,dispatch,open,setRelation}) => {
+const RelationDetail = ({userId,nickname,avatar,relation,setRelation}) => {
     const { initialState:{currentUser} } = useModel('@@initialState');
-
+    const {open} = useSelector(state => state.relationModel)
+    const dispatch = useDispatch();
     const closeModal = ()=>{
-        dispatch({
-            type: 'RelationModel/closeModal',
-        });
+        dispatch(closeDeleteModal());
     }
     const textareaRef = useRef(null)
     const handleAdd = ()=>{
@@ -62,7 +62,5 @@ const RelationDetail = ({userId,nickname,avatar,relation,dispatch,open,setRelati
    )
 
 };
-export default connect(({ RelationModel }) => {
-    return { ...RelationModel };
-})(RelationDetail);
+export default RelationDetail
 
