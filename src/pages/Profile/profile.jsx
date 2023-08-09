@@ -10,6 +10,8 @@ import BackForward from "../../components/BackForward";
 import RelationDetail from "./Components/relationDetail";
 import './profile.less'
 import {FollowerIcon, FollowIcon, PetIcon, PostIcon} from "@/assets/Icons/icon";
+import {useSelector} from "@@/exports";
+import Relation from "@/pages/Profile/Components/relation";
 
 const {Title, Paragraph} = Typography;
 
@@ -18,40 +20,13 @@ const Profile = (props) => {
         height:'40px',
         width:'40px',
     }
-    const params = useParams();
-    const {id} = params;
-    const [relation, setRelation] = useState(0);
-    const {initialState: {currentUser}} = useModel('@@initialState');
-    const dispatch = useDispatch();
-    const userId = currentUser.userId
-    const {run, loading, data} = useRequest(getProfileById, {manual: true});
+    const params = useParams()
+    const {id} = params
+    const {initialState: {currentUser}} = useModel('@@initialState')
+    const {run, loading, data} = useRequest(getProfileById, {manual: true})
     useEffect(() => {
         run(id)
-        if (id !== userId) {
-            handleCheckRelation(id)
-        } else {
-            setRelation(0)
-        }
     }, [id])
-    const handleCheckRelation = async (toId) => {
-        const res = await getFriendshipStatus(toId)
-        setRelation(res.data)
-    }
-
-    const handleAdd = () => {
-        dispatch({
-            type: 'RelationModel/openModal',
-        });
-    }
-    const handleDelete = () => {
-       dispatch({
-            type: 'RelationModel/openModal',
-        });
-    }
-
-    const relationList = [null, <Button key={1} danger onClick={handleDelete}>Delete</Button>
-        , <Button key={2} type={"primary"} disabled={true}>Pending</Button>
-        , <Button key={3} type={"primary"} onClick={handleAdd}>Add</Button>]
     if (!data) {
         return <Spin>loading</Spin>
     }
@@ -63,20 +38,7 @@ const Profile = (props) => {
                 <div className={'header'} >
                     <Space className={'avatar-info'}>
                         <Avatar src={data?.avatar} size={64}/>
-                            <div  className={'operation'} >
-                                <div>
-                                    {
-                                        relationList[relation]
-                                    }
-                                </div>
-                                <div>
-                                    {
-                                        id!==userId&&
-                                        <Button type={"primary"}>Subscribe</Button>
-                                    }
-                                </div>
-
-                            </div>
+                        <Relation {...data}/>
                     </Space>
                     <Space className={'number-info'}>
                         <Space>
@@ -89,11 +51,11 @@ const Profile = (props) => {
                         </Space>
                         <Space>
                             <FollowIcon {...style}/>
-                            <span className={'number'}>{`Subscribe:${data.subscribeStringList.length}`}</span>
+                            <span className={'number'}>{`Subscribe:${data.subscribeIdList.length}`}</span>
                         </Space>
                         <Space>
                             <FollowerIcon {...style}/>
-                            <span className={'number'}>{`Subscriber: ${data.subscriberStringList.length}`}</span>
+                            <span className={'number'}>{`Subscriber: ${data.subscriberIdList.length}`}</span>
                         </Space>
                     </Space>
                 </div>
@@ -101,10 +63,7 @@ const Profile = (props) => {
                 <Paragraph>{data?.description}</Paragraph>
                 <PostCardList data={data?.postList} avatar={currentUser.avatar}/>
                 <PetCardList data={data?.petList}/>
-
                 <PostDetail/>
-                <RelationDetail userId={data.userId} relation={relation} avatar={data.avatar} nickname={data.nickname}
-                                setRelation={setRelation}/>
             </div>
         </div>
 
@@ -112,3 +71,4 @@ const Profile = (props) => {
 };
 
 export default Profile
+

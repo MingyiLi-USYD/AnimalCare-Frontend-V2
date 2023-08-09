@@ -5,7 +5,8 @@ export default {
     state:{
         loveList:[],
         startList:[],
-        subscriptionList:[]
+        subscribeList:[],
+        subscriberList:[]
     },
 
     reducers:{
@@ -22,22 +23,24 @@ export default {
             }
 
         },
-        addToSubscriptionList(state,{payload}){
-            !state.subscriptionList.includes(payload)&&state.subscriptionList.push(payload)
+        addToSubscriptionList(state,{payload:userId}){
+            !state.subscribeList.includes(userId)&&state.subscribeList.push(userId)
         },
-        removeFromSubscriptionList(state,{payload}){
-            const index = state.subscriptionList.indexOf(payload);
+        removeFromSubscriptionList(state,{payload:userId}){
+            const index = state.subscribeList.indexOf(userId);
             if(index>=0){
-                state.subscriptionList.splice(index, 1);
+                state.subscribeList.splice(index, 1);
             }
         },
         fetchLoveListSuccess(state,{payload}){
            state.loveList=payload
         },
-        fetchSubscriptionListSuccess(state,{payload}){
-            state.subscriptionList=payload
+        fetchSubscribeListSuccess(state,{payload}){
+            state.subscribeList=payload
         },
-
+        fetchSubscriberListSuccess(state,{payload}){
+            state.subscriberList=payload
+        },
     },
     effects:{
         *initUserInfo({ payload }, { call, put }) {
@@ -48,7 +51,8 @@ export default {
 
                 yield put({ type: 'fetchLoveListSuccess', payload: data.loveIdList });
                 yield put({ type: 'ChatModel/onFetchProfile', payload: user });
-                yield put({ type: 'fetchSubscriptionListSuccess', payload: data.subscribedUserIdList });
+                yield put({ type: 'fetchSubscribeListSuccess', payload: data.subscribeIdList });
+                yield put({ type: 'fetchSubscriberListSuccess', payload: data.subscriberIdList });
                 yield put({type: 'friendModel/fetchFriendListSuccess', payload: data.friendshipDtoList});
                 yield put({type: 'friendModel/fetchRequestListSuccess', payload: data.friendRequestDtoList});
 

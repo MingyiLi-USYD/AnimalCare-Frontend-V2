@@ -21,6 +21,7 @@ import {
 } from "@/actions/postDetailActions";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
+import BackForward from "@/components/BackForward";
 
 
 function PostDetail() {
@@ -31,7 +32,6 @@ function PostDetail() {
     const inputRef = useRef(null);
     const [active, setActive] = useState(false)
     const [text, setText] = useState('')
-    const [mentionedUsers, setMentionedUsers] = useState([]);
     const [emo, setEmo] = useState(false)
 
     const {
@@ -44,7 +44,7 @@ function PostDetail() {
         commentId,
         targetNickname,
     } = useSelector(state => state.postDetailModel)
-    const {loveList, startList,subscriptionList} = useSelector(state => state.userModel)
+    const {loveList, startList,subscribeList} = useSelector(state => state.userModel)
     const {friendList} = useSelector(state => state.friendModel)
     const {effects, global} = useSelector(state => state.loading)
     const mapFriendList = (friend)=>{
@@ -61,7 +61,6 @@ function PostDetail() {
             dispatch(fetchPostAction(postId))
         }
     }, [])
-
     useEffect(() => {
         if (active && text.length === 0) {
             setActive(false)
@@ -136,7 +135,10 @@ function PostDetail() {
 
     return (
 
+
+
         <div className={"post-container"}>
+            <BackForward/>
             <div className={"carousel"}>
                 <Carousel autoplay={false}>
                     {post?.images?.map(({imageId, imageUrl}) =>
@@ -158,7 +160,7 @@ function PostDetail() {
                         <span className={"nickname"}>{post?.postUser?.nickname}</span>
                     </div>
                     {
-                        subscriptionList.includes(post.userId) ?
+                        subscribeList.includes(post.userId) ?
                             <Button style={{borderRadius: 20}} danger onClick={handleUnsubscribe}>Unsubscribe</Button>
                             : <Button style={{borderRadius: 20}} type={"primary"}
                                       onClick={handleSubscribe}>Subscribe</Button>
