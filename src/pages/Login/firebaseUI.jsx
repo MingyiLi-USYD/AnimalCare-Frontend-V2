@@ -1,5 +1,5 @@
 import React from 'react';
-import {auth} from "../../firebaseConfig";
+import {auth} from "@/firebaseConfig";
 import {EmailAuthProvider, FacebookAuthProvider, GoogleAuthProvider} from 'firebase/auth'
 import {StyledFirebaseAuth} from "react-firebaseui";
 import {history, useModel} from "umi";
@@ -37,9 +37,7 @@ function FirebaseUi({}) {
         signInSuccessUrl: '/signedIn',
         // We will display Google and Facebook as auth providers.
         signInOptions: [
-            EmailAuthProvider.PROVIDER_ID,
             GoogleAuthProvider.PROVIDER_ID,
-            FacebookAuthProvider.PROVIDER_ID,
         ],
         callbacks: {
             // Avoid redirects after sign-in.
@@ -48,7 +46,7 @@ function FirebaseUi({}) {
                 const {photoURL,uid,email,displayName} = data.user;
                 const user = {
                   uuid:uid,
-                    username:uid,
+                    username:email,
                     nickname:displayName,
                     avatar:photoURL,
                     email,

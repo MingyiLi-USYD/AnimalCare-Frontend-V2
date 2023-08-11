@@ -53,7 +53,6 @@ const UseMessageWorker = ()=>{
                     message: 'Rejected friend request',
                     description: <SystemMsg {...fromUser}/>,
                 });
-
             }
             else if(data.message.type===serviceMessageType.FRIEND_ONLINE){
                 console.log("处理朋友上线的逻辑")
@@ -69,6 +68,14 @@ const UseMessageWorker = ()=>{
                                 message: '好友下线',
                                 description: '走了',
                             });*/
+            }else if(data.message.type===serviceMessageType.NEW_COMMENT){
+                      console.log("处理新评论逻辑")
+            }
+            else if(data.message.type===serviceMessageType.MENTION){
+                console.log("处理新mention")
+            }
+            else if(data.message.type===serviceMessageType.NEW_LIKE){
+                console.log("处理新点赞")
             }
         }else if(data.code===1){
             dispatch({

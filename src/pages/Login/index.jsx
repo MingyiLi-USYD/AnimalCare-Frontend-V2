@@ -92,7 +92,7 @@ const Login = () => {
              Or <a onClick={()=>history.push('/signup')}>register now!</a>
            </Form.Item>
          </Form>
-     {/*    <EmailSignUp/>*/}
+
          <FirebaseUI initialState={initialState} setInitialState={setInitialState}/>
        </Card>
      </Col>
