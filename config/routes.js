@@ -126,6 +126,10 @@ export  const routes = [
                 component: '@/pages/Admin/admin',
                 access: 'isRoot',
             },
+            {
+                path: '/test',
+                component: '@/pages/Test/index',
+            },
             { path: '/*', redirect:'/home'},
         ],
     },

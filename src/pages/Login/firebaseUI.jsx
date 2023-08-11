@@ -1,6 +1,6 @@
 import React from 'react';
 import {auth} from "@/firebaseConfig";
-import {EmailAuthProvider, FacebookAuthProvider, GoogleAuthProvider} from 'firebase/auth'
+import {GoogleAuthProvider} from 'firebase/auth'
 import {StyledFirebaseAuth} from "react-firebaseui";
 import {history, useModel} from "umi";
 import {thirdPartLogin} from "@/services/userService";
@@ -8,7 +8,7 @@ import {flushSync} from "react-dom";
 
 
 function FirebaseUi({}) {
-    const { setInitialState, initialState } = useModel('@@initialState');
+    const {setInitialState, initialState} = useModel('@@initialState');
     const onFinish = async (values) => {
         const res = await thirdPartLogin(values);
         if (res.code === 1) {
@@ -42,14 +42,12 @@ function FirebaseUi({}) {
         callbacks: {
             // Avoid redirects after sign-in.
             signInSuccessWithAuthResult: (data) => {
-                console.log("登陆成功")
-                const {photoURL,uid,email,displayName} = data.user;
+                const {photoURL, uid, email, displayName} = data.user;
                 const user = {
-                  uuid:uid,
-                    username:email,
-                    nickname:displayName,
-                    avatar:photoURL,
-                    email,
+                    uuid: uid,
+                    username: email,
+                    nickname: displayName,
+                    avatar: photoURL,
                 }
                 onFinish(user)
             },
@@ -57,7 +55,7 @@ function FirebaseUi({}) {
     };
 
     return (
-        <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} uiCallback={ui => ui.disableAutoSignIn()} />
+        <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} uiCallback={ui => ui.disableAutoSignIn()}/>
     );
 }
 

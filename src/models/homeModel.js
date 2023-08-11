@@ -45,7 +45,7 @@ export default {
     effects: {
         *fetchPosts({ payload }, { call, put }) {
             const {  selector,keywords } = payload
-            const { data,code } = yield call(getPosts,1,11,selector,keywords);
+            const { data,code } = yield call(getPosts,1,20,selector,keywords);
             if(code===1){
                 yield put({ type: 'fetchPostsSuccess', payload: data });
             }

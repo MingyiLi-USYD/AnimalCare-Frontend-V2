@@ -15,7 +15,6 @@ const BasicLayout = (props) => {
   const {initialState} = useModel('@@initialState');
   const {socket,disconnect}=useSocket(initialState.currentUser)
   const {global} = useSelector(state=>state.loading)
-  const access = useAccess();
   const {currentUser}=initialState;
   const customMenuData= [
     {
@@ -114,14 +113,23 @@ const BasicLayout = (props) => {
       access: 'isRoot',
     },
   ];
-
-  const [location, setLocation] = useState("/home")
+  const [pathname, setPathname] = useState(history.location.pathname);
 
   return (
     <ProLayout
-        location={location}
+        token={{
+          sider: {
+            colorMenuBackground: '#fff',
+            colorMenuItemDivider: '#dfdfdf',
+            colorTextMenu: '#595959',
+            colorTextMenuSelected: 'rgba(42,122,251,1)',
+            colorBgMenuItemSelected: 'rgba(230,243,254,1)',
+          },
+        }}
+        location={{
+          pathname,
+        }}
       layout={"side"}
-      fixSiderbar
       title="PetBook"
       navTheme="dark"
       menuDataRender={()=>customMenuData}
@@ -135,6 +143,7 @@ const BasicLayout = (props) => {
        const {path,name} = props;
         return <div className={'menu-link'}
           onClick={() => {
+            setPathname(path||'/home')
             history.push(path)
           }}
         >
@@ -152,7 +161,7 @@ const BasicLayout = (props) => {
       }
       }}
     >
-{/*      {<Spin/>}*/}
+
       <Outlet/>
     </ProLayout>
   );

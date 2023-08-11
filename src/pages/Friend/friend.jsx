@@ -6,7 +6,7 @@ import DetailInfo from "./detailInfo";
 const Friend = () => {
  return (
      <div
-         className={"friendsContainer"}
+         className={"friend-page"}
      >
          <div className={'friend-fixed-div'} >
              <FriendList/>

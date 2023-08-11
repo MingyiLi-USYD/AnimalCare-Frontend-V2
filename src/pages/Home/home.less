@@ -1,13 +1,21 @@
+@import "../../public/common";
 .home-page{
-  display: flex;
-  flex-direction: column;
+  .col-flex();
+  #scrollableDiv{
+    height: 100%;
+    overflow: auto;
+    padding: 0 8px;
+    border:1px solid rgba(140, 140, 140, 0.35);
+    border-radius: 20px;
+    .scrollbar-style()
+  }
+  .list-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
   >span{
     width: 50%;
   }
 }
 
-.list-container{
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-}

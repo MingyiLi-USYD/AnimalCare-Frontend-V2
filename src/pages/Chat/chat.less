@@ -1,5 +1,5 @@
 @containerHeight: calc(100vh - 64px);
-
+@import "../../public/common";
 .chatContainer {
   display: flex;
   height: @containerHeight;
@@ -54,26 +54,16 @@
       border-bottom: 10px solid transparent;
     }
   }
-
   .reverse {
     flex-direction: row-reverse;
   }
 
 
   .fixed-div {
-    width: 300px;
     #scrollableDivRecent{
-      border-right: 3px solid black;
-      height: 100%;
+      .fix-scroll();
       .friend-item{
-        &:hover{
-          background-color: #d8dee8;
-        }
-        .friend-info{
-          font-size: 20px;
-          margin-left: 10px;
-          vertical-align: center;
-        }
+         .friend-item()
       }
       #active{
         background-color: #adb7c7 !important;

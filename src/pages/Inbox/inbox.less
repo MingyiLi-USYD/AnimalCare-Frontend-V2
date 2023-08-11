@@ -1,18 +1,19 @@
 // mixins.less
-.scrollbar-style() {
+.scrollbar-style(@width: 8px, @thumb-background: #888, @thumb-border-radius: 4px, @thumb-hover-background: #555) {
   &::-webkit-scrollbar {
-    width: 8px; // Set the width of the scrollbar
+    width: @width;
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #888; // Set the color of the scrollbar thumb
-    border-radius: 4px; // Add rounded corners to the scrollbar thumb
+    background-color: @thumb-background;
+    border-radius: @thumb-border-radius;
   }
 
   &::-webkit-scrollbar-thumb:hover {
-    background-color: #555; // Set the color of the scrollbar thumb on hover
+    background-color: @thumb-hover-background;
   }
 }
+
 
 .inbox-page {
   display: flex;
@@ -21,7 +22,6 @@
   .inbox-container {
     width: 1000px;
     background-color: lightblue;
-
     .post-relevant-messages {
       // styles.less
       .scroll-list {
@@ -33,7 +33,6 @@
         &:hover {
           overflow: auto; // Show scrollbar on hover
         }
-
         .scrollbar-style();
       }
 

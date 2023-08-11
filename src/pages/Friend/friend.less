@@ -1,163 +1,122 @@
-@containerHeight: calc(100vh - 64px);
-
-.friendsContainer {
+@width:500px;
+@height:300px;
+@import "../../public/common";
+.space-around-flex(){
   display: flex;
-  height: @containerHeight;
+  justify-content: space-around;
 }
-
-.friend-fixed-div {
-  width: 300px;
-  .new-friend-request{
-     width: 300px;
-     height: 100px;
-    background-color: lightblue;
-  }
-  #myScrollableDiv{
-    .friend-item{
-      &:hover{
-        background-color: #d8dee8;
-      }
-      .friend-info{
-        font-size: 20px;
-        margin-left: 10px;
-        vertical-align: center;
-      }
-    }
-    #active{
-      background-color: #adb7c7 !important;
-    }
-  }
-}
-
-.friend-flexible-div {
-  flex-grow: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  .detail-info{
-    border-radius: 10px;
-    background-color: lightcyan;
-    width: 500px;
-    height: 300px;
-    .detail-info-top{
-      height: 200px;
-      width: 500px;
-      display: flex;
-      justify-content: space-around;
-      .text-info{
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        width: 260px;
-        height: 150px;
-        .nickname{
-          color: black;
-          font-size: 30px;
-        }
-      }
-      .button-info{
-        svg {
-          width: 50px;
-          height: 30px;
-        }
-        &:hover{
-          background-color: darkgrey;
-          border-radius: 5px;
-        }
-      }
-    }
-    .detail-info-bottom{
+.friend-page {
+  .basic-flex();
+  .friend-fixed-div {
+    .new-friend-request{
+      width: 300px;
       height: 100px;
-      width: 500px;
-      position: relative;
-      .send-button{
-        position: absolute;
-        left: 50%;
-        bottom: 0;
-        transform: translateX(-50%);
-        width: 140px;
-        height: 40px;
-        font-size: 18px;
-        color: white;
-        background-color: green;
+      background-color: lightblue;
+    }
+    #myScrollableDiv{
+      .fix-scroll();
+      .scrollbar-style();
+      .friend-item{
+        .friend-item()
+      }
+      #active{
+        background-color: #adb7c7 !important;
       }
     }
+  }
 
-  }
-}
+  .friend-flexible-div {
+    flex-grow: 1;
+     .child-center();
+    .detail-info{
+      border-radius: 10px;
+      background-color: lightcyan;
+      width: @width;
+      height: @height;
+      .detail-info-top{
+        height: 200px;
+        .space-around-flex();
+        .text-info{
+          color: gray;
+          font-family: Arial, sans-serif;
+          font-weight: bold;
+          .space-around-flex();
+          flex-direction: column;
+          width: 250px;
+          height: 150px;
+          .nickname{
+            color: black;
+            font-size: 25px;
+          }
+        }
+        .button-info{
+          .more-button()
+        }
+      }
+      .detail-info-bottom{
+        height: 100px;
+        .child-center();
+        .send-button{
+          width: 140px;
+          height: 40px;
+          font-size: 18px;
+          color: white;
+          background-color: green;
+          .button-hover();
+        }
+      }
 
-.one-friend-request{
-  display: flex;
-  .last-info{
-    width: 200px;
-    >div{
-      text-align: left;
-      margin: 0;
-      padding: 0;
-    }
-    .nickname{
-      font-size: 25px;
-    }
-    .last-msg{
-      font-size: 15px;
-      color: darkgrey;
-      overflow: hidden; // 隐藏溢出的内容
-      text-overflow: ellipsis; // 使用省略号代替溢出的内容
-      white-space: nowrap; // 强制在一行内显示文本
     }
   }
-  .last-avatar{
-    width: 80px;
-  }
-  .operation{
-    margin-left: 20px;
-    width: 200px;
+
+  .one-friend-request{
     display: flex;
-    align-items: center;
-    justify-content: space-around;
-    button{
+    .last-info{
+      width: 200px;
+      >div{
+        text-align: left;
+        margin: 0;
+        padding: 0;
+      }
+      .nickname{
+        font-size: 25px;
+      }
+      .last-msg{
+        font-size: 15px;
+        color: darkgrey;
+        overflow: hidden; // 隐藏溢出的内容
+        text-overflow: ellipsis; // 使用省略号代替溢出的内容
+        white-space: nowrap; // 强制在一行内显示文本
+      }
+    }
+    .last-avatar{
       width: 80px;
     }
-    .reject{
-      &:hover{
-        background-color: red;
-        scale: 1.1;
-        color: white;
+    .operation{
+      margin-left: 20px;
+      width: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      button{
+        width: 80px;
       }
-    }
-    .approve{
-      background-color: green;
-      &:hover{
-        scale: 1.1;
-        color: white;
+      .reject{
+        &:hover{
+          background-color: red;
+          scale: 1.1;
+          color: white;
+        }
+      }
+      .approve{
+        background-color: green;
+        &:hover{
+          scale: 1.1;
+          color: white;
+        }
       }
     }
   }
 }
-#myScrollableDiv {
-  width: 300px; /* 根据需要调整容器的宽度 */
-  height: 100%;
-  border-right: gray solid 1px;
-  overflow: hidden; /* 初始状态下隐藏超出内容 */
-  position: relative;
-}
 
-#myScrollableDiv:hover {
-  overflow: auto; /* 鼠标悬停时显示滚动条 */
-}
 
-#myScrollableDiv::-webkit-scrollbar {
-  width: 8px; /* 调整滚动条的宽度 */
-}
-
-#myScrollableDiv::-webkit-scrollbar-track {
-  background-color: #f1f1f1; /* 滚动条背景色 */
-}
-
-#myScrollableDiv::-webkit-scrollbar-thumb {
-  background-color: #888; /* 滚动条滑块颜色 */
-}
-
-#myScrollableDiv::-webkit-scrollbar-thumb:hover {
-  background-color: #555; /* 鼠标悬停时滚动条滑块颜色 */
-}

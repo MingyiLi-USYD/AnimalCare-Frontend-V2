@@ -1,22 +1,29 @@
 import React, {useState} from 'react';
-import {Avatar, Button, Dropdown, Modal} from "antd";
-import {DeleteOutlined, EllipsisOutlined} from '@ant-design/icons';
-import {history,connect} from "umi";
+import {Avatar, Button, Dropdown, Modal, Space} from "antd";
+import {DeleteOutlined} from '@ant-design/icons';
+import {history, useDispatch, useSelector} from "umi";
 import RequestedFriendList from "./requestedFriendList";
+import {MoreInfoIcon} from "@/assets/Icons/icon";
 
-function DetailInfo(props) {
-    const {contact,dispatch} = props;
-    const handleSendMsg =()=>{
+const iconSize = {
+    width: '45px',
+    height: '45px',
+}
+
+function DetailInfo() {
+    const {contact} = useSelector(state => state.friendModel)
+    const dispatch = useDispatch()
+    const handleSendMsg = () => {
         dispatch({
-            type:'ChatModel/onStartNewSession',
+            type: 'ChatModel/onStartNewSession',
             payload: contact
         })
         history.push('/chat')
     }
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const handleDelete =  () => {
+    const handleDelete = () => {
         dispatch({
-            type:'friendModel/deleteFriend',
+            type: 'friendModel/deleteFriend',
             payload: contact.userId
         })
         setIsModalOpen(false);
@@ -30,59 +37,62 @@ function DetailInfo(props) {
             key: '1',
             danger: true,
             label: 'Delete',
-            icon:<DeleteOutlined />,
-            onClick:()=>{setIsModalOpen(true)}
+            icon: <DeleteOutlined/>,
+            onClick: () => {
+                setIsModalOpen(true)
+            }
         },
     ];
     const nicknameStyle = {
         fontSize: '1.2em',  // 放大字体
         color: 'red',  // 设置颜色为红色
     };
-    if(contact.userId===-2){
+    if (contact.userId === -2) {
         return (
             <div className={'detail-info'}>
-                 <RequestedFriendList dispatch={dispatch}/>
+                <RequestedFriendList dispatch={dispatch}/>
             </div>
         )
     }
     return (
         <div>
             {Object.keys(contact).length !== 0 &&
-            <div className={'detail-info'}>
-                <div className={'detail-info-top'}>
-                    <Avatar style={{borderRadius:30}} src={contact.avatar}  size={150} shape={"square"}/>
-                    <div  className={'text-info'}>
-                        <div >
-                            <span className={'nickname'}>{contact.nickname}</span>
-                            <span style={{marginLeft:5}}>男</span>
+                <div className={'detail-info'}>
+                    <div className={'detail-info-top'}>
+                        <Avatar src={contact.avatar} size={150} shape={"circle"}/>
+                        <div className={'text-info'}>
+                            <Space>
+                                <span className={'nickname'}>{contact.nickname}</span>
+                                <span>男</span>
+                            </Space>
+                            <Space>
+                                <span>Username:</span>
+                                <span>{contact.username}</span>
+                            </Space>
+                            <Space>
+                                <span>Nickname:</span>
+                                <span>{contact.nickname}</span>
+                            </Space>
+                            <Space>
+                                <span>Region:</span>
+                                <span>Victoria Melbourne</span>
+                            </Space>
                         </div>
-                        <div>
-                            Username:<span style={{marginLeft:5}}>{contact.username}</span>
-                        </div>
-                        <div>
-                            Description:<span style={{marginLeft:5}}>{contact.description}</span>
-                        </div>
-                        <div>
-                            Region: <span style={{marginLeft:5}}>Victory Melbourne</span>
+                        <div className={'button-info'}>
+                            <Dropdown
+                                menu={{
+                                    items,
+                                }}
+                                trigger={['click']}
+                            >
+                                <MoreInfoIcon {...iconSize}  />
+                            </Dropdown>
                         </div>
                     </div>
-                    <div>
-                        <Dropdown
-                            menu={{
-                                items,
-                            }}
-                            trigger={['click']}
-                        >
-                            <EllipsisOutlined className={'button-info'} />
-                        </Dropdown>
+                    <div className={'detail-info-bottom'}>
+                        <Button className={'send-button'} type={"primary"} onClick={handleSendMsg}>发消息</Button>
                     </div>
-
                 </div>
-                <div className={'detail-info-bottom'}>
-                    <Button className={'send-button'} type={"primary"} onClick={handleSendMsg}>发消息</Button>
-                </div>
-
-            </div>
             }
             <Modal title="Delete Friend" open={isModalOpen} onOk={handleDelete} onCancel={handleCancel}>
                 <p>
@@ -97,6 +107,4 @@ function DetailInfo(props) {
     );
 }
 
-export default connect(({friendModel:{contact}})=>{
-
-    return {contact}})(DetailInfo);
+export default DetailInfo

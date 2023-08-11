@@ -1,0 +1,67 @@
+.scrollbar-style(@width: 8px, @thumb-background: #888, @thumb-border-radius: 4px, @thumb-hover-background: #555) {
+  &::-webkit-scrollbar {
+    width: @width;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: @thumb-background;
+    border-radius: @thumb-border-radius;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: @thumb-hover-background;
+  }
+  overflow: scroll;
+}
+.row-flex(){
+  flex-direction: row;
+  .basic-flex()
+}
+.col-flex(){
+  flex-direction: column;
+  .basic-flex()
+}
+.basic-flex(){
+  display: flex;
+  height: 100%;
+}
+
+.fix-scroll(){
+  width: 300px;
+  height: 100%;
+  border-right: black solid 1px;
+}
+.child-center(){
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.friend-item(){
+  &:hover{
+    background-color: #d8dee8;
+  }
+  .friend-info{
+    font-size: 20px;
+    margin-left: 10px;
+    vertical-align: center;
+  }
+}
+.more-button(){
+  svg{
+    transition: transform 0.3s ease-in-out; /* 添加过渡效果 */
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.2); /* 鼠标悬停时变大 */
+    }
+  }
+}
+
+.button-hover(@color:#66cc66){
+  transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.05); /* 稍微放大一点 */
+    background-color: @color; /* 稍微改变颜色 */
+  }
+}

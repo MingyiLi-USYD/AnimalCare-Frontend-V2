@@ -3,8 +3,7 @@ import {useModel} from "umi";
 import {Avatar, Button, Form, Input, Switch} from "antd";
 import './setting.less'
 import {updateUserProfile} from "@/services/userService";
-import {retrievePartlyMessages} from "@/services/chatService";
-import {useSelector} from "@@/exports";
+
 
 const {TextArea} = Input;
 

@@ -48,14 +48,6 @@ const HomePage = () => {
             <MySelector/>
             <div
                 id="scrollableDiv"
-                style={{
-                    height: 800,
-                    overflow: 'auto',
-                    padding: '0 8x',
-                    border: '1px solid rgba(140, 140, 140, 0.35)',
-                    borderRadius: 20,
-
-                }}
             >
                 <InfiniteScroll
                     dataLength={postList.length}
