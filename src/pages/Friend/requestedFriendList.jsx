@@ -5,12 +5,16 @@ import {fetchFriendRequests} from "@/actions/friendActions";
 
 const RequestedFriendList = () => {
     const dispatch = useDispatch()
-    const {requestList} = useSelector(state => state.friendModel)
+    const {requestList,requestUnSyncUserIds} = useSelector(state => state.friendModel)
     const [loading,setLoading] = useState(false);
     useEffect(()=>{
         //同步拿到所有的请求
-        dispatch(fetchFriendRequests())
-    },[])
+        if(requestUnSyncUserIds.length>0){
+
+            dispatch(fetchFriendRequests(requestUnSyncUserIds))
+        }
+
+    },[requestUnSyncUserIds])
     if(loading){
         return <Spin>loading</Spin>
     }

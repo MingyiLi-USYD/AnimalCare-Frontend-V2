@@ -6,6 +6,8 @@ import FirebaseUI from "./firebaseUI";
 import './index.less'
 
 import {LockOutlined, UserOutlined} from "@ant-design/icons";
+import MyLogin from "@/pages/Login/login";
+import LoginCard from "@/pages/Login/login";
 
 
 const Login = () => {
@@ -34,9 +36,11 @@ const Login = () => {
         }
     };
     return (
+
         <div className={'login-page'}>
             <Card className={'login-table'}>
-                <div className={'title'}> PetBook </div>
+                <LoginCard/>
+{/*                <div className={'title'}> PetBook </div>
                 <Form
                     name="normal_login"
                     className="login-form"
@@ -95,10 +99,9 @@ const Login = () => {
                     </Form.Item>
                 </Form>
 
-                <FirebaseUI initialState={initialState} setInitialState={setInitialState}/>
+                <FirebaseUI initialState={initialState} setInitialState={setInitialState}/>*/}
             </Card>
         </div>
-
     )
 };
 export default Login;

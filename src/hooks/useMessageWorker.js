@@ -1,7 +1,6 @@
 import React from 'react';
-import {Avatar, notification} from "antd";
+import {Avatar, notification, Space} from "antd";
 import {useDispatch} from "umi";
-
 const serviceMessageType = {
     DELETE_FRIEND: "DELETE_FRIEND",
     ADD_FRIEND: "ADD_FRIEND",
@@ -26,6 +25,7 @@ const UseMessageWorker = ()=>{
                 });
                 dispatch({
                     type:"friendModel/onReceiveFriendRequest",
+                    payload:fromUser.userId
                 })
             }
             else if(data.message.type===serviceMessageType.DELETE_FRIEND){
@@ -35,7 +35,7 @@ const UseMessageWorker = ()=>{
                 });
                 dispatch({
                     type:"friendModel/onDeletedByFriend",
-                    payload:fromUser
+                    payload:fromUser.userId
                 })
             }
             else if(data.message.type===serviceMessageType.AGREE_ADD_FRIEND){
@@ -44,8 +44,8 @@ const UseMessageWorker = ()=>{
                     description:  <SystemMsg {...fromUser}/>,
                 });
                 dispatch({
-                    type:"friendModel/approveFriendSuccess",
-                    payload:fromUser  //需要先从数据库查一遍 再同步到好友中 是实时的
+                    type:"friendModel/onApprovedByFriend",
+                    payload:fromUser.userId
                 })
             }
             else if(data.message.type===serviceMessageType.REJECT_ADD_FRIEND){
@@ -69,21 +69,33 @@ const UseMessageWorker = ()=>{
                                 description: '走了',
                             });*/
             }else if(data.message.type===serviceMessageType.NEW_COMMENT){
+                notification.success({
+                    message: 'NewComment',
+                    description:  <SystemMsg {...fromUser}/>,
+                });
                       console.log("处理新评论逻辑")
             }
             else if(data.message.type===serviceMessageType.MENTION){
+                notification.success({
+                    message: 'BeMentioned',
+                    description:  <SystemMsg {...fromUser}/>,
+                });
                 console.log("处理新mention")
             }
             else if(data.message.type===serviceMessageType.NEW_LIKE){
+                notification.success({
+                    message: 'NewLike',
+                    description:  <SystemMsg {...fromUser}/>,
+                });
                 console.log("处理新点赞")
             }
         }else if(data.code===1){
+/*            notification.success({
+                message: 'New Message',
+                description:  <ChatMsg {...data}/>,
+            });*/
             dispatch({
                 type:"ChatModel/onReceive",
-                payload:data,
-            })
-            dispatch({
-                type:"MessageModel/onMessage",
                 payload:data,
             })
         }
@@ -96,11 +108,36 @@ const UseMessageWorker = ()=>{
    const SystemMsg = (props)=>{
         const {nickname,avatar} = props;
       return(
-          <div style={{display:"flex"}}>
+          <Space >
               <Avatar src={avatar} ></Avatar>
               <div>{nickname}</div>
-          </div>
+          </Space>
       )
    }
+
+const style = {
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+    width: "50px",
+};
+
+
+const ChatMsg = (data)=>{
+    const {nickname,avatar} = data.fromUser;
+    const {content} = data.message;
+    return(
+       <Space direction={"vertical"}>
+           <Space>
+               <Avatar src={avatar} ></Avatar>
+               <div>{nickname}</div>
+           </Space>
+           <span style={style}>
+               {content}
+           </span>
+       </Space>
+
+    )
+}
 
 export default UseMessageWorker;

@@ -9,7 +9,7 @@ export const sendFriendRequest = async (id, msg) => await request(`/api/friendRe
     {
         method: "POST",
         params: {
-            msg
+            msg,
         }
     }
 )
@@ -17,7 +17,10 @@ export const sendFriendRequest = async (id, msg) => await request(`/api/friendRe
 export const getFriends = async () => await request('/api/friends', {
     method: 'GET',
 });
-
+export const getFriendsByIds = async (ids) => await request('/api/friends/byIds', {
+    method: 'POST',
+    data:ids,
+});
 
 export const deleteFriend = async (id) => await request(`/api/friends/${id}`,
     {

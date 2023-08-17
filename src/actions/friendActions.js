@@ -1,6 +1,7 @@
-const fetchFriendRequests = ()=>{
+const fetchFriendRequests = (ids)=>{
     return {
-        type: 'friendModel/fetchRequestList',
+        type: 'friendModel/fetchRequestsByIds',
+        payload:ids
     }
 }
 export {fetchFriendRequests}

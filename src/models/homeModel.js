@@ -52,7 +52,7 @@ export default {
         },
         *loadMorePosts({payload}, { call, put }) {
             const { current, selector,keywords} = payload
-            const { data,code } = yield call(getPosts,current+1,11,selector,keywords);
+            const { data,code } = yield call(getPosts,current+1,20,selector,keywords);
             if(code===1){
                 yield put({ type: 'loadMorePostsSuccess', payload: data });
             }

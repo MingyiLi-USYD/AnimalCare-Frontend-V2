@@ -1,12 +1,21 @@
 import {Avatar, Badge, List} from 'antd';
 import {useDispatch, useSelector} from "umi";
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {NewFriend} from "@/assets/Icons/icon";
 
 
 const FriendList = () => {
     const dispatch = useDispatch()
-    const {contact, friendList, requestList, friendRequest} = useSelector(state => state.friendModel)
+    const {contact, friendList, friendRequest,friendUnSyncUserIds} = useSelector(state => state.friendModel)
+    useEffect(()=>{
+        if(friendUnSyncUserIds.length>0){
+            dispatch({
+                type: 'friendModel/fetchFriendsByIds',
+                payload: friendUnSyncUserIds
+            })
+        }
+
+    },[friendUnSyncUserIds])
 
     const handleClick = (contact) => {
         dispatch({

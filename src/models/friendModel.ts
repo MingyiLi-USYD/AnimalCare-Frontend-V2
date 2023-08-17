@@ -1,10 +1,10 @@
-import {approveRequest, deleteFriend, getFriends, rejectRequest} from "@/services/friendService";
+import {approveRequest, deleteFriend, getFriends, getFriendsByIds, rejectRequest} from "@/services/friendService";
 import {User} from "@/pojo/user";
 import {FriendRequestDto} from "@/pojo/friendRequest";
 import {FriendshipDto} from "@/pojo/friendship";
 import {DvaModel, EffectsMapObject} from "umi";
 import {MyAction, MyReducersMapObject} from "@/services/dva";
-import {getAllFriendRequests} from "@/services/friendRequestService";
+import {getAllFriendRequests, getAllFriendRequestsByIds} from "@/services/friendRequestService";
 
 
 interface FriendModelState  {
@@ -12,6 +12,8 @@ interface FriendModelState  {
     friendRequest:number;
     friendList: FriendshipDto[];
     requestList: FriendRequestDto[];
+    requestUnSyncUserIds: string[];
+    friendUnSyncUserIds: string[];
 }
 
  const friendModel:DvaModel<FriendModelState,EffectsMapObject,MyReducersMapObject<FriendModelState,MyAction<any>>> =    {
@@ -21,15 +23,23 @@ interface FriendModelState  {
         friendRequest: 0,
         friendList: [],
         requestList: [],
+        requestUnSyncUserIds:[],
+        friendUnSyncUserIds: [],
     },
 
     reducers: {
-        onDeletedByFriend (state, {payload}:MyAction<User> ) {
+        onDeletedByFriend (state, {payload:userId}) {
             let {friendList} = state
-            state.friendList = friendList.filter(item=>item.friendInfo.userId !==payload.userId);
+            state.friendList = friendList.filter(item=>item.friendInfo.userId !==userId);
         },
-        approveFriendSuccess(state, {payload}:MyAction<FriendshipDto>) {
-
+        onApprovedByFriend(state, {payload:userId}) {
+            state.friendUnSyncUserIds.push(userId)
+        },
+        onReceiveFriendRequest(state,{payload: userId}) {
+            state.friendRequest++
+            state.requestUnSyncUserIds.push(userId)
+        },
+        approveFriendSuccess(state, {payload}) {
             let {friendList} = state
             state.friendList = [...friendList, payload]
         },
@@ -38,16 +48,13 @@ interface FriendModelState  {
             state.friendList = friendList.filter(item => item.friendInfo.userId !== userId)
             state.contact={} as User
          },
-
         onChangeContact(state, {payload}:MyAction<User>) {
             return {
                 ...state,
                 contact: payload
             }
         },
-        onReceiveFriendRequest(state,) {
-            state.friendRequest++
-        },
+
         deleteFriendRequest(state, {payload: userId}) {
             state.requestList = state.requestList.filter(item => item.friendInfo.userId !== userId)
         },
@@ -58,21 +65,29 @@ interface FriendModelState  {
         fetchFriendListSuccess(state, {payload}) {
             state.friendList = payload
         },
+        fetchFriendListByIdsSuccess(state, {payload}) {
+            state.friendList= [...state.friendList,...payload]
+            state.friendUnSyncUserIds=[]
+        },
         fetchRequestListSuccess(state, {payload}) {
             state.requestList = payload
+        },
+        fetchRequestListByIdsSuccess(state, {payload}) {
+            state.requestList = [...state.requestList,...payload]
+            state.requestUnSyncUserIds=[]
         }
     },
     effects: {
-        * fetchFriendList(_, {call, put}) {
-            const {data, code} = yield call(getFriends);
+        * fetchFriendsByIds({payload:friendUnSyncUserIds}, {call, put}) {
+            const {data, code} = yield call(getFriendsByIds,friendUnSyncUserIds);
             if (code === 1) {
-                yield put({type: 'fetchFriendListSuccess', payload: data});
+                yield put({type: 'fetchFriendListByIdsSuccess', payload: data});
             }
         },
-        * fetchRequestList(_, {call, put}) {
-            const {data, code} = yield call(getAllFriendRequests);
+        * fetchRequestsByIds({payload:requestUnSyncUserIds}, {call, put}) {
+            const {data, code} = yield call(getAllFriendRequestsByIds,requestUnSyncUserIds);
             if (code === 1) {
-                yield put({type: 'fetchRequestListSuccess', payload: data});
+                yield put({type: 'fetchRequestListByIdsSuccess', payload: data});
                 yield put({type: 'onViewFriendRequest'});
             }
         },

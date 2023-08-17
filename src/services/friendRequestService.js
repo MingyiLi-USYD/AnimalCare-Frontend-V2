@@ -6,3 +6,10 @@ export const getAllFriendRequests = async () =>
             method: "GET"
         }
     )
+export const getAllFriendRequestsByIds = async (ids) =>
+    await request('/api/friendRequests/byIds',
+        {
+            method: "POST",
+            data:ids,
+        }
+    )
