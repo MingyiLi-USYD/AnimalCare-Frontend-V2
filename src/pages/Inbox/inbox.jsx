@@ -1,40 +1,57 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
-import { Menu } from 'antd';
-import {Outlet, history, useLocation} from "umi";
+import {Badge, Menu} from 'antd';
+import {Outlet, history, useLocation, useSelector, useDispatch} from "umi";
 import './inbox.less'
-const items = [
-    {
-        label: 'Mentioned',
-        key: '/inbox/mention',
-        icon: <MailOutlined />,
-    },
-    {
-        label: 'Comments received',
-        key: '/inbox/comments',
-        icon: <AppstoreOutlined />,
-    },
-    {
-        label: 'Loves received',
-        key: '/inbox/loves',
-        icon: <AppstoreOutlined />,
-    },
-    {
-        label: 'Setting',
-        key: '/inbox/system',
-        icon: <SettingOutlined />,
-    },
 
-];
+
 const App = () => {
+    const {lovesReceived,commentsReceived,mentionsReceived} = useSelector(state=>state.userModel)
+    const items = useMemo(() => [
+        {
+            label: 'Mentioned',
+            key: '/inbox/mention',
+            icon: <Badge count={mentionsReceived} size={"small"}><MailOutlined /></Badge>,
+            action: 'resetMentionsReceived',
+        },
+        {
+            label: 'Comments received',
+            key: '/inbox/comments',
+            icon: <Badge count={commentsReceived} size={"small"}><AppstoreOutlined /></Badge>,
+            action: 'resetCommentsReceived',
+        },
+        {
+            label: 'Loves received',
+            key: '/inbox/loves',
+            icon: <Badge count={lovesReceived} size={"small"}><AppstoreOutlined /></Badge>,
+            action: 'resetLovesReceived',
+        },
+        {
+            label: 'Setting',
+            key: '/inbox/system',
+            icon: <SettingOutlined />,
+        },
+    ], [lovesReceived, commentsReceived, mentionsReceived]);
     const location = useLocation();
+    const dispatch = useDispatch();
     const [current, setCurrent] = useState(location.pathname);
+    const actionMap = useMemo(() => ({
+        '/inbox/mention': 'resetMentionsReceived',
+        '/inbox/comments': 'resetCommentsReceived',
+        '/inbox/loves': 'resetLovesReceived',
+    }), []);
     useEffect(()=>{
         setCurrent(location.pathname)
     },[location.pathname])
 
     const onClick = (e) => {
-        history.push(e.key)
+        if(location.pathname!==e.key){
+            const action = actionMap[e.key];
+            action&&dispatch({
+                type: `userModel/${action}`
+            })
+            history.push(e.key)
+        }
     };
     return <div className={"inbox-page"}>
         <div className={"inbox-container"}>

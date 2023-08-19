@@ -73,10 +73,6 @@ export default {
                 yield put({ type: 'postDetailModel/syncDecreaseInDetail', payload: postId});
             }
         },
-/*        *changeSelector({ payload:selector }, { call, put }) {
-            yield put({ type: 'fetchPosts', payload: {selector} });
-            yield put({ type: 'changeSelectorSuccess', payload: selector });
-        },*/
     },
 
     }

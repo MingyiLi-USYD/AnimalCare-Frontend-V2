@@ -18,82 +18,89 @@ const UseMessageWorker = ()=>{
   function messageService(data) {
            const {fromUser} = data
         if(data.code===2){
-            if(data.message.type===serviceMessageType.ADD_FRIEND){
-                notification.success({
-                    message: `Friend request by ${fromUser.nickname} `,
-                    description:  <SystemMsg {...fromUser}/>,
-                });
-                dispatch({
-                    type:"friendModel/onReceiveFriendRequest",
-                    payload:fromUser.userId
-                })
+            switch (data.message.type) {
+                case serviceMessageType.ADD_FRIEND:
+                    notification.success({
+                        message: `Friend request by ${fromUser.nickname}`,
+                        description: <SystemMsg {...fromUser} />,
+                    });
+                    dispatch({
+                        type: "friendModel/onReceiveFriendRequest",
+                        payload: fromUser.userId,
+                    });
+                    break;
+
+                case serviceMessageType.DELETE_FRIEND:
+                    notification.warning({
+                        message: `Delete by ${fromUser.nickname}`,
+                        description: <SystemMsg {...fromUser} />,
+                    });
+                    dispatch({
+                        type: "friendModel/onDeletedByFriend",
+                        payload: fromUser.userId,
+                    });
+                    break;
+
+                case serviceMessageType.AGREE_ADD_FRIEND:
+                    notification.success({
+                        message: 'Approved friend request',
+                        description: <SystemMsg {...fromUser} />,
+                    });
+                    dispatch({
+                        type: "friendModel/onApprovedByFriend",
+                        payload: fromUser.userId,
+                    });
+                    break;
+
+                case serviceMessageType.REJECT_ADD_FRIEND:
+                    notification.warning({
+                        message: 'Rejected friend request',
+                        description: <SystemMsg {...fromUser} />,
+                    });
+                    break;
+
+                case serviceMessageType.FRIEND_ONLINE:
+                    console.log("处理朋友上线的逻辑");
+                    break;
+
+                case serviceMessageType.FRIEND_OFFLINE:
+                    console.log("处理朋友下线逻辑");
+                    break;
+
+                case serviceMessageType.NEW_COMMENT:
+                    notification.success({
+                        message: 'NewComment',
+                        description: <SystemMsg {...fromUser} />,
+                    });
+                    dispatch({
+                        type: "userModel/increaseCommentsReceived",
+                    });
+                    break;
+
+                case serviceMessageType.MENTION:
+                    notification.success({
+                        message: 'BeMentioned',
+                        description: <SystemMsg {...fromUser} />,
+                    });
+                    dispatch({
+                        type: "userModel/increaseMentionsReceived",
+                    });
+                    break;
+                case serviceMessageType.NEW_LIKE:
+                    notification.success({
+                        message: 'NewLike',
+                        description: <SystemMsg {...fromUser} />,
+                    });
+                    dispatch({
+                        type: "userModel/increaseLovesReceived",
+                    });
+                    break;
+                default:
+                    // 处理其他未知类型
+                    break;
             }
-            else if(data.message.type===serviceMessageType.DELETE_FRIEND){
-                notification.warning({
-                    message: `Delete by ${fromUser.nickname} `,
-                    description:  <SystemMsg {...fromUser}/>,
-                });
-                dispatch({
-                    type:"friendModel/onDeletedByFriend",
-                    payload:fromUser.userId
-                })
-            }
-            else if(data.message.type===serviceMessageType.AGREE_ADD_FRIEND){
-                notification.success({
-                    message: 'Approved friend request',
-                    description:  <SystemMsg {...fromUser}/>,
-                });
-                dispatch({
-                    type:"friendModel/onApprovedByFriend",
-                    payload:fromUser.userId
-                })
-            }
-            else if(data.message.type===serviceMessageType.REJECT_ADD_FRIEND){
-                notification.warning({
-                    message: 'Rejected friend request',
-                    description: <SystemMsg {...fromUser}/>,
-                });
-            }
-            else if(data.message.type===serviceMessageType.FRIEND_ONLINE){
-                console.log("处理朋友上线的逻辑")
-                // 弹出提醒
-                /*        notification.success({
-                            message: '好友上线',
-                            description: '来了',
-                        });*/
-            }
-            else if(data.message.type===serviceMessageType.FRIEND_OFFLINE){
-                console.log("处理朋友下线逻辑")
-                /*            notification.success({
-                                message: '好友下线',
-                                description: '走了',
-                            });*/
-            }else if(data.message.type===serviceMessageType.NEW_COMMENT){
-                notification.success({
-                    message: 'NewComment',
-                    description:  <SystemMsg {...fromUser}/>,
-                });
-                      console.log("处理新评论逻辑")
-            }
-            else if(data.message.type===serviceMessageType.MENTION){
-                notification.success({
-                    message: 'BeMentioned',
-                    description:  <SystemMsg {...fromUser}/>,
-                });
-                console.log("处理新mention")
-            }
-            else if(data.message.type===serviceMessageType.NEW_LIKE){
-                notification.success({
-                    message: 'NewLike',
-                    description:  <SystemMsg {...fromUser}/>,
-                });
-                console.log("处理新点赞")
-            }
+
         }else if(data.code===1){
-/*            notification.success({
-                message: 'New Message',
-                description:  <ChatMsg {...data}/>,
-            });*/
             dispatch({
                 type:"ChatModel/onReceive",
                 payload:data,
@@ -115,29 +122,5 @@ const UseMessageWorker = ()=>{
       )
    }
 
-const style = {
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    whiteSpace: "nowrap",
-    width: "50px",
-};
-
-
-const ChatMsg = (data)=>{
-    const {nickname,avatar} = data.fromUser;
-    const {content} = data.message;
-    return(
-       <Space direction={"vertical"}>
-           <Space>
-               <Avatar src={avatar} ></Avatar>
-               <div>{nickname}</div>
-           </Space>
-           <span style={style}>
-               {content}
-           </span>
-       </Space>
-
-    )
-}
 
 export default UseMessageWorker;

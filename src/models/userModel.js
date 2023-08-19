@@ -6,7 +6,10 @@ export default {
         loveList:[],
         startList:[],
         subscribeList:[],
-        subscriberList:[]
+        subscriberList:[],
+        lovesReceived:0,
+        commentsReceived:0,
+        mentionsReceived:0,
     },
 
     reducers:{
@@ -32,14 +35,33 @@ export default {
                 state.subscribeList.splice(index, 1);
             }
         },
-        fetchLoveListSuccess(state,{payload}){
-           state.loveList=payload
+        fetchUserInfoSuccess(state,{payload}){
+            const {loveIdList,subscribeIdList,subscriberIdList
+            ,lovesReceived,commentsReceived,mentionsReceived} =payload
+            state.loveList = loveIdList
+            state.subscribeList = subscribeIdList
+            state.subscriberList = subscriberIdList
+            state.lovesReceived = lovesReceived
+            state.commentsReceived = commentsReceived
+            state.mentionsReceived = mentionsReceived
         },
-        fetchSubscribeListSuccess(state,{payload}){
-            state.subscribeList=payload
+        resetLovesReceived(state,_){
+             state.lovesReceived=0
         },
-        fetchSubscriberListSuccess(state,{payload}){
-            state.subscriberList=payload
+        resetCommentsReceived(state,_){
+            state.commentsReceived=0
+        },
+        resetMentionsReceived(state,_){
+            state.mentionsReceived=0
+        },
+        increaseLovesReceived(state,_){
+            state.lovesReceived++
+        },
+        increaseCommentsReceived(state,_){
+            state.commentsReceived++
+        },
+        increaseMentionsReceived(state,_){
+            state.mentionsReceived++
         },
     },
     effects:{
@@ -48,13 +70,10 @@ export default {
             const {userId,username,role,email,avatar} = data;
             const user= {userId,username,role,email,avatar};
             if(code===1){
-                yield put({ type: 'fetchLoveListSuccess', payload: data.loveIdList });
+                yield put({ type: 'fetchUserInfoSuccess', payload: data });
                 yield put({ type: 'ChatModel/onFetchProfile', payload: user });
-                yield put({ type: 'fetchSubscribeListSuccess', payload: data.subscribeIdList });
-                yield put({ type: 'fetchSubscriberListSuccess', payload: data.subscriberIdList });
                 yield put({type: 'friendModel/fetchFriendListSuccess', payload: data.friendshipDtoList});
                 yield put({type: 'friendModel/fetchRequestListSuccess', payload: data.friendRequestDtoList});
-
             }
         },
     }

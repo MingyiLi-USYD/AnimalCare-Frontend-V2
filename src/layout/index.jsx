@@ -14,14 +14,15 @@ const BasicLayout = (props) => {
   const {chatRecordArray,friendRequest}=props
   const {initialState} = useModel('@@initialState');
   const {socket,disconnect}=useSocket(initialState.currentUser)
-  const {global} = useSelector(state=>state.loading)
+ // const {global} = useSelector(state=>state.loading)
+  const {lovesReceived,commentsReceived,mentionsReceived} = useSelector(state=>state.userModel)
   const {currentUser}=initialState;
   const customMenuData= [
     {
       key:'1',
       name: '首页',
       path: '/home',
-      icon: <HomeOutlined/>,
+      icon: <HomeOutlined />,
     },
     {
       key:'15',
@@ -96,7 +97,7 @@ const BasicLayout = (props) => {
       key:'18',
       path: '/inbox',
       name:'消息',
-      icon: <InboxOutlined />,
+      icon: <Badge  size={"small"} count={lovesReceived+commentsReceived+mentionsReceived}><InboxOutlined /></Badge>,
     },
     {
       key:'16',

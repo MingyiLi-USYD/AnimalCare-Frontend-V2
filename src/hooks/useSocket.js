@@ -4,7 +4,6 @@ import {useDispatch, useSelector} from "umi";
 import useMessageWorker from "@/hooks/useMessageWorker";
 import {retrievePartlyMessages} from "@/services/chatService";
 
-
 const useSocket = (currentUser) => {
   const dispatch = useDispatch();
 
