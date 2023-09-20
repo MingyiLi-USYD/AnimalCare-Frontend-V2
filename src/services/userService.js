@@ -1,9 +1,14 @@
 import { request } from 'umi';
 
 export const userLogin = async (body) => {
-  return await request('/api/login', {
+  return await request('/api/oauth/token', {
     method: 'POST',
-    data: body,
+    params:{
+        ...body,
+        client_id:'cId',
+        client_secret:'secret',
+        grant_type:'password'
+    }
   });
 };
 export  const initUserInfo = async () =>
@@ -12,12 +17,12 @@ export  const initUserInfo = async () =>
     });
 
 export const getProfileById =  async (id) =>
-  await request(`/api/profile/${id}`, {
+  await request(`/api/user/profile/${id}`, {
     method: 'GET',
   });
 
 export const currentUser = async () =>
-  await request('/api/currentUser', {
+  await request('/api/user/currentUser', {
     method: 'GET',
   });
 

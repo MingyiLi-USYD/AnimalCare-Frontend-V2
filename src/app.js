@@ -31,12 +31,12 @@ export const request = {
   },
   requestInterceptors: [
     (url, options) => {
-      const token = localStorage.getItem('serverToken');
-      const isLoginRequest = url.includes('/api/login');
+      const token = localStorage.getItem('access_token');
+      const isLoginRequest = url.includes('/api/oauth/token');
       if (token && !isLoginRequest) {
         options.headers = {
           ...options.headers,
-          auth: token,
+          Authorization: 'Bearer '+token,
         };
       }
       return {

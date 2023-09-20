@@ -7,8 +7,6 @@ import {auth} from "../../firebaseConfig";
 function EmailSignUp(props) {
     function onFinish(value) {
         console.log(value)
-
-
     }
 
     return (

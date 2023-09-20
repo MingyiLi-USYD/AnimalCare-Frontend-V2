@@ -1,7 +1,7 @@
 import {request} from "umi";
 
 
-export const getPets = async ()=>await request("/api/my/pets",{
+export const getPets = async ()=>await request("/api/pets/my",{
     method:'GET'
 })
 

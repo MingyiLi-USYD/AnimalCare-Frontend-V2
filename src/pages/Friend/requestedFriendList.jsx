@@ -31,7 +31,7 @@ const RequestedFriendList = () => {
             payload: userId
         })
     }
-
+    console.log(requestList)
     return (
 
             <List

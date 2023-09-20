@@ -60,13 +60,14 @@ const useSocket = (currentUser) => {
       console.log('连接断开了')
     });
     socketInstance.on('friendEvent', (data) => {
+      console.log('来交互消息了');
       messageService(data)
     });
     socketInstance.on('invalidTokenEvent', (data) => {
       console.log(data);
     });
     socketInstance.on('responseMessage', (data) => {
-      console.log('来消息了');
+      console.log('来聊天消息了');
       messageService(data);
     });
     setSocket(socketInstance);

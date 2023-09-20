@@ -20,7 +20,7 @@ function MentionPostCard({data,removeMention}) {
     const {
         mentionId,
        relevantPost:{ postTime, postContent,postId},
-        userInfo: {avatar, nickname}
+        userInfo: {avatar, nickname,userId}
     } = data
     const handleInput = (e) => {
         setText(e.target.value)
@@ -46,6 +46,7 @@ function MentionPostCard({data,removeMention}) {
        const data= {
            postId,
            commentContent:text,
+           targetUserId:userId
        }
     const {code} =  await replyMention(data,mentionId)
        if(code===1){

@@ -1,6 +1,6 @@
 import {request} from "umi";
 
-export const getFriendshipStatus = async (id) => await request(`/api/friends/status/${id}`,
+export const getFriendshipStatus = async (id) => await request(`/api/friend/status/${id}`,
     {
         method: "GET"
     }
@@ -22,7 +22,7 @@ export const getFriendsByIds = async (ids) => await request('/api/friends/byIds'
     data:ids,
 });
 
-export const deleteFriend = async (id) => await request(`/api/friends/${id}`,
+export const deleteFriend = async (id) => await request(`/api/friend/${id}`,
     {
         method: "DELETE"
     }

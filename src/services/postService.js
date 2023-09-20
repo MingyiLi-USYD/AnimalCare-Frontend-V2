@@ -15,12 +15,12 @@ export const getLoves = async () =>
         method: 'GET',
     });
 export const love = async (postId) =>
-    await request(`/api/love/${postId}`, {
+    await request(`/api/lovePost/${postId}`, {
       method: 'GET',
     });
 
 export const cancelLove = async (postId) =>
-    await request(`/api/love/${postId}`, {
+    await request(`/api/lovePost/${postId}`, {
       method: 'DELETE',
     });
 

@@ -1,7 +1,7 @@
 import { request } from 'umi';
 
 export const getCommentsById = (id,page,pageSize) =>
-    request(`/api/comments/${id}?currPage=${page}&pageSize=${pageSize}`, {
+    request(`/api/comments/${id}?current=${page}&pageSize=${pageSize}`, {
         method: 'GET',
     });
 

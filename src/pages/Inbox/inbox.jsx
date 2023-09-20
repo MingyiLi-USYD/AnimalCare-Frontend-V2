@@ -39,7 +39,7 @@ const App = () => {
         '/inbox/mention': 'resetMentionsReceived',
         '/inbox/comments': 'resetCommentsReceived',
         '/inbox/loves': 'resetLovesReceived',
-    }), []);
+    }), [])
     useEffect(()=>{
         setCurrent(location.pathname)
     },[location.pathname])

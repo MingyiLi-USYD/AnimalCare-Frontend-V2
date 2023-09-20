@@ -3,9 +3,25 @@ import {LoginForm, ProConfigProvider, ProFormCaptcha, ProFormCheckbox, ProFormTe
 import {message, Space, Tabs} from 'antd';
 import {useState} from 'react';
 import FirebaseUI from "@/pages/Login/firebaseUI";
+import {userLogin} from "@/services/userService";
+import {flushSync} from "react-dom";
+import {useModel,history} from "umi";
+
 
 const LoginCard = () => {
     const [loginType, setLoginType] = useState('phone');
+    const {setInitialState, initialState} = useModel('@@initialState');
+    const fetchUserInfo = async () => {
+        const userInfo = await initialState?.fetchUserInfo?.();
+        if (userInfo) {
+            flushSync(() => {
+                setInitialState((s) => ({
+                    ...s,
+                    currentUser: userInfo,
+                }));
+            });
+        }
+    };
     return (
         <ProConfigProvider hashed={false}>
             <div>
@@ -19,8 +35,18 @@ const LoginCard = () => {
                             <FirebaseUI/>
                         </Space>
                     }
-                    onFinish={(v) => {
-                        console.log(v)
+                    onFinish={async (values) => {
+                      userLogin(values).then(async (res)=>{
+
+                          localStorage.setItem("access_token",res.access_token)
+                          localStorage.setItem("refresh_token",res.refresh_token)
+                          await fetchUserInfo();
+                          history.push('/home');
+                      },()=>{
+                          console.log('处理登录失败的情况')
+
+                      })
+
                     }}
                     submitter={{searchConfig: {submitText: 'Login',}}}
                 >
