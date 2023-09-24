@@ -1,17 +1,19 @@
 import {ChatRecord, ChatRecordItem} from "@/entity/ChatRecord";
 import {User} from "@/pojo/user";
 import {ChatMessage} from "@/entity/Message";
+import {history} from "umi";
 
 
 export function onChatReceiveService(chatRecord:ChatRecord, data:ChatMessage,fromUser:User,contact:User) {
 
     if (fromUser.userId in chatRecord) {
+        const path = history.location.pathname
         let record = chatRecord[fromUser.userId];
         record.chatList.push(data);
         record.chatUser = fromUser;
         record.latestTime = data.date;
         record.latestMsg = data.content;
-        if (contact.userId !== fromUser.userId) {
+        if (path!=='/chat' ||contact.userId !== fromUser.userId) {
             record.unRead++;
         }
         chatRecord[fromUser.userId] = record;
@@ -91,19 +93,19 @@ export function onChatFetchService(chatRecord: ChatRecord, data: ChatMessage[], 
     record.chatList = data;
     return newChatRecord;
 }
-export function onAllChatFetchService(chatRecord: ChatRecord, chats: ChatRecordItem[]) {
-     chats.forEach(chat=>{
-               const id  = chat.chatUser.userId;
-               if(chatRecord[id]){
-                   //等待后期改进
-                   chatRecord[id].chatUser=chat.chatUser;
-                   chatRecord[id].chatList=chat.chatList;
-                   chatRecord[id].latestTime=chat.latestTime;
-                   chatRecord[id].unRead=chat.unRead;
-               }else {
-                   chatRecord[id]=chat
-               }
-         }
-     )
+
+export function onPartlyChatFetchService(chatRecord: ChatRecord, cloudChatRecord: ChatRecord) {
+    Object.keys(cloudChatRecord).forEach(key=>{
+        if (chatRecord.hasOwnProperty(key)) {
+            const cloudChatRecordElement = cloudChatRecord[key];
+            const chatRecordElement = chatRecord[key];
+            cloudChatRecordElement.chatList= [...chatRecordElement.chatList,...cloudChatRecordElement.chatList]
+            chatRecord[key]= {...chatRecordElement,...cloudChatRecordElement}
+
+        }else {
+            chatRecord[key] = cloudChatRecord[key]
+        }
+    })
+
     return chatRecord
 }

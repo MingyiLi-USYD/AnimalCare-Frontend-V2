@@ -1,5 +1,18 @@
 import { request } from 'umi';
 
+
+export const googleLogin = async () => {
+    return await request('https://accounts.google.com/o/oauth2/v2/auth', {
+        method: 'GET',
+        params:{
+            client_id:'1067998688265-29puvp1t8tlrraiufdl4aerh84vqu934.apps.googleusercontent.com',
+            redirect_uri:'http://localhost:5000/login',
+            scope:'https://www.googleapis.com/auth/userinfo.profile',
+            response_type:'code'
+        }
+    });
+};
+
 export const userLogin = async (body) => {
   return await request('/api/oauth/token', {
     method: 'POST',

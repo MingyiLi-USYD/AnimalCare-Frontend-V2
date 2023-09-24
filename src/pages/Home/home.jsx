@@ -44,7 +44,7 @@ const HomePage = () => {
 
     return (
         <div className={'home-page'}>
-            <Search defaultValue={keywords} placeholder="input search text" enterButton="Search" size="large" onSearch={handleSearch} />
+            <Search defaultValue={keywords} placeholder="Input Search Text" enterButton="Search" size="large" onSearch={handleSearch} />
             <MySelector/>
             <div
                 id="scrollableDiv"

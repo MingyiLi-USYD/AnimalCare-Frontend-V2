@@ -15,8 +15,9 @@ export interface postDetailModelState {
     label: string;
     active: boolean;
     type: number;
-    commentId: number;
-    targetNickname: string;
+    commentId: string;
+    isReply: boolean;
+    replyUserId: string;
     loading: boolean;
 }
 
@@ -33,8 +34,9 @@ const postDetailModel:DvaModel<postDetailModelState,EffectsMapObject,MyReducersM
         label:"Share your idea",
         active:false,
         type:0,
-        commentId:0,
-        targetNickname:"",
+        commentId:'',
+        replyUserId:'',
+        isReply:false,
         loading:false
     },
 
@@ -55,8 +57,9 @@ const postDetailModel:DvaModel<postDetailModelState,EffectsMapObject,MyReducersM
             state.label = "Share your idea";
             state.active = false;
             state.type = 0;
-            state.commentId = 0;
-            state.targetNickname = "";
+            state.commentId = '';
+            state.replyUserId = '';
+            state.isReply = false;
         },
 
         fetchCommentsSuccess(state, { payload }) {
@@ -78,19 +81,26 @@ const postDetailModel:DvaModel<postDetailModelState,EffectsMapObject,MyReducersM
             const {label,type}=payload
             state.label=label
             state.type=type
+            state.isReply = false
+            state.replyUserId = '';
+
         },
         onClickComment(state, { payload }) {
             const {label,type,commentId}=payload
             state.label=label
             state.type=type
             state.commentId=commentId
+            state.isReply = false
+            state.replyUserId = '';
+
         },
         onClickSubcomment(state, { payload }) {
-            const {label,type,targetNickname,commentId}=payload
+            const {label,type,replyUserId,commentId}=payload
             state.label=label
             state.type=type
-            state.targetNickname=targetNickname
             state.commentId=commentId
+            state.isReply = true
+            state.replyUserId = replyUserId
         },
         addCommentSuccess(state, { payload }) {
            state.comments.unshift(payload)
@@ -134,18 +144,18 @@ const postDetailModel:DvaModel<postDetailModelState,EffectsMapObject,MyReducersM
         },
         *fetchSubcomments({ payload }, { call, put }) {
             const { data } = yield call(getSubcommentsById, payload);
+
             yield put({ type: 'fetchSubcommentsSuccess', payload: {data,commentId:payload} });
         },
-        *addComment({ payload }, { call, put }) {
-            const {postId,commentContent} = payload;
-            const { data,code } = yield call(postComment, postId,commentContent);
+        *addComment({ payload:comment }, { call, put }) {
+
+            const { data,code } = yield call(postComment,comment);
             if(code===1){
                 yield put({ type: 'addCommentSuccess', payload: data });
             }
         },
-        *addSubcomment({ payload }, { call, put }) {
-            const {targetNickname,commentId,commentContent} = payload;
-            const { data,code } = yield call(postSubcomment, commentId,commentContent,targetNickname?targetNickname:null);
+        *addSubcomment({ payload:subcomment }, { call, put }) {
+            const { data,code } = yield call(postSubcomment,subcomment);
             if(code===1){
                 yield put({ type: 'addSubcommentSuccess', payload: data });
             }

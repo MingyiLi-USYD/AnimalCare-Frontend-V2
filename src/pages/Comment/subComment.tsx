@@ -12,7 +12,7 @@ import {SubcommentDto} from "@/pojo/subComment";
 function SubComment({data,focus}:{data:SubcommentDto,focus:Function}) {
     const dispatch = useDispatch();
     const {commentId,userId,
-        subcommentTime,subcommentContent,subcommentLove,targetNickname,
+        subcommentTime,subcommentContent,subcommentLove,
         subcommentUser} = data;
     const handleLove = ()=>{
 
@@ -21,7 +21,7 @@ function SubComment({data,focus}:{data:SubcommentDto,focus:Function}) {
         focus()
         dispatch({
             type:'postDetailModel/onClickSubcomment',
-            payload:{label:`@${subcommentUser.nickname}`,type:2,targetNickname:subcommentUser.nickname,commentId}
+            payload:{label:`@${subcommentUser.nickname}`,type:2,replyUserId:subcommentUser.userId,commentId}
         })
     }
     // @ts-ignore

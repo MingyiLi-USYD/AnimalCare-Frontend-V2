@@ -1,24 +1,21 @@
-import {Avatar, Button, Space, Spin, Typography} from 'antd';
-import {useDispatch, useModel, useParams, useRequest} from 'umi';
+import {Avatar, Space, Spin, Typography} from 'antd';
+import {useModel, useParams, useRequest} from 'umi';
 import PetCardList from './Components/petCardList';
 import {getProfileById} from '@/services/userService';
 import PostCardList from "./Components/postCardList";
 import PostDetail from "./Components/petBrief";
-import {useEffect, useState} from "react";
-import {getFriendshipStatus} from "@/services/friendService";
+import {useEffect} from "react";
 import BackForward from "../../components/BackForward";
-import RelationDetail from "./Components/relationDetail";
 import './profile.less'
 import {FollowerIcon, FollowIcon, PetIcon, PostIcon} from "@/assets/Icons/icon";
-import {useSelector} from "@@/exports";
 import Relation from "@/pages/Profile/Components/relation";
 
 const {Title, Paragraph} = Typography;
 
 const Profile = (props) => {
     const style = {
-        height:'40px',
-        width:'40px',
+        height: '40px',
+        width: '40px',
     }
     const params = useParams()
     const {id} = params
@@ -35,7 +32,7 @@ const Profile = (props) => {
 
             <div className={'profile-container'}>
                 <BackForward/>
-                <div className={'header'} >
+                <div className={'header'}>
                     <Space className={'avatar-info'}>
                         <Avatar src={data?.avatar} size={64}/>
                         <Relation {...data}/>
@@ -64,6 +61,7 @@ const Profile = (props) => {
                 <PostCardList data={data?.postList} avatar={currentUser.avatar}/>
                 <PetCardList data={data?.petList}/>
                 <PostDetail/>
+
             </div>
         </div>
 

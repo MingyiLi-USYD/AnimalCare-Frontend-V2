@@ -32,7 +32,11 @@ const LoginCard = () => {
                     actions={
                         <Space direction={"vertical"}>
                             其他登录方式
-                            <FirebaseUI/>
+                            <Space>
+                                <div>Google: </div>
+                                <div id={"signInDiv"}></div>
+                            </Space>
+
                         </Space>
                     }
                     onFinish={async (values) => {

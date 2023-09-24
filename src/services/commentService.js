@@ -5,12 +5,11 @@ export const getCommentsById = (id,page,pageSize) =>
         method: 'GET',
     });
 
-export const postComment = (postId,commentContent) =>
-    request(`/api/comment/${postId}`, {
+export const postComment = (comment) =>
+    request(`/api/comment`, {
         method: 'Post',
-        data:{
-            commentContent
-        }
+        data: comment
+
     });
 
 export const loveComment = (commentId) =>
@@ -19,16 +18,13 @@ export const loveComment = (commentId) =>
     });
 
 export const getSubcommentsById = (commentId) =>
-    request(`/api/comment/subcomments/${commentId}`, {
+    request(`/api/subcomments/${commentId}`, {
         method: 'GET',
     });
-export const postSubcomment = (commentId,subcommentContent,targetNickname) =>
-    request(`/api/comment/subcomment/${commentId}`, {
+export const postSubcomment = (subcommentContent) =>
+    request(`/api/subcomment`, {
         method: 'POST',
-        data:{
-            subcommentContent,
-            targetNickname,
-        }
+        data:subcommentContent,
     });
 
 export const postSubcommentAndRead = (data) =>

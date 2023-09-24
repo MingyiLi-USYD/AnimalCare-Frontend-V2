@@ -37,7 +37,7 @@ export const getPostById = (postId)=>{
   })
 }
 
-export const getMyPosts = async ()=>request("/api/my/posts",{
+export const getMyPosts = async ()=>request("/api/posts/my",{
   method:'GET',
 })
 

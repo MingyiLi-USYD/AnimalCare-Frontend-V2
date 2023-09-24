@@ -48,22 +48,22 @@ const fetchCommentAction = (postId,pages,pageSize)=>{
     }
 }
 
-const addCommentAction = (postId, commentContent) => {
+const addCommentAction = (postId, commentContent,targetUserId) => {
     return {
         type: addComment,
-        payload: { postId, commentContent }
+        payload: { postId, commentContent,targetUserId }
     };
 };
-const addSubcommentAction = (commentId, commentContent, targetNickname) => {
-    if (!targetNickname) {
+const addSubcommentAction = (commentId,subcommentContent,targetUserId, replyUserId,isReply) => {
+    if (!isReply) {
         return {
             type: addSubcomment,
-            payload: { commentId, commentContent }
+            payload: { commentId, targetUserId,subcommentContent }
         };
     } else {
         return {
             type: addSubcomment,
-            payload: { commentId, commentContent, targetNickname }
+            payload: { commentId, targetUserId, subcommentContent, replyUserId,isReply}
         };
     }
 };
