@@ -1,6 +1,7 @@
 import { request } from 'umi';
 
 
+/*
 export const googleLogin = async () => {
     return await request('https://accounts.google.com/o/oauth2/v2/auth', {
         method: 'GET',
@@ -12,9 +13,10 @@ export const googleLogin = async () => {
         }
     });
 };
+*/
 
 export const userLogin = async (body) => {
-  return await request('/api/oauth/token', {
+  return await request('/api/oauth/login', {
     method: 'POST',
     params:{
         ...body,
@@ -24,6 +26,16 @@ export const userLogin = async (body) => {
     }
   });
 };
+
+export const googleLogin = async (googleToken) => {
+    return await request('/api/oauth/login/thirdPart', {
+        method: 'POST',
+        params:{
+            googleToken
+        }
+    });
+};
+
 export  const initUserInfo = async () =>
     await request('/api/user/init', {
         method: 'GET',

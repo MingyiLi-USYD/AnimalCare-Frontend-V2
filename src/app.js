@@ -30,11 +30,11 @@ export const request = {
   requestInterceptors: [
     (url, options) => {
       const token = localStorage.getItem('access_token');
-      const isLoginRequest = url.includes('/api/oauth/token');
+      const isLoginRequest = url.startsWith('/api/oauth');
       if (token && !isLoginRequest) {
         options.headers = {
           ...options.headers,
-          Authorization: 'Bearer '+token,
+          Authorization: token,
         };
       }
       return {

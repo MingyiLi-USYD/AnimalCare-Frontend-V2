@@ -24,10 +24,26 @@ export const cancelLove = async (postId) =>
       method: 'DELETE',
     });
 
-export const newPost = async (params) => {
+export const newPost = async (value) => {
+    const {postContent,postTag,postTitle,visible,isDelay,images,referFriends} =value
+    const post = {postTitle,postTag,postContent,visible,isDelay}
+    const formData = new FormData();
+    images.forEach((file) => {
+        formData.append('images', file.originFileObj);
+    })
+    referFriends.forEach((friend) => {
+        formData.append('mentions', friend);
+    })
+    formData.append("postContent",postContent)
+    formData.append("postTag",postTag)
+    formData.append("visible",visible)
+    formData.append("postTitle",postTitle)
+    formData.append("isDelay",isDelay)
   return  request('/api/post', {
     method: 'POST',
-    data:params,
+    data:formData,
+    requestType: 'form',
+
   });
 };
 

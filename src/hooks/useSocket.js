@@ -27,8 +27,6 @@ const useSocket = (currentUser) => {
     if(Object.keys(chatRecord).length===0){
       //判断本地是否存在聊天记录
       //长度为0 证明第一次登录 或者 没有聊天记录 从远程拉取最近10个好友的最近100条聊天记录
-/*      const res = await retrieveAllMessages()
-      console.log(res)*/
       dispatch({
         type:'ChatModel/fetchAllChatRecords'
       })
@@ -44,8 +42,6 @@ const useSocket = (currentUser) => {
         type:'ChatModel/fetchPartlyChatRecords',
         payload:keys,
       })
- /*     const res = await retrievePartlyMessages(keys)
-      console.log(res)*/
     }
   }
 

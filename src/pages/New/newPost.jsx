@@ -134,14 +134,14 @@ const NewPost = () => {
                             <Radio value={false}>Private</Radio>
                         </Radio.Group>
                     </Form.Item>
-                    <Form.Item label={"PostTimeSelector"} name={'timeSelector'} initialValue={postNow}>
+                    <Form.Item label={"PostTimeSelector"} name={'isDelay'} initialValue={postNow}>
                         <Radio.Group onChange={e => setPostNow(e.target.value)}>
-                            <Radio value={true}>Right Now</Radio>
-                            <Radio value={false}>Later</Radio>
+                            <Radio value={false}>Right Now</Radio>
+                            <Radio value={true}>Later</Radio>
                         </Radio.Group>
                     </Form.Item>
                     {
-                        !postNow && <div>
+                        postNow && <div>
                             <Form.Item
                                 label="Post Date"
                                 name="date"

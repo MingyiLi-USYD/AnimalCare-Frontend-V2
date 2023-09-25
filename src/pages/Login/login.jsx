@@ -1,9 +1,9 @@
 import {LockOutlined, MobileOutlined, UserOutlined,} from '@ant-design/icons';
 import {LoginForm, ProConfigProvider, ProFormCaptcha, ProFormCheckbox, ProFormText} from '@ant-design/pro-components';
 import {message, Space, Tabs} from 'antd';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import FirebaseUI from "@/pages/Login/firebaseUI";
-import {userLogin} from "@/services/userService";
+import {googleLogin, userLogin} from "@/services/userService";
 import {flushSync} from "react-dom";
 import {useModel,history} from "umi";
 
@@ -11,6 +11,40 @@ import {useModel,history} from "umi";
 const LoginCard = () => {
     const [loginType, setLoginType] = useState('phone');
     const {setInitialState, initialState} = useModel('@@initialState');
+
+
+    const jumpToHome = async (res)=>{
+
+        localStorage.setItem("access_token",res.data)
+        await fetchUserInfo();
+        history.push('/home');
+    }
+
+
+    const handleCallback = async (res) => {
+        googleLogin(res.credential).then(jumpToHome)
+
+    }
+    useEffect(()=>{
+
+        google.accounts.id.initialize({
+            client_id: '1067998688265-29puvp1t8tlrraiufdl4aerh84vqu934.apps.googleusercontent.com',
+            redirect_uri:'http://localhost:5000/login',
+            scope:'https://www.googleapis.com/auth/userinfo.profile',
+            response_type:'code',
+            login_uri:'http://localhost:5000',
+            callback:handleCallback
+        })
+        google.accounts.id.prompt();
+        google.accounts.id.renderButton(
+            document.getElementById("signInDiv"),
+            {
+                theme:"outline",size:"large"
+            }
+        )
+
+    },[])
+
     const fetchUserInfo = async () => {
         const userInfo = await initialState?.fetchUserInfo?.();
         if (userInfo) {
@@ -40,13 +74,7 @@ const LoginCard = () => {
                         </Space>
                     }
                     onFinish={async (values) => {
-                      userLogin(values).then(async (res)=>{
-
-                          localStorage.setItem("access_token",res.access_token)
-                          localStorage.setItem("refresh_token",res.refresh_token)
-                          await fetchUserInfo();
-                          history.push('/home');
-                      },()=>{
+                      userLogin(values).then(jumpToHome,()=>{
                           console.log('处理登录失败的情况')
 
                       })

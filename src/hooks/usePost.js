@@ -24,7 +24,7 @@ const usePost = () => {
     const [index, setIndex] = useState(0);
     const [target, setTarget] = useState('');
     const [lock, setLock] = useState(false);
-    const [postNow, setPostNow] = useState(true);
+    const [postNow, setPostNow] = useState(false);
 
     useEffect(() => {
         setLock(false);
@@ -98,18 +98,20 @@ const usePost = () => {
     };
 
     const finish = async (values) => {
-        if (!postNow) {
+        if (postNow) {
             // If "Later" is selected, combine the selected date and time into a timestamp
             const datePart = values.date.format("YYYY-MM-DD");
             const timePart = values.time.format("HH:mm:ss");
             values.estimateDate = `${datePart} ${timePart}`
         }
-        if (!auth.currentUser) {
+        console.log(values)
+
+/*        if (!auth.currentUser) {
             const { data } = await getFirebaseIdToken();
             await signInWithCustomToken(auth, data);
         }
         setLoading(true);
-        values.images = await uploadMultipleImages(values.images);
+        values.images = await uploadMultipleImages(values.images);*/
 
         const { code } = await newPost(values);
         if (code === 1) {
