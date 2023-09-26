@@ -1,22 +1,12 @@
-import React, { useState, useEffect } from "react";
-import {useModel, useSelector} from 'umi';
-import { v4 as uuidv4 } from "uuid";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { auth, storage } from "@/firebaseConfig";
-import { getFirebaseIdToken } from "@/services/userService";
-import { signInWithCustomToken } from "firebase/auth";
-import {history} from "umi";
+import React, {useEffect, useState} from "react";
+import {history, useSelector} from 'umi';
 import {Avatar, Space} from "antd";
-import moment from "moment/moment";
 import {newPost} from "@/services/postService";
 
 
 const usePost = () => {
-    const { friendList } = useSelector(state => state.friendModel);
-    const { initialState: { currentUser } } = useModel('@@initialState');
-
+    const {friendList} = useSelector(state => state.friendModel);
     const [open, setOpen] = useState(false);
-    const [loading, setLoading] = useState(false);
     const [done, setDone] = useState(false);
     const [percent, setPercent] = useState(0);
     const [fileList, setFileList] = useState([]);
@@ -25,11 +15,19 @@ const usePost = () => {
     const [target, setTarget] = useState('');
     const [lock, setLock] = useState(false);
     const [postNow, setPostNow] = useState(false);
+    const [loading, setLoading] = useState(false)
+    const callback = (progressEvent) => {
+        const percentCompleted = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+        );
+        console.log(`上传进度: ${percentCompleted}%`);
+        setPercent(percentCompleted)
+    }
 
     useEffect(() => {
         setLock(false);
         if (text.length > 0) {
-            const unblock = history.block(({ location }) => {
+            const unblock = history.block(({location}) => {
                 setOpen(true);
                 setTarget(location.pathname);
                 unblock();
@@ -50,42 +48,6 @@ const usePost = () => {
         history.push(target);
     };
 
-    const uploadMultipleImages = async (files) => {
-        let totalSize = files.reduce((total, file) => total + file.originFileObj.size, 0);
-        let uploadedSize = 0;
-        const images = [];
-        try {
-            const uploadPromises = files.map((file) => {
-                const fileName = currentUser.username + '/' + uuidv4();
-                const storageRef = ref(storage, fileName);
-                const uploadTask = uploadBytesResumable(storageRef, file.originFileObj);
-                return new Promise((resolve, reject) => {
-                    uploadTask.on(
-                        "state_changed",
-                        (snapshot) => {
-                            const { bytesTransferred } = snapshot;
-                            const overallProgress = ((uploadedSize + bytesTransferred) / totalSize) * 100;
-                            setPercent(Math.round(overallProgress));
-                        },
-                        (error) => {
-                            reject(error);
-                        },
-                        () => {
-                            getDownloadURL(uploadTask.snapshot.ref).then((imageUrl) => {
-                                images.push({fileName,imageUrl});
-                                uploadedSize += uploadTask.snapshot.totalBytes;
-                                resolve();
-                            });
-                        }
-                    );
-                });
-            });
-            await Promise.all(uploadPromises);
-            return images;
-        } catch (error) {
-            throw error;
-        }
-    };
 
     const handleChange = (event) => {
         const text = event.target.value;
@@ -104,20 +66,13 @@ const usePost = () => {
             const timePart = values.time.format("HH:mm:ss");
             values.estimateDate = `${datePart} ${timePart}`
         }
-        console.log(values)
-
-/*        if (!auth.currentUser) {
-            const { data } = await getFirebaseIdToken();
-            await signInWithCustomToken(auth, data);
+        setLoading(true)
+        const {code} = await newPost(values, callback)
+        if (code===1){
+            setLoading(false)
+            setDone(true)
         }
-        setLoading(true);
-        values.images = await uploadMultipleImages(values.images);*/
 
-        const { code } = await newPost(values);
-        if (code === 1) {
-            setLoading(false);
-            setDone(true);
-        }
     };
 
     const options = [];

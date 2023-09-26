@@ -5,6 +5,7 @@ import style from "../Pet/petDetail.less";
 import {deletePostById, getMyPosts, setVisibility} from "@/services/postService";
 import {parseStringToList} from "@/utils/arrayUtils";
 import {history} from "umi";
+import {urlWrapper} from "@/utils/imageUtils";
 
 function PostList() {
     const [data,setData] = useState([]);
@@ -58,7 +59,7 @@ function PostList() {
                     ]}>
                         <List.Item.Meta
                             avatar={
-                                <Avatar shape={"square"} onClick={()=>history.push(`/post/${item.postId}`)} size={64} style={{cursor:"pointer"}} src={item.coverImage}/>
+                                <Avatar shape={"square"} onClick={()=>history.push(`/post/${item.postId}`)} size={64} style={{cursor:"pointer"}} src={urlWrapper(item.coverImage)}/>
                             }
                             title={<a >{item.postTitle}</a>}
                             description={item.postContent}

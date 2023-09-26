@@ -34,7 +34,7 @@ export default defineConfig({
       changeOrigin: true, // 允许域名进行转换
       pathRewrite: { '^/api': '' }, // 将请求url里的ci去掉
     },
-    '/common': {
+    '/oss/download': {
       // 标识需要进行转换的请求的url
       target: backend, // 服务端域名
       changeOrigin: true, // 允许域名进行转换

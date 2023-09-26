@@ -1,7 +1,1 @@
-export const getImageList = (imagesString) => {
-  if (imagesString) {
-    return JSON.parse(imagesString);
-  } else {
-    return [];
-  }
-};
+export const urlWrapper = url => url.startsWith('http')?url:`/oss/download?name=${url}`

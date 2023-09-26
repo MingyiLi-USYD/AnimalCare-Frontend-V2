@@ -5,6 +5,7 @@ import React, {useEffect, useState} from "react";
 import {deletePetById, getPets} from "@/services/petService";
 import {history} from "umi";
 import PetModal from "./Components/petModal";
+import {urlWrapper} from "@/utils/imageUtils";
 
 const PetList = () => {
     const [data,setData] = useState([]);
@@ -75,7 +76,7 @@ const PetList = () => {
                     ]}>
                         <List.Item.Meta
                             avatar={
-                                <Avatar style={{cursor:"pointer"}} size={64} src={item.petAvatar} onClick={()=>{history.push(`/pet/${item.petId}`)}} />
+                                <Avatar style={{cursor:"pointer"}} size={64} src={urlWrapper(item.petAvatar)} onClick={()=>{history.push(`/pet/${item.petId}`)}} />
                             }
                             title={<a onClick={()=>{history.push(`/pet/${item.petId}`)}}>{item.petName}</a>}
                             description={item.petDescription}
