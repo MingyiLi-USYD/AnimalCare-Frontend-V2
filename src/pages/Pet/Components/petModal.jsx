@@ -1,14 +1,12 @@
 import React from 'react';
-import {Avatar, Button, DatePicker, Form, Input, Modal, Radio, Switch} from "antd";
+import {Avatar, Button, Form, Input, Modal, Radio} from "antd";
 import {updatePetById} from "@/services/petService";
-import  '../petDetail.less'
-import moment from "moment";
-
+import '../petDetail.less'
 const {TextArea} = Input;
 
 function PetModal({open, close, data, setData, selectedPet, notify}) {
     const pet = data[selectedPet]
-    const {petName,petDescription,petVisible,birthday}= pet
+    const {petName, petDescription, petVisible, birthday} = pet
     const [form] = Form.useForm();
     const handleOk = async () => {
         const newPet = {...pet, ...form.getFieldsValue()}
@@ -31,16 +29,16 @@ function PetModal({open, close, data, setData, selectedPet, notify}) {
             open={open}
             onCancel={handleCancel}
             footer={[
-                <div  key={'footer'} className={'footer'}>
+                <div key={'footer'} className={'footer'}>
                     <Button className={'edit-button'} danger>
                         Reset
                     </Button>
-                    <Button  className={'edit-button'} type={'primary'} onClick={handleOk}>
+                    <Button className={'edit-button'} type={'primary'} onClick={handleOk}>
                         Save
                     </Button>
                 </div>]}
         >
-            <div  className={'pet-edit-content'}>
+            <div className={'pet-edit-content'}>
                 <Avatar size={64} src={pet.petAvatar}/>
                 <h2>{pet.petName}</h2>
                 <p>{pet.petDescription}</p>
@@ -73,7 +71,7 @@ function PetModal({open, close, data, setData, selectedPet, notify}) {
                             <Radio value={false}>Private</Radio>
                         </Radio.Group>
                     </Form.Item>
-{/*                    <Form.Item
+                    {/*                    <Form.Item
                         label="Pet Birthday"
                         name="birthday"
                         rules={[

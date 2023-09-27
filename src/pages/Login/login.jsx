@@ -2,28 +2,28 @@ import {LockOutlined, MobileOutlined, UserOutlined,} from '@ant-design/icons';
 import {LoginForm, ProConfigProvider, ProFormCaptcha, ProFormCheckbox, ProFormText} from '@ant-design/pro-components';
 import {message, Space, Tabs} from 'antd';
 import {useEffect, useState} from 'react';
-import FirebaseUI from "@/pages/Login/firebaseUI";
-import {googleLogin, userLogin} from "@/services/userService";
+import {googleLogin, sendCode, userCodeLogin, userLogin, userPasswordLogin} from "@/services/userService";
 import {flushSync} from "react-dom";
 import {useModel,history} from "umi";
 
 
 const LoginCard = () => {
-    const [loginType, setLoginType] = useState('phone');
+    const [loginType, setLoginType] = useState('email');
     const {setInitialState, initialState} = useModel('@@initialState');
-
+    const [emailValue, setEmailValue] = useState('');
 
     const jumpToHome = async (res)=>{
 
-        localStorage.setItem("access_token",res.data)
-        await fetchUserInfo();
-        history.push('/home');
-    }
+        if (res.code===1) {
+            localStorage.setItem("access_token",res.data)
+            await fetchUserInfo();
+            history.push('/home');
+        }
 
+    }
 
     const handleCallback = async (res) => {
         googleLogin(res.credential).then(jumpToHome)
-
     }
     useEffect(()=>{
 
@@ -74,10 +74,14 @@ const LoginCard = () => {
                         </Space>
                     }
                     onFinish={async (values) => {
-                      userLogin(values).then(jumpToHome,()=>{
-                          console.log('处理登录失败的情况')
 
-                      })
+                        if (loginType==='account'){
+                            userPasswordLogin(values).then(jumpToHome)
+                        }else {
+
+                            userCodeLogin(values).then(jumpToHome)
+                        }
+
 
                     }}
                     submitter={{searchConfig: {submitText: 'Login',}}}
@@ -90,7 +94,7 @@ const LoginCard = () => {
                         onChange={(activeKey) => setLoginType(activeKey)}
                         items={[
                                 {key: 'account', label: 'Password Login'},
-                                {key: 'phone', label: 'Email Login'},
+                                {key: 'email', label: 'Email Login'},
                             ]}
                     />
 
@@ -126,25 +130,27 @@ const LoginCard = () => {
                             />
                         </>
                     )}
-                    {loginType === 'phone' && (
+                    {loginType === 'email' && (
                         <>
                             <ProFormText
                                 fieldProps={{
                                     size: 'large',
                                     prefix: <MobileOutlined className={'prefixIcon'}/>,
                                 }}
-                                name="mobile"
-                                placeholder={'手机号'}
+                                name="email"
+                                placeholder={'Email'}
                                 rules={[
                                     {
-                                        required: true,
-                                        message: '请输入手机号！',
+                                        type: 'email',
+                                        message: 'The input is not valid E-mail!',
                                     },
                                     {
-                                        pattern: /^1\d{10}$/,
-                                        message: '手机号格式错误！',
+                                        required: true,
+                                        message: 'Pleas input email！',
                                     },
+
                                 ]}
+                                onChange={(e) => setEmailValue(e.target.value)}
                             />
                             <ProFormCaptcha
                                 fieldProps={{
@@ -154,14 +160,14 @@ const LoginCard = () => {
                                 captchaProps={{
                                     size: 'large',
                                 }}
-                                placeholder={'请输入验证码'}
+                                placeholder={'Code'}
                                 captchaTextRender={(timing, count) => {
                                     if (timing) {
-                                        return `${count} ${'获取验证码'}`;
+                                        return `${count} ${'Get code'}`;
                                     }
-                                    return '获取验证码';
+                                    return 'Send code';
                                 }}
-                                name="captcha"
+                                name="code"
                                 rules={[
                                     {
                                         required: true,
@@ -169,7 +175,16 @@ const LoginCard = () => {
                                     },
                                 ]}
                                 onGetCaptcha={async () => {
-                                    message.success('获取验证码成功！验证码为：1234');
+                                   const {code} = await sendCode(emailValue)
+                                    if (code === 1) {
+                                        // 返回正常的 Promise
+                                        message.success('Success to send')
+                                        return Promise.resolve('验证码已发送'); // 此处可以根据需要返回任何成功信息
+                                    } else {
+                                        // 返回错误的 Promise
+                                        message.error('Fail to  send')
+                                        return Promise.reject('验证码发送失败'); // 此处可以根据需要返回任何错误信息
+                                    }
                                 }}
                             />
                         </>

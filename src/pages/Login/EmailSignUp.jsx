@@ -1,8 +1,6 @@
 import React from 'react';
 import {Button, Form, Input} from "antd";
 import {LockOutlined, UserOutlined} from "@ant-design/icons";
-import { createUserWithEmailAndPassword,sendEmailVerification} from "firebase/auth";
-import {auth} from "../../firebaseConfig";
 
 function EmailSignUp(props) {
     function onFinish(value) {
@@ -29,7 +27,7 @@ function EmailSignUp(props) {
                     ]}
                 >
                     <Input
-                        prefix={<UserOutlined className="site-form-item-icon" />}
+                        prefix={<UserOutlined className="site-form-item-icon"/>}
                         placeholder="Email"
                     />
                 </Form.Item>
@@ -43,7 +41,23 @@ function EmailSignUp(props) {
                     ]}
                 >
                     <Input
-                        prefix={<LockOutlined className="site-form-item-icon" />}
+                        prefix={<LockOutlined className="site-form-item-icon"/>}
+                        type="password"
+                        placeholder="Password"
+                    />
+                </Form.Item>
+
+                <Form.Item
+                    name="code"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please input your Password!',
+                        },
+                    ]}
+                >
+                    <Input
+                        prefix={<LockOutlined className="site-form-item-icon"/>}
                         type="password"
                         placeholder="Password"
                     />

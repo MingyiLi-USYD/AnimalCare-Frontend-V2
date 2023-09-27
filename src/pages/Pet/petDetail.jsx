@@ -7,6 +7,7 @@ import {deleteImageOfPet, getPetById} from "@/services/petService";
 import BackForward from "../../components/BackForward";
 import NotFoundPage from "../404";
 import Loading from "../../components/Loading";
+import {urlWrapper} from "@/utils/imageUtils";
 
 
 
@@ -25,7 +26,7 @@ function PetDetail() {
         initData();
     }, [petId])
     const handleDelete = (image) => {
-        deleteImageOfPet(image)
+        deleteImageOfPet(image.imageId)
         setPet({...pet, petImage: [...pet.petImage].filter(item => item.imageId !== image.imageId)})
     }
     if (loading) {
@@ -39,7 +40,7 @@ function PetDetail() {
             <BackForward/>
             <div style={{textAlign: 'center'}}>
                 <div>
-                    <Avatar size={64} src={pet.petAvatar}/>
+                    <Avatar size={64} src={urlWrapper(pet.petAvatar)}/>
                     <h2>{pet.petName}</h2>
                     <p>{pet.petDescription}</p>
                 </div>
@@ -48,7 +49,7 @@ function PetDetail() {
                     <div style={{display: 'flex', flexWrap: 'wrap'}}>
                         {pet.petImage.map((item) => (
                             <div key={item.imageId} className={'image-wrapper'}>
-                                <Image className={'imageStyle'} src={item.imageUrl}/>
+                                <Image className={'imageStyle'} src={urlWrapper(item.imageUrl)}/>
                                 {currentUser.userId === pet.userId &&
                                     <Popconfirm
                                         title="Delete image"

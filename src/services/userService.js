@@ -1,31 +1,31 @@
 import { request } from 'umi';
 
-
-/*
-export const googleLogin = async () => {
-    return await request('https://accounts.google.com/o/oauth2/v2/auth', {
+export const sendCode = async (username) => {
+    return await request(`/api/oauth/code/${username}`, {
         method: 'GET',
-        params:{
-            client_id:'1067998688265-29puvp1t8tlrraiufdl4aerh84vqu934.apps.googleusercontent.com',
-            redirect_uri:'http://localhost:5000/login',
-            scope:'https://www.googleapis.com/auth/userinfo.profile',
-            response_type:'code'
-        }
     });
 };
-*/
 
-export const userLogin = async (body) => {
-  return await request('/api/oauth/login', {
+
+
+export const userPasswordLogin = async (body) => {
+  return await request('/api/oauth/login/password', {
     method: 'POST',
     params:{
         ...body,
-        client_id:'cId',
-        client_secret:'secret',
-        grant_type:'password'
     }
   });
 };
+
+export const userCodeLogin = async (body) => {
+    return await request('/api/oauth/login/code', {
+        method: 'POST',
+        params:{
+            ...body,
+        }
+    });
+};
+
 
 export const googleLogin = async (googleToken) => {
     return await request('/api/oauth/login/thirdPart', {

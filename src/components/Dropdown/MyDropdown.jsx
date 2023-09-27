@@ -1,14 +1,14 @@
 import {LogoutOutlined, ProfileOutlined, SmileOutlined} from '@ant-design/icons';
 import {Dropdown, Tooltip} from 'antd';
 import {useModel,history} from 'umi';
-import {auth} from "@/firebaseConfig";
+
 
 
 const MyDropdown = (props) => {
     const {initialState:{currentUser} } = useModel('@@initialState');
 
     const  handleSignOut = async ()=> {
-        await auth.signOut()
+
         localStorage.removeItem('serverToken')
         history.push('/login')
 

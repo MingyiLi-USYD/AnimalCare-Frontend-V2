@@ -22,6 +22,7 @@ import {
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 import BackForward from "@/components/BackForward";
+import {urlWrapper} from "@/utils/imageUtils";
 
 
 function PostDetail() {
@@ -146,7 +147,8 @@ function PostDetail() {
                         (
                             <div key={imageId}>
                                 <div className={"image-container"}
-                                     style={{backgroundSize: "contain", backgroundImage: `url(${imageUrl})`}}/>
+                                 style={{backgroundSize: "contain", backgroundImage: `url(${urlWrapper(imageUrl)})`}}
+                                />
                             </div>
                         )
                     )}
