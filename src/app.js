@@ -14,6 +14,7 @@ export const dva = {
       persistEnhancer(
           {
             storage,
+            whitelist:['ChatModel']
           }
       )
     ],

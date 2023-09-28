@@ -91,6 +91,10 @@ function PostDetail() {
             }
         }
     }
+
+    console.log(effects[fetchPostWithComments])
+
+
     if (effects[fetchPostWithComments]) {
         return <Loading/>
     }
@@ -138,7 +142,6 @@ function PostDetail() {
     return (
 
 
-
         <div className={"post-container"}>
             <BackForward/>
             <div className={"carousel"}>
@@ -163,7 +166,7 @@ function PostDetail() {
                         <span className={"nickname"}>{post?.postUser?.nickname}</span>
                     </div>
                     {
-                        subscribeList.includes(post.userId) ?
+                        subscribeList.includes(post?.userId) ?
                             <Button style={{borderRadius: 20}} danger onClick={handleUnsubscribe}>Unsubscribe</Button>
                             : <Button style={{borderRadius: 20}} type={"primary"}
                                       onClick={handleSubscribe}>Subscribe</Button>
