@@ -1,4 +1,4 @@
-import {initUserInfo} from "../services/userService";
+import {initUserInfo, userInfo} from "../services/userService";
 
 export default {
     namespace:'userModel',
@@ -7,6 +7,8 @@ export default {
         startList:[],
         subscribeList:[],
         subscriberList:[],
+        loveCommentList:[],
+        loveSubcommentList:[],
         lovesReceived:0,
         commentsReceived:0,
         mentionsReceived:0,
@@ -35,6 +37,24 @@ export default {
                 state.subscribeList.splice(index, 1);
             }
         },
+        addToLoveCommentList(state,{payload:commentId}){
+            !state.loveCommentList.includes(commentId)&&state.loveCommentList.push(commentId)
+        },
+        removeFromLoveCommentList(state,{payload:commentId}){
+            const index = state.loveCommentList.indexOf(commentId);
+            if(index>=0){
+                state.loveCommentList.splice(index, 1);
+            }
+        },
+        addToLoveSubcommentList(state,{payload:subcommentId}){
+            !state.loveSubcommentList.includes(subcommentId)&&state.loveSubcommentList.push(subcommentId)
+        },
+        removeFromLoveSubcommentList(state,{payload:subcommentId}){
+            const index = state.loveSubcommentList.indexOf(subcommentId);
+            if(index>=0){
+                state.loveSubcommentList.splice(index, 1);
+            }
+        },
         fetchUserInfoSuccess(state,{payload}){
             const {loveIdList,subscribeIdList,subscriberIdList
             ,lovesReceived,commentsReceived,mentionsReceived} =payload
@@ -44,6 +64,11 @@ export default {
             state.lovesReceived = lovesReceived
             state.commentsReceived = commentsReceived
             state.mentionsReceived = mentionsReceived
+        },
+        fetchUserOtherInfoSuccess(state,{payload}){
+            const {lovedComments,lovedSubcomments} =payload
+            state.loveCommentList = lovedComments
+            state.loveSubcommentList = lovedSubcomments
         },
         resetLovesReceived(state,_){
              state.lovesReceived=0
@@ -67,14 +92,17 @@ export default {
     effects:{
         *initUserInfo({ payload }, { call, put }) {
             const { data,code } = yield call(initUserInfo);
+            const {data:data2,code:code2} = yield call(userInfo);
             const {userId,username,role,email,avatar} = data;
             const user= {userId,username,role,email,avatar};
-            if(code===1){
+            if(code===1&&code2===1){
                 yield put({ type: 'fetchUserInfoSuccess', payload: data });
                 yield put({ type: 'ChatModel/onFetchProfile', payload: user });
                 yield put({type: 'friendModel/fetchFriendListSuccess', payload: data.friendshipDtoList});
                 yield put({type: 'friendModel/fetchRequestListSuccess', payload: data.friendRequestDtoList});
+                yield put({ type: 'fetchUserOtherInfoSuccess', payload: data2 });
             }
+
         },
     }
 

@@ -1,5 +1,12 @@
 import {cancelLove, getPostById, love} from "@/services/postService";
-import {getCommentsById, getSubcommentsById, postComment, postSubcomment} from "@/services/commentService";
+import {
+    cancelLoveComment, cancelLoveSubcomment,
+    getCommentsById,
+    getSubcommentsById,
+    loveComment, loveSubcomment,
+    postComment,
+    postSubcomment
+} from "@/services/commentService";
 import {PostDto} from "@/pojo/post";
 import {CommentDto} from "@/pojo/comment";
 import {DvaModel, EffectsMapObject} from "umi";
@@ -117,6 +124,45 @@ const postDetailModel:DvaModel<postDetailModelState,EffectsMapObject,MyReducersM
         decreaseLove(state) {
             state.post.love--;
         },
+        increaseCommentLove(state,{payload:commentId}) {
+            state.comments.forEach(comment=>comment.commentId===commentId&&comment.commentLove++)
+        },
+        decreaseCommentLove(state,{payload:commentId}) {
+            state.comments.forEach(comment=>comment.commentId===commentId&&comment.commentLove--)
+        },
+        increaseSubcommentLove(state,{payload}) {
+            const { subcommentId, commentId } = payload;
+
+            for (const comment of state.comments) {
+                if (commentId === comment.commentId) {
+                    const subcomments = comment.subcommentDtos;
+                    for (const subcomment of subcomments) {
+                        if (subcomment.subcommentId === subcommentId) {
+                            subcomment.subcommentLove++;
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+        },
+        decreaseSubcommentLove(state,{payload}) {
+            const {subcommentId,commentId} = payload
+            for (const comment of state.comments) {
+                if (commentId === comment.commentId) {
+                    const subcomments = comment.subcommentDtos;
+                    for (const subcomment of subcomments) {
+                        if (subcomment.subcommentId === subcommentId) {
+                            subcomment.subcommentLove--;
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+
+        },
+
         syncIncreaseInDetail(state,{ payload }){
             if(state.post.postId&&state.post.postId===payload){
                 state.post.love++
@@ -187,6 +233,38 @@ const postDetailModel:DvaModel<postDetailModelState,EffectsMapObject,MyReducersM
             const {code} = yield call(unsubscribeUser,userId);
             if(code===1){
                 yield put({ type: 'userModel/removeFromSubscriptionList', payload: userId });
+            }
+        },
+        *onLoveComment({ payload:commentId }, { call, put }) {
+            const {code} = yield call(loveComment,commentId);
+            if(code===1){
+                yield put({ type: 'increaseCommentLove', payload: commentId });
+                yield put({ type: 'userModel/addToLoveCommentList', payload: commentId });
+            }
+        },
+        *onCancelLoveComment({ payload:commentId }, { call, put }) {
+            const {code} = yield call(cancelLoveComment,commentId);
+            if(code===1){
+                yield put({ type: 'decreaseCommentLove', payload: commentId });
+                yield put({ type: 'userModel/removeFromLoveCommentList', payload: commentId });
+            }
+        },
+
+        *onLoveSubcomment({ payload }, { call, put }) {
+            const {commentId,subcommentId} = payload
+            const {code} = yield call(loveSubcomment,subcommentId);
+            if(code===1){
+                yield put({ type: 'increaseSubcommentLove', payload: {commentId,subcommentId} });
+                yield put({ type: 'userModel/addToLoveSubcommentList', payload: subcommentId });
+            }
+        },
+
+        *onCancelLoveSubcomment({ payload }, { call, put }) {
+            const {commentId,subcommentId} = payload
+            const {code} = yield call(cancelLoveSubcomment,subcommentId);
+            if(code===1){
+                yield put({ type: 'decreaseSubcommentLove', payload: {commentId,subcommentId} });
+                yield put({ type: 'userModel/removeFromLoveSubcommentList', payload: subcommentId });
             }
         },
     },

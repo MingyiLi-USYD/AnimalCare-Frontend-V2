@@ -3,7 +3,6 @@ import {useModel, useParams, useRequest} from 'umi';
 import PetCardList from './Components/petCardList';
 import {getProfileById} from '@/services/userService';
 import PostCardList from "./Components/postCardList";
-import PostDetail from "./Components/petBrief";
 import {useEffect} from "react";
 import BackForward from "../../components/BackForward";
 import './profile.less'
@@ -60,7 +59,7 @@ const Profile = (props) => {
                 <Paragraph>{data?.description}</Paragraph>
                 <PostCardList data={data?.postList} avatar={currentUser.avatar}/>
                 <PetCardList data={data?.petList}/>
-                <PostDetail/>
+
 
             </div>
         </div>

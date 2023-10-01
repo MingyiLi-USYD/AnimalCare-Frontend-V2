@@ -40,6 +40,10 @@ export  const initUserInfo = async () =>
     await request('/api/user/init', {
         method: 'GET',
     });
+export  const userInfo = async () =>
+    await request('/api/user/userInfo', {
+        method: 'GET',
+    });
 
 export const getProfileById =  async (id) =>
   await request(`/api/user/profile/${id}`, {
@@ -61,15 +65,7 @@ export const updateUserProfile = async (user) =>
     method: 'PUT',
     data:user
   });
-export const thirdPartLogin = async (user) =>
-    await request('/api/login/thirdPart', {
-        method: 'POST',
-        data:user
-    });
-export const getFirebaseIdToken = async () =>
-    await request('/api/token', {
-        method: 'GET',
-    });
+
 
 export const getUsers = async (current,size,keywords) =>
     await request('/api/users', {
@@ -83,8 +79,8 @@ export const getUsers = async (current,size,keywords) =>
 
 
 export const changeUserStatus = async (userId,role,status) =>
-    await request(`/api/changeUser/${userId}`, {
-        method: 'GET',
+    await request(`/api/user/changeUser/${userId}`, {
+        method: 'POST',
         params:{
             role,
             status,
@@ -92,10 +88,10 @@ export const changeUserStatus = async (userId,role,status) =>
     });
 
 export const subscribeUser = async (userId) =>
-    await request(`/api/subscribe/${userId}`, {
-        method: 'Post',
+    await request(`/api/subscription/subscribe/${userId}`, {
+        method: 'Get',
     });
 export const unsubscribeUser = async (userId) =>
-    await request(`/api/subscribe/${userId}`, {
+    await request(`/api/subscription/subscribe/${userId}`, {
         method: 'Delete',
     });

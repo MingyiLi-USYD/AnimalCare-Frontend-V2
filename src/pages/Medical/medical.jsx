@@ -12,7 +12,7 @@ function Medical(props) {
     return (
         <div className={"medical-page"}>
             <div>
-                宠物服务预约
+                Pet Service Booking
             </div>
             <div className={"service-list"}>
                 <ServiceCard icon={     <VaccineIcon {...style} />} name={"Vaccinate"} />

@@ -92,8 +92,6 @@ function PostDetail() {
         }
     }
 
-    console.log(effects[fetchPostWithComments])
-
 
     if (effects[fetchPostWithComments]) {
         return <Loading/>

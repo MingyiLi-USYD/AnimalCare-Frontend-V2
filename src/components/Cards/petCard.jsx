@@ -3,7 +3,8 @@ import {Space} from 'antd';
 import {history, useDispatch} from "umi";
 import './cards.less'
 import {CatIcon} from "@/assets/Icons/icon";
-import {openPetBriefModal} from "@/actions/petBriefActions";
+import {urlWrapper} from "@/utils/imageUtils";
+
 
 
 const PetCard = ({item}) => {
@@ -16,8 +17,8 @@ const PetCard = ({item}) => {
         <div className="pet-card">
             <div className="pet-pic">
                 <img
-                    src={item.petAvatar}
-                    onClick={() => dispatch(openPetBriefModal(item.petId))}
+                    src={urlWrapper(item.petAvatar)}
+                    onClick={()=>history.push(`/pet/${item.petId}`)}
                 />
             </div>
 

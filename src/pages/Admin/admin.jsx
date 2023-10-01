@@ -1,9 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {Avatar, Button, Input, message, Popconfirm, Select, Space, Table, Tag} from 'antd';
+import {Avatar, Button, Input, message, Select, Space, Table, Tag} from 'antd';
 import {changeUserStatus, getUsers} from "@/services/userService";
-import { cloneDeep } from 'lodash';
+import {cloneDeep} from 'lodash';
 import './admin.less'
 import {history, useAccess} from "umi";
+import withInterceptor from "@/pages/Interceptor/withInterceptor";
+import WithInterceptor from "@/pages/Interceptor/withInterceptor";
+
 const {Search} = Input;
 
 const PAGE_SIZE = 10; // 每页显示的数量
@@ -17,7 +20,9 @@ const App = () => {
     const [originalRecord,setOriginalRecord]=useState([])
     const [messageApi, contextHolder] = message.useMessage();
     const {hasPermission,thanUser,thanAdmin,thanSuperAdmin}=useAccess()
-
+    if(!thanUser){
+        return <div>not found</div>
+    }
     const info = () => {
         messageApi.info('Update Success');
     };

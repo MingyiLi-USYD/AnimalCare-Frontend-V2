@@ -103,7 +103,7 @@ const Chat = (props) => {
                         />
                         <div className={'myButtonDiv'}>
                             <Button danger onClick={handleClear}>Clear</Button>
-                            <Button type="primary" disabled={text.trim() === ''} onClick={handleSend}>Submit</Button>
+                            <Button type="primary" disabled={text.trim() === ''} onClick={handleSend}>Send</Button>
                         </div>
                     </div>
 

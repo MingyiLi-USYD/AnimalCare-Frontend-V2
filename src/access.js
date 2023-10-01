@@ -1,7 +1,7 @@
 import {history} from "umi";
 
 export default function accessFactory(initialState) {
-
+    //antdProlayout 好像跟这个原生的Access 不是很适配 只能用高阶组件拦截了
     if(history.location.pathname==='/login'){
         return {
 
@@ -17,7 +17,6 @@ export default function accessFactory(initialState) {
   const  hasPermission=(value)=>rightMap[role]?rightMap[role]>rightMap[value]:false
 
     return {
-        isRoot: false,
         hasPermission,
         thanUser:hasPermission("User"),
         thanAdmin:hasPermission("Admin"),

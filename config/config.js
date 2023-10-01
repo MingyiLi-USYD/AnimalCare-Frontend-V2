@@ -6,7 +6,6 @@ const backend = 'http://localhost:9257'
 
 export default defineConfig({
   headScripts:["https://accounts.google.com/gsi/client","https://apis.google.com/js/api:client.js"],
-
   jsMinifier: 'terser',
   plugins: [
     '@umijs/plugins/dist/initial-state',

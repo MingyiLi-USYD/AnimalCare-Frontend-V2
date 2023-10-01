@@ -1,13 +1,20 @@
 import React, {useState} from 'react';
 import {ProLayout} from '@ant-design/pro-components';
-import {CommentOutlined, DeleteOutlined, HomeOutlined,
-  ScissorOutlined, UserOutlined,MedicineBoxOutlined,InboxOutlined} from '@ant-design/icons';
+import {
+  CommentOutlined,
+  HomeOutlined,
+  InboxOutlined,
+  MedicineBoxOutlined,
+  ScissorOutlined,
+  UserOutlined
+} from '@ant-design/icons';
 import './index.less'
-import {history, Outlet, useModel, useSelector,connect, useAccess} from 'umi'
-import {Badge, Spin} from "antd";
+import {connect, history, Outlet, useAccess, useModel, useSelector} from 'umi'
+import {Badge} from "antd";
 import {allUnread} from "@/utils/chatUtils";
 import useSocket from "@/hooks/useSocket";
 import MyDropdown from "@/components/Dropdown/MyDropdown";
+
 const loginPath = '/login';
 
 const BasicLayout = (props) => {
@@ -17,28 +24,29 @@ const BasicLayout = (props) => {
  // const {global} = useSelector(state=>state.loading)
   const {lovesReceived,commentsReceived,mentionsReceived} = useSelector(state=>state.userModel)
   const {currentUser}=initialState;
+  const {thanUser} = useAccess()
   const customMenuData= [
     {
       key:'1',
-      name: '首页',
+      name: 'Home',
       path: '/home',
       icon: <HomeOutlined />,
     },
     {
       key:'15',
-      name: '聊天',
+      name: 'Chat',
       path: '/chat',
       icon:  <Badge size={"small"} count={allUnread(chatRecordArray)}><CommentOutlined /></Badge>,
     },
     {
       key:'5',
-      name: '好友',
+      name: 'Friend',
       path: '/friend',
       icon:<Badge size={"small"} count={friendRequest}> <UserOutlined /></Badge>,
     },
     {
       key:'2',
-      name: '发布',
+      name: 'Share',
       path: '/new',
       icon: <HomeOutlined/>,
       routes: [
@@ -58,7 +66,7 @@ const BasicLayout = (props) => {
     },
     {
       key:'6',
-      name: '控制台',
+      name: 'Console',
       path: '/dashboard',
       icon: <ScissorOutlined/>,
     },
@@ -96,22 +104,21 @@ const BasicLayout = (props) => {
     {
       key:'18',
       path: '/inbox',
-      name:'消息',
+      name:'Message',
       icon: <Badge  size={"small"} count={lovesReceived+commentsReceived+mentionsReceived}><InboxOutlined /></Badge>,
     },
     {
       key:'16',
       path: '/medical',
-      name: '宠物医院',
+      name: 'Hospital',
       icon: <MedicineBoxOutlined />,
-      access: 'isRoot',
     },
     {
       key:'17',
       path: '/admin',
-      name: '权限管理',
+      name: 'Admin',
       icon: <MedicineBoxOutlined />,
-      access: 'isRoot',
+      hideInMenu: !thanUser
     },
   ];
   const [pathname, setPathname] = useState(history.location.pathname);

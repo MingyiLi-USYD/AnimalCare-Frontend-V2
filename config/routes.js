@@ -119,16 +119,11 @@ export  const routes = [
             {
                 path: '/medical',
                 component: '@/pages/Medical/medical',
-                access: 'isRoot',
             },
             {
                 path: '/admin',
                 component: '@/pages/Admin/admin',
-                access: 'isRoot',
-            },
-            {
-                path: '/test',
-                component: '@/pages/Test/index',
+                access: 'canView',
             },
             { path: '/*', redirect:'/home'},
         ],

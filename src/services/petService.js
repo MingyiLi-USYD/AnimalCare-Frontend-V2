@@ -38,7 +38,7 @@ export const deletePetById = async (petId)=>await request(`/api/pet/${petId}`,{
     method:"DELETE"
 })
 
-export const updatePetById = async (petId,pet)=>await request(`/api/pet/${petId}`,{
+export const updatePetById = async (pet)=>await request('/api/pet',{
     method:"PUT",
     data:pet
 })

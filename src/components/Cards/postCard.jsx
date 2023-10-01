@@ -4,11 +4,12 @@ import { HeartOutlined } from '@ant-design/icons';
 import {history,useDispatch, useSelector} from "umi";
 import Interaction from "../Interactions/interaction";
 import './cards.less'
+import {urlWrapper} from "@/utils/imageUtils";
 
 const PostCard = ({item,avatar,index}) => {
     const {loveList} = useSelector(state => state.userModel)
     const dispatch = useDispatch();
-    const {postUser}=item;
+    const {postUser,coverImage}=item;
     const handleLove = (postId) => {
         dispatch({
             type: 'homeModel/lovePost',
@@ -26,7 +27,7 @@ const PostCard = ({item,avatar,index}) => {
         <div className="post-card">
             <div className="pic">
                 <img
-                    src={`https://source.unsplash.com/random/${index}`}
+                    src={urlWrapper(coverImage)}
                     onClick={() => {
                         history.push(`/post/${item.postId}`);
                     }}

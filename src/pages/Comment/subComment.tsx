@@ -6,16 +6,30 @@ import Interaction from "../../components/Interactions/interaction";
 import {HeartOutlined, MessageOutlined} from "@ant-design/icons";
 import {useDispatch} from "umi";
 import {SubcommentDto} from "@/pojo/subComment";
+import {useSelector} from "@@/exports";
 
 
 
 function SubComment({data,focus}:{data:SubcommentDto,focus:Function}) {
     const dispatch = useDispatch();
-    const {commentId,userId,
+    const {commentId,subcommentId,userId,
         subcommentTime,subcommentContent,subcommentLove,
         subcommentUser} = data;
-    const handleLove = ()=>{
 
+    // @ts-ignore
+    const {loveSubcommentList} = useSelector(state => state.userModel)
+    const handleLove = ()=>{
+        dispatch({
+            type:'postDetailModel/onLoveSubcomment',
+            payload: {commentId,subcommentId}
+        })
+    }
+
+    const handleCancelLove = ()=>{
+        dispatch({
+            type:'postDetailModel/onCancelLoveSubcomment',
+            payload: {commentId,subcommentId}
+        })
     }
     const handleComment = ()=>{
         focus()
@@ -43,8 +57,8 @@ function SubComment({data,focus}:{data:SubcommentDto,focus:Function}) {
                     </div>
                     <div className={"interactions"}>
                         <div className={"like"}>
-                            <Interaction number={subcommentLove} active={false}>
-                                <HeartOutlined onClick={handleLove}/>
+                            <Interaction number={subcommentLove} active={loveSubcommentList.includes(subcommentId)}>
+                                <HeartOutlined onClick={loveSubcommentList.includes(subcommentId)?handleCancelLove:handleLove}/>
                             </Interaction>
                         </div>
                         <div className={"reply"}>

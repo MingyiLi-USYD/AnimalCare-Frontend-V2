@@ -4,6 +4,8 @@ import {getFriendshipStatus} from "@/services/friendService";
 import {useDispatch, useModel, useSelector} from "umi";
 import RelationDetail from "./relationDetail";
 import {openDeleteModal} from "@/actions/relationActions";
+import {subscribeUser} from "@/services/userService";
+import {subscribeUserAction, unsubscribeUserAction} from "@/actions/postDetailActions";
 
 
 function Relation(user) {
@@ -36,6 +38,13 @@ function Relation(user) {
         setRelation(res.data)
     }
 
+    const handleSubscribe = () => {
+        dispatch(subscribeUserAction(userId))
+    }
+    const handleUnsubscribe = () => {
+        dispatch(unsubscribeUserAction(userId))
+    }
+
 
     return (
         <div  className={'operation'} >
@@ -47,10 +56,10 @@ function Relation(user) {
             <div>
                 {
 
-                    userId!==myId&&(subscribeList.includes(userId)?<Button danger>
+                    userId!==myId&&(subscribeList.includes(userId)?<Button danger onClick={handleUnsubscribe}>
                             Unsubscribe
                         </Button>:
-                        <Button type={"primary"}>Subscribe</Button>)
+                        <Button type={"primary"} onClick={handleSubscribe}>Subscribe</Button>)
 
                 }
             </div>

@@ -16,6 +16,20 @@ export const loveComment = (commentId) =>
     request(`/api/comment/love/${commentId}`, {
         method: 'GET',
     });
+export const cancelLoveComment = (commentId) =>
+    request(`/api/comment/love/${commentId}`, {
+        method: 'DELETE',
+    });
+
+export const loveSubcomment = (subcommentId) =>
+    request(`/api/subcomment/love/${subcommentId}`, {
+        method: 'GET',
+    });
+export const cancelLoveSubcomment = (subcommentId) =>
+    request(`/api/subcomment/love/${subcommentId}`, {
+        method: 'DELETE',
+    });
+
 
 export const getSubcommentsById = (commentId) =>
     request(`/api/subcomments/${commentId}`, {

@@ -16,8 +16,20 @@ function Comment({comment,focus}:{comment:CommentDto,focus:Function}) {
     const {commentId,commentUser,commentContent,
         commentTime,postId,userId,commentLove,
         subcommentsLength,subcommentDtos} = comment;
-    const handleLove = ()=>{
 
+    // @ts-ignore
+    const {loveCommentList} = useSelector(state => state.userModel)
+    const handleLove = ()=>{
+        dispatch({
+            type:'postDetailModel/onLoveComment',
+            payload:commentId
+        })
+    }
+    const handleCancelLove = ()=>{
+        dispatch({
+            type:'postDetailModel/onCancelLoveComment',
+            payload:commentId
+        })
     }
     const handleComment = ()=>{
           focus()
@@ -33,6 +45,8 @@ function Comment({comment,focus}:{comment:CommentDto,focus:Function}) {
             payload:commentId
         })
     }
+
+
 
     return (
         <div className={"comment-item"}>
@@ -52,8 +66,8 @@ function Comment({comment,focus}:{comment:CommentDto,focus:Function}) {
                       </div>
                     <div className={"interactions"}>
                          <div className={"like"}>
-                             <Interaction number={commentLove} active={false}>
-                                 <HeartOutlined onClick={handleLove}/>
+                             <Interaction number={commentLove} active={loveCommentList.includes(commentId)}>
+                                 <HeartOutlined onClick={loveCommentList.includes(commentId)?handleCancelLove:handleLove}/>
                              </Interaction>
                          </div>
                           <div className={"reply"}>
