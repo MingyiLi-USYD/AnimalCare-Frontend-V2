@@ -2,20 +2,20 @@ import {LockOutlined, MobileOutlined, UserOutlined,} from '@ant-design/icons';
 import {LoginForm, ProConfigProvider, ProFormCaptcha, ProFormCheckbox, ProFormText} from '@ant-design/pro-components';
 import {message, Space, Tabs} from 'antd';
 import {useEffect, useState} from 'react';
-import {googleLogin, sendCode, userCodeLogin, userLogin, userPasswordLogin} from "@/services/userService";
+import {googleLogin, sendCode, userCodeLogin, userPasswordLogin} from "@/services/userService";
 import {flushSync} from "react-dom";
-import {useModel,history} from "umi";
-
+import {history, useModel} from "umi";
+import imgUrl from '../../assets/images/logo.png'
 
 const LoginCard = () => {
     const [loginType, setLoginType] = useState('email');
     const {setInitialState, initialState} = useModel('@@initialState');
     const [emailValue, setEmailValue] = useState('');
 
-    const jumpToHome = async (res)=>{
+    const jumpToHome = async (res) => {
 
-        if (res.code===1) {
-            localStorage.setItem("access_token",res.data)
+        if (res.code === 1) {
+            localStorage.setItem("access_token", res.data)
             await fetchUserInfo();
             history.push('/home');
         }
@@ -25,25 +25,25 @@ const LoginCard = () => {
     const handleCallback = async (res) => {
         googleLogin(res.credential).then(jumpToHome)
     }
-    useEffect(()=>{
+    useEffect(() => {
 
         google.accounts.id.initialize({
             client_id: '1067998688265-29puvp1t8tlrraiufdl4aerh84vqu934.apps.googleusercontent.com',
-            redirect_uri:'http://localhost:5000/login',
-            scope:'https://www.googleapis.com/auth/userinfo.profile',
-            response_type:'code',
-            login_uri:'http://localhost:5000',
-            callback:handleCallback
+            redirect_uri: 'http://localhost:5000/login',
+            scope: 'https://www.googleapis.com/auth/userinfo.profile',
+            response_type: 'code',
+            login_uri: 'http://localhost:5000',
+            callback: handleCallback
         })
         google.accounts.id.prompt();
         google.accounts.id.renderButton(
             document.getElementById("signInDiv"),
             {
-                theme:"outline",size:"large"
+                theme: "outline", size: "large"
             }
         )
 
-    },[])
+    }, [])
 
     const fetchUserInfo = async () => {
         const userInfo = await initialState?.fetchUserInfo?.();
@@ -60,14 +60,14 @@ const LoginCard = () => {
         <ProConfigProvider hashed={false}>
             <div>
                 <LoginForm
-                    logo="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
+                    logo={imgUrl}
                     title="PetBook"
-                    subTitle="全球最大的代码托管平台"
+                    subTitle="The best platform for pet lover"
                     actions={
                         <Space direction={"vertical"}>
-                            其他登录方式
+                            Other Login:
                             <Space>
-                                <div>Google: </div>
+                                <div>Google:</div>
                                 <div id={"signInDiv"}></div>
                             </Space>
 
@@ -75,9 +75,9 @@ const LoginCard = () => {
                     }
                     onFinish={async (values) => {
 
-                        if (loginType==='account'){
+                        if (loginType === 'account') {
                             userPasswordLogin(values).then(jumpToHome)
-                        }else {
+                        } else {
 
                             userCodeLogin(values).then(jumpToHome)
                         }
@@ -93,9 +93,9 @@ const LoginCard = () => {
                         activeKey={loginType}
                         onChange={(activeKey) => setLoginType(activeKey)}
                         items={[
-                                {key: 'account', label: 'Password Login'},
-                                {key: 'email', label: 'Email Login'},
-                            ]}
+                            {key: 'account', label: 'Password Login'},
+                            {key: 'email', label: 'Email Login'},
+                        ]}
                     />
 
                     {loginType === 'account' && (
@@ -106,11 +106,11 @@ const LoginCard = () => {
                                     size: 'large',
                                     prefix: <UserOutlined className={'prefixIcon'}/>,
                                 }}
-                                placeholder={'用户名: admin or user'}
+                                placeholder={'Email'}
                                 rules={[
                                     {
                                         required: true,
-                                        message: '请输入用户名!',
+                                        message: 'Please input email!',
                                     },
                                 ]}
                             />
@@ -120,11 +120,11 @@ const LoginCard = () => {
                                     size: 'large',
                                     prefix: <LockOutlined className={'prefixIcon'}/>,
                                 }}
-                                placeholder={'密码: ant.design'}
+                                placeholder={'Password'}
                                 rules={[
                                     {
                                         required: true,
-                                        message: '请输入密码！',
+                                        message: 'Please input password!',
                                     },
                                 ]}
                             />
@@ -175,7 +175,7 @@ const LoginCard = () => {
                                     },
                                 ]}
                                 onGetCaptcha={async () => {
-                                   const {code} = await sendCode(emailValue)
+                                    const {code} = await sendCode(emailValue)
                                     if (code === 1) {
                                         // 返回正常的 Promise
                                         message.success('Success to send')
@@ -195,14 +195,14 @@ const LoginCard = () => {
                         }}
                     >
                         <ProFormCheckbox noStyle name="autoLogin">
-                            自动登录
+                            Auto Login
                         </ProFormCheckbox>
                         <a
                             style={{
                                 float: 'right',
                             }}
                         >
-                            忘记密码
+                            Forget Password
                         </a>
                     </div>
                 </LoginForm>

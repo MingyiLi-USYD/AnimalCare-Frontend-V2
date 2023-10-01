@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Avatar, Button, Image, Popconfirm,Spin} from "antd";
+import {Avatar, Button, Image, Popconfirm} from "antd";
 import {useModel, useParams} from "umi";
 import './petDetail.less'
 import PetImageUpload from "./Components/petImageUpload";
@@ -8,7 +8,6 @@ import BackForward from "../../components/BackForward";
 import NotFoundPage from "../404";
 import Loading from "../../components/Loading";
 import {urlWrapper} from "@/utils/imageUtils";
-
 
 
 function PetDetail() {

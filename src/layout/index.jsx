@@ -14,7 +14,7 @@ import {Badge} from "antd";
 import {allUnread} from "@/utils/chatUtils";
 import useSocket from "@/hooks/useSocket";
 import MyDropdown from "@/components/Dropdown/MyDropdown";
-
+import imgUrl from '../assets/images/logo.png'
 const loginPath = '/login';
 
 const BasicLayout = (props) => {
@@ -158,7 +158,7 @@ const BasicLayout = (props) => {
           {dom}
         </div>
       }}
-      logo={ 'https://img.alicdn.com/tfs/TB1YHEpwUT1gK0jSZFhXXaAtVXa-28-27.svg'}
+      logo={imgUrl}
       onPageChange={() => {
         const { location } = history;
         //console.log(initialState);
