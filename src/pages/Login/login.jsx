@@ -28,7 +28,7 @@ const LoginCard = () => {
     useEffect(() => {
 
         google.accounts.id.initialize({
-            client_id: '1067998688265-29puvp1t8tlrraiufdl4aerh84vqu934.apps.googleusercontent.com',
+            client_id: '111250470865-o3m9trpp8i68v79ksvgurqrceiou46qe.apps.googleusercontent.com',
             redirect_uri: 'http://localhost:5000/login',
             scope: 'https://www.googleapis.com/auth/userinfo.profile',
             response_type: 'code',
