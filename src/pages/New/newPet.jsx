@@ -5,7 +5,7 @@ import React, {useState} from "react";
 import UploadingProgress from "../../components/UploadingProgress";
 import DoneUpload from "../../components/DoneUpload";
 import {useModel} from "umi";
-
+import {petOptions} from "@/pages/New/common";
 const {TextArea} = Input;
 
 
@@ -97,9 +97,7 @@ const NewPet = () => {
                         name={'category'}
                         rules={[{required: true, message: 'Please choose pet category !'}]}
                     >
-                        <Select className={'form-selector'}>
-                            <Select.Option value="cat">Cat</Select.Option>
-                            <Select.Option value="dog">Dog</Select.Option>
+                        <Select className={'form-selector'} options={petOptions}>
                         </Select>
                     </Form.Item>
 

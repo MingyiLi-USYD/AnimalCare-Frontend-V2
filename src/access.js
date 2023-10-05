@@ -7,6 +7,11 @@ export default function accessFactory(initialState) {
 
         }
     }
+    if (!initialState||!initialState.currentUser){
+       return {
+
+       }
+    }
     const { currentUser:{role} } = initialState;
     const rightMap= {
         User:0,

@@ -63,7 +63,7 @@ function DetailInfo() {
                         <div className={'text-info'}>
                             <Space>
                                 <span className={'nickname'}>{contact.nickname}</span>
-                                <span>男</span>
+                                <span>Boy</span>
                             </Space>
                             <Space>
                                 <span>Username:</span>

@@ -44,8 +44,8 @@ spec:
             name: nginx-config
             defaultMode: 420
         - name: ssl-key-volume
-          configMap:
-            name: ssl-key
+          secret:
+            secretName: ssl-key
             defaultMode: 420
       containers:
         - image: $REGISTRY/$DOCKERHUB_NAMESPACE/petbook-frontend:latest

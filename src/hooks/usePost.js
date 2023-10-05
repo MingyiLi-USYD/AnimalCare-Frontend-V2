@@ -60,6 +60,7 @@ const usePost = () => {
     };
 
     const finish = async (values) => {
+
         if (postNow) {
             // If "Later" is selected, combine the selected date and time into a timestamp
             const datePart = values.date.format("YYYY-MM-DD");

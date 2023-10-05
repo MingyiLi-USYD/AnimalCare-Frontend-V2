@@ -1,4 +1,4 @@
-import {Button, DatePicker, Form, Input, Modal, Radio, Select, Space, TimePicker} from 'antd';
+import {Avatar, Button, DatePicker, Form, Input, Modal, Radio, Select, Space, TimePicker} from 'antd';
 import moment from 'moment';
 import MultipleImageUpload from './groupUpload';
 import React, {useState} from "react";
@@ -8,8 +8,12 @@ import './new.less'
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 import usePost from "@/hooks/usePost";
+import {petOptions} from "@/pages/New/common";
 
 const {TextArea} = Input;
+
+
+
 
 const NewPost = () => {
     const {
@@ -119,9 +123,7 @@ const NewPost = () => {
                         name={'postTag'}
                         rules={[{required: true, message: 'Please choose pet category !'}]}
                     >
-                        <Select size={"large"} className={'form-selector'}>
-                            <Select.Option value="cat">Cat</Select.Option>
-                            <Select.Option value="dog">Dog</Select.Option>
+                        <Select size={"large"} className={'form-selector'} options={petOptions}>
                         </Select>
                     </Form.Item>
                     <MultipleImageUpload limit={3} name={"images"} round={false} fileList={fileList}
