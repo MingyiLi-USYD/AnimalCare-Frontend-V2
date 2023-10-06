@@ -20,12 +20,15 @@ function Comment({comment,focus}:{comment:CommentDto,focus:Function}) {
     // @ts-ignore
     const {loveCommentList} = useSelector(state => state.userModel)
     const handleLove = ()=>{
+
         dispatch({
             type:'postDetailModel/onLoveComment',
             payload:commentId
         })
     }
     const handleCancelLove = ()=>{
+
+
         dispatch({
             type:'postDetailModel/onCancelLoveComment',
             payload:commentId

@@ -6,8 +6,14 @@ import UploadingProgress from "../../components/UploadingProgress";
 import DoneUpload from "../../components/DoneUpload";
 import {useModel} from "umi";
 import {petOptions} from "@/pages/New/common";
+import './new.less'
 const {TextArea} = Input;
-
+function disabledDate(current) {
+    // 获取今天的日期
+    const today = new Date();
+    // 检查当前日期是否在今天之后
+    return current && current > today;
+}
 
 const NewPet = () => {
 
@@ -26,7 +32,7 @@ const NewPet = () => {
         const percentCompleted = Math.round(
             (progressEvent.loaded * 100) / progressEvent.total
         );
-        console.log(`上传进度: ${percentCompleted}%`);
+       // console.log(`上传进度: ${percentCompleted}%`);
         setPercent(percentCompleted)
     }
 
@@ -117,7 +123,7 @@ const NewPet = () => {
                             {required: true, message: 'Please fill the birthday !'},
                         ]}
                     >
-                        <DatePicker/>
+                        <DatePicker disabledDate={disabledDate} />
                     </Form.Item>
 
                     <Form.Item>

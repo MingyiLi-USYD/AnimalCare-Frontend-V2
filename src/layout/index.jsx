@@ -15,13 +15,22 @@ import {allUnread} from "@/utils/chatUtils";
 import useSocket from "@/hooks/useSocket";
 import MyDropdown from "@/components/Dropdown/MyDropdown";
 import imgUrl from '../assets/images/logo.png'
+import {
+  AdminIcon,
+  ChatIcon,
+  ConsoleIcon,
+  FriendIcon,
+  HospitalIcon,
+  MainIcon,
+  MessageIcon,
+  PostIcon
+} from "@/assets/Icons/layoutIncon";
 const loginPath = '/login';
 
 const BasicLayout = (props) => {
   const {chatRecordArray,friendRequest}=props
   const {initialState} = useModel('@@initialState');
   const {socket,disconnect}=useSocket(initialState.currentUser)
- // const {global} = useSelector(state=>state.loading)
   const {lovesReceived,commentsReceived,mentionsReceived} = useSelector(state=>state.userModel)
   const {currentUser}=initialState;
   const {thanUser} = useAccess()
@@ -30,25 +39,25 @@ const BasicLayout = (props) => {
       key:'1',
       name: 'Home',
       path: '/home',
-      icon: <HomeOutlined />,
+      icon: <MainIcon />,
     },
     {
       key:'15',
       name: 'Chat',
       path: '/chat',
-      icon:  <Badge size={"small"} count={allUnread(chatRecordArray)}><CommentOutlined /></Badge>,
+      icon:  <Badge size={"small"} count={allUnread(chatRecordArray)}><ChatIcon /></Badge>,
     },
     {
       key:'5',
       name: 'Friend',
       path: '/friend',
-      icon:<Badge size={"small"} count={friendRequest}> <UserOutlined /></Badge>,
+      icon:<Badge size={"small"} count={friendRequest}> <FriendIcon /></Badge>,
     },
     {
       key:'2',
       name: 'Share',
       path: '/new',
-      icon: <HomeOutlined/>,
+      icon: <PostIcon/>,
       routes: [
         {
           key:'3',
@@ -68,7 +77,7 @@ const BasicLayout = (props) => {
       key:'6',
       name: 'Console',
       path: '/dashboard',
-      icon: <ScissorOutlined/>,
+      icon: <ConsoleIcon/>,
     },
     {
       key:'8',
@@ -105,19 +114,19 @@ const BasicLayout = (props) => {
       key:'18',
       path: '/inbox',
       name:'Message',
-      icon: <Badge  size={"small"} count={lovesReceived+commentsReceived+mentionsReceived}><InboxOutlined /></Badge>,
+      icon: <Badge  size={"small"} count={lovesReceived+commentsReceived+mentionsReceived}><MessageIcon /></Badge>,
     },
     {
       key:'16',
       path: '/medical',
       name: 'Hospital',
-      icon: <MedicineBoxOutlined />,
+      icon: <HospitalIcon/>,
     },
     {
       key:'17',
       path: '/admin',
       name: 'Admin',
-      icon: <MedicineBoxOutlined />,
+      icon: <AdminIcon/>,
       hideInMenu: !thanUser
     },
   ];

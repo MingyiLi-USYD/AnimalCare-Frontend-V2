@@ -1,9 +1,7 @@
-import {LogoutOutlined, ProfileOutlined, SmileOutlined} from '@ant-design/icons';
 import {Dropdown, Tooltip} from 'antd';
-import {useModel,history} from 'umi';
-
-
-
+import {history, useModel} from 'umi';
+import {LogoutIcon, PetsIcon, PostsIcon, ProfileIcon, UpdateIcon} from "@/assets/Icons/layoutIncon";
+import './dropdown.less'
 const MyDropdown = (props) => {
     const {initialState:{currentUser} } = useModel('@@initialState');
 
@@ -18,53 +16,54 @@ const MyDropdown = (props) => {
         {
             key: '1',
             label: (
-            <a onClick={()=>{history.push(`/profile/${currentUser.userId}`)}}>
+            <a className={'dropdown'} onClick={()=>{history.push(`/profile/${currentUser.userId}`)}}>
             Profile
         </a>
             ),
-            icon: <ProfileOutlined />
+            icon: <ProfileIcon />
         },
         {
             key: '2',
             label: (
-                <a onClick={()=>{history.push('/pet')}}>
+                <a className={'dropdown'} onClick={()=>{history.push('/pet')}}>
                     Pets
                 </a>
             ),
-            icon: <SmileOutlined />,
+            icon: <PetsIcon />,
         },
         {
             key: '3',
             label: (
-                <a onClick={()=>{history.push('/post')}}>
+                <a className={'dropdown'} onClick={()=>{history.push('/post')}}>
                     Posts
                 </a>
             ),
-            icon: <SmileOutlined />,
+            icon: <PostsIcon />,
         },
         {
             key: '4',
             label: (
-                <a onClick={()=>{history.push('/setting')}}>
+                <a className={'dropdown'} onClick={()=>{history.push('/setting')}}>
                     Setting
                 </a>
             ),
-            icon: <SmileOutlined />,
+            icon: <UpdateIcon />,
         },
         {
             key: '5',
             danger: true,
             label: (
-                <a onClick={handleSignOut}>
+                <a className={'dropdown'} onClick={handleSignOut}>
                     Logout
                 </a>
             ),
-            icon: <LogoutOutlined />
+            icon: <LogoutIcon />
         },
     ];
     return (
 
     <Dropdown
+        className={'my-dropdown'}
         menu={
         {
             items,

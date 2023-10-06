@@ -60,10 +60,13 @@ export const getLovedPosts = async () =>
     method: 'GET',
   });
 
-export const updateUserProfile = async (user) =>
-  await request('/api/profile', {
+export const updateUserProfile = async ({nickname,description}) =>
+  await request('/api/user/profile', {
     method: 'PUT',
-    data:user
+    params:{
+        nickname,
+        description
+    }
   });
 
 

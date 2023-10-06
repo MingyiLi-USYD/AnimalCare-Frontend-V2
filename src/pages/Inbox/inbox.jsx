@@ -3,6 +3,7 @@ import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/ico
 import {Badge, Menu} from 'antd';
 import {Outlet, history, useLocation, useSelector, useDispatch} from "umi";
 import './inbox.less'
+import {CommentIcon, LoveIcon, MentionIcon, SettingIcon} from "@/assets/Icons/layoutIncon";
 
 
 const App = () => {
@@ -11,25 +12,25 @@ const App = () => {
         {
             label: 'Mentioned',
             key: '/inbox/mention',
-            icon: <Badge count={mentionsReceived} size={"small"}><MailOutlined /></Badge>,
+            icon: <Badge count={mentionsReceived} size={"small"}><MentionIcon /></Badge>,
             action: 'resetMentionsReceived',
         },
         {
             label: 'Comments received',
             key: '/inbox/comments',
-            icon: <Badge count={commentsReceived} size={"small"}><AppstoreOutlined /></Badge>,
+            icon: <Badge count={commentsReceived} size={"small"}><CommentIcon /></Badge>,
             action: 'resetCommentsReceived',
         },
         {
             label: 'Loves received',
             key: '/inbox/loves',
-            icon: <Badge count={lovesReceived} size={"small"}><AppstoreOutlined /></Badge>,
+            icon: <Badge count={lovesReceived} size={"small"}><LoveIcon /></Badge>,
             action: 'resetLovesReceived',
         },
         {
             label: 'Setting',
             key: '/inbox/system',
-            icon: <SettingOutlined />,
+            icon: <SettingIcon />,
         },
     ], [lovesReceived, commentsReceived, mentionsReceived]);
     const location = useLocation();

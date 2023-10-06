@@ -26,3 +26,10 @@ export const retrievePartlyMessages = async (data)=>
             data,
         }
     )
+
+export const readMessage = async (userId)=>
+    await request(`/api/chat/read/${userId}`,
+        {
+            method:"GET",
+        }
+    )

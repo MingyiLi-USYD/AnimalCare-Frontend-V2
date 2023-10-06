@@ -68,9 +68,9 @@ const NewPost = () => {
 
         <div className={'new-page'}>
             <div className={'new-container'}>
-                <Modal open={open} onOk={handleOk} onCancel={handleCancel} title="confirm leaving" okText="confirm"
-                       cancelText="cancel">
-                    你确定要离开当前页面吗？未保存的内容将会丢失。
+                <Modal open={open} onOk={handleOk} onCancel={handleCancel} title="confirm leaving" okText="Confirm"
+                       cancelText="Cancel">
+                    Are you sure to leave the current page? The content will be lost.
                 </Modal>
                 <div className={'label'}>Create Photo story</div>
                 <Form

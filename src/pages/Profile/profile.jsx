@@ -32,9 +32,15 @@ const Profile = (props) => {
             <div className={'profile-container'}>
                 <BackForward/>
                 <div className={'header'}>
-                    <Space className={'avatar-info'}>
-                        <Avatar src={data?.avatar} size={64}/>
-                        <Relation {...data}/>
+                    <Space className={'avatar-info'} direction={"vertical"} align={"center"}>
+                        <Space align={"center"}>
+                            <Avatar src={data?.avatar} size={64}/>
+                            <Relation {...data}/>
+                        </Space>
+                        <Space direction={"vertical"} align={"center"}>
+                            <Title level={3}>{data.nickname}</Title>
+                            <Paragraph>{data?.description}</Paragraph>
+                        </Space>
                     </Space>
                     <Space className={'number-info'}>
                         <Space>
@@ -55,11 +61,8 @@ const Profile = (props) => {
                         </Space>
                     </Space>
                 </div>
-                <Title level={3}>{data.nickname}</Title>
-                <Paragraph>{data?.description}</Paragraph>
                 <PostCardList data={data?.postList} avatar={currentUser.avatar}/>
                 <PetCardList data={data?.petList}/>
-
 
             </div>
         </div>

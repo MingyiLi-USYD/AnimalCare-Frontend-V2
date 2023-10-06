@@ -15,7 +15,7 @@ const ChatContent = () => {
 
             listRef.current.scrollTop = listRef.current.scrollHeight;
         }
-    }, [chatRecord[contact.userId].chatList.length]);
+    }, [chatRecord[contact.userId]?.chatList.length]);
     const chat= getChat(chatRecord, contact);
 
     async function handleFetchHistory() {

@@ -11,7 +11,7 @@ const DoneUpload = ({path}) => (
             <Button type="primary" key="console" onClick={()=>history.push(`${path}`)}>
                 Go Console
             </Button>,
-            <Button key="buy">Go Main</Button>,
+            <Button key="buy" onClick={()=>history.push('/home')}>Go Main</Button>,
         ]}
     />
 );

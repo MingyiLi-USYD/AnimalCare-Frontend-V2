@@ -2,7 +2,7 @@ import React from 'react';
 import { StatisticsIcon } from "@/assets/Icons/icon";
 import {history,useLocation} from 'umi'
 
-function EnhancedButton({ name }) {
+function EnhancedButton({ name,icon,title,other }) {
     const location = useLocation();
     const active = location.pathname === `/dashboard/${name}`;
     const handleClick = () => {
@@ -12,13 +12,13 @@ function EnhancedButton({ name }) {
     return (
         <div className={`enhanced-button ${active ? 'active' : ''}`} onClick={handleClick}>
             <div className={"button-logo"}>
-                <StatisticsIcon />
+                {icon}
             </div>
             <div className={"button-label"}>
-                Data Analysis
+                {title}
             </div>
             <div className={"chart-count"}>
-                6 charts
+                {other}
             </div>
         </div>
     );

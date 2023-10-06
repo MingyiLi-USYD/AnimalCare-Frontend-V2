@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import {useModel} from "umi";
-import {Avatar, Button, Form, Input, Switch} from "antd";
+import {Avatar, Button, Form, Input, Space, Switch,Typography } from "antd";
+
 import './setting.less'
 import {updateUserProfile} from "@/services/userService";
-
-
+const { Title } = Typography;
 const {TextArea} = Input;
 
 function Setting() {
@@ -26,9 +26,11 @@ function Setting() {
     }
     return (
         <div className={"info-container"}>
-            <Avatar size={64} src={user.avatar}/>
-            <h2>{currentUser.nickname}</h2>
-            <p>{currentUser.description}</p>
+            <Space direction={"vertical"} align={"center"}>
+                <Avatar size={64} src={user.avatar}/>
+                <Title level={3}>{currentUser.nickname}</Title>
+                <Title level={5}>{currentUser.description}</Title>
+            </Space>
             <Form
                 labelCol={{
                     span: 10,
@@ -39,6 +41,7 @@ function Setting() {
                 layout="horizontal"
                 style={{
                     maxWidth: 800,
+                    marginTop:100
                 }}
                 onFinish={finish}
                 form={form}
@@ -53,12 +56,12 @@ function Setting() {
                                   resize: 'none',
                               }}/>
                 </Form.Item>
-                <Form.Item label="Email"  name={'email'}  rules={[
+                <Form.Item label="Username"  name={'email'}  rules={[
                     {
                         type: 'email',
                     },
-                ]} initialValue={user.email}>
-                    <Input/>
+                ]} initialValue={user.username}>
+                    <Input disabled={true}/>
                 </Form.Item>
                 <Form.Item label="Mute Message:">
                     <Switch defaultChecked={true}/>

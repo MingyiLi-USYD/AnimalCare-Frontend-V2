@@ -1,11 +1,10 @@
-@containerHeight: calc(100vh - 64px);
 @import "../../public/common";
 .chatContainer {
   display: flex;
-  height: @containerHeight;
+  height: 100%;
 
   .messageContainer {
-    height: calc(@containerHeight * 0.6);
+    height: 60%;
   }
   .chat-header {
     display: flex;
@@ -63,10 +62,28 @@
     #scrollableDivRecent{
       .fix-scroll();
       .friend-item{
-         .friend-item()
+        .friend-item();
+        .delete-button{
+             display: none;
+          position: absolute;
+          top: 3px;
+          right: 3px;
+        }
+        &:hover{
+          .delete-button{
+            display: block;
+            &:hover{
+              transform: scale(1.1);
+              background-color: orangered;
+            }
+          }
+        }
+
       }
+
       #active{
         background-color: #adb7c7 !important;
+
       }
     }
     .last-info{

@@ -1,14 +1,19 @@
+@import "../../public/common";
 @width:1000px;
 .new-page{
+  height: 100%;
   display: flex;
   justify-content: center;
-  overflow: hidden;
+  background-image: url("../../assets/images/pet.jpg");
+  background-size: cover; /* 可选，使图像尺寸自适应 */
+
    .new-container{
      display: flex;
      flex-direction: column;
      align-items: center;
      width: @width;
-     background-color: white;
+     .scrollbar-style();
+     background-color: rgba(255, 255, 255, 0.88);
      .label{
        font-size: 30px;
        font-family: Arial, serif;

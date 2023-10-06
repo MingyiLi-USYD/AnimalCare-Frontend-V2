@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Avatar, Button, Image, Popconfirm} from "antd";
+import {Avatar, Button, Image, Popconfirm, Space,Typography} from "antd";
 import {useModel, useParams} from "umi";
 import './petDetail.less'
 import PetImageUpload from "./Components/petImageUpload";
@@ -8,8 +8,7 @@ import BackForward from "../../components/BackForward";
 import NotFoundPage from "../404";
 import Loading from "../../components/Loading";
 import {urlWrapper} from "@/utils/imageUtils";
-
-
+const { Title } = Typography;
 function PetDetail() {
     const params = useParams();
     const {petId} = params
@@ -38,11 +37,11 @@ function PetDetail() {
         <div className={'pet-detail'}>
             <BackForward/>
             <div style={{textAlign: 'center'}}>
-                <div>
+                <Space direction={"vertical"} align={"center"} style={{marginBottom:50}}>
                     <Avatar size={64} src={urlWrapper(pet.petAvatar)}/>
-                    <h2>{pet.petName}</h2>
-                    <p>{pet.petDescription}</p>
-                </div>
+                    <Title level={3}>{pet.petName}</Title>
+                    <Title level={5} color={'blue'}>{pet.petDescription}</Title>
+                </Space>
                 {currentUser.userId === pet.userId && <PetImageUpload petId={pet.petId} setPet={setPet} pet={pet}/>}
                 <div style={{marginTop: '50px'}}>
                     <div style={{display: 'flex', flexWrap: 'wrap'}}>

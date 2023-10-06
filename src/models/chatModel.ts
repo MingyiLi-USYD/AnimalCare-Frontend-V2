@@ -86,7 +86,11 @@ const chatModel: DvaModel<ChatModelState, EffectsMapObject, MyReducersMapObject<
                 state.chatRecordArray = convertMapToList(newChatRecord)
             }
             state.contact = contact
-
+        },
+        onDelete(state, {payload:userId}) {
+            delete state.chatRecord[userId];
+            state.chatRecordArray = convertMapToList(state.chatRecord)
+            state.contact= {} as User
         },
 
     },

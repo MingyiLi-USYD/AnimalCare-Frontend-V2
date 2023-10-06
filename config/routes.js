@@ -63,6 +63,18 @@ export  const routes = [
                         path: '/dashboard/server',
                         component: '@/pages/Dashboard/Components/Servers/server',
                     },
+                    {
+                        path: '/dashboard/log',
+                        component: '@/pages/Dashboard/further',
+                    },
+                    {
+                        path: '/dashboard/project',
+                        component: '@/pages/Dashboard/further',
+                    },
+                    {
+                        path: '/dashboard/progress',
+                        component: '@/pages/Dashboard/further',
+                    },
                 ],
             },
             {

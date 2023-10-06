@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {history, useDispatch, useParams, useSelector} from "umi";
 import "./postDetail.less"
-import {Avatar, Button, Carousel, Divider, Input, List, Mentions, Skeleton} from "antd";
+import {Avatar, Button, Carousel, Divider, List, Mentions, Skeleton} from "antd";
 import Loading from "../../components/Loading";
 import {HeartOutlined, MessageOutlined, PaperClipOutlined, SmileOutlined, StarOutlined} from '@ant-design/icons';
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -98,9 +98,12 @@ function PostDetail() {
     }
 
     const handleLove = () => {
+
+
         dispatch(loveAction(postId))
     };
     const handleCancelLove = () => {
+
         dispatch(cancelLoveAction(postId))
     };
 

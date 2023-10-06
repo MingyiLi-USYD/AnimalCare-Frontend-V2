@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import BackForward from "../../components/BackForward";
-import {Avatar, Button, List, Popconfirm, Switch} from "antd";
+import {Avatar, Button, List, Popconfirm, Switch,Typography} from "antd";
 import style from "../Pet/petDetail.less";
 import {deletePostById, getMyPosts, setVisibility} from "@/services/postService";
-import {parseStringToList} from "@/utils/arrayUtils";
 import {history} from "umi";
 import {urlWrapper} from "@/utils/imageUtils";
-
+const { Title } = Typography;
 function PostList() {
     const [data,setData] = useState([]);
     const fetchData = async ()=>{
@@ -37,7 +36,7 @@ function PostList() {
     return (
         <div>
             <BackForward/>
-            <h2 style={{textAlign:"center"}}>Post Management</h2>
+            <Title style={{textAlign:"center"}} level={3}>Post Management</Title>
             <List
                 pagination={{
                     position:'bottom',

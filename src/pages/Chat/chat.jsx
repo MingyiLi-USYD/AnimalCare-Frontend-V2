@@ -66,6 +66,7 @@ const Chat = (props) => {
                 <RecentChatFriendList/>
             </div>
             {
+
                 Object.keys(contact).length !== 0 &&
                 <div className={'flexible-div'} style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
                     <ChatHeader contact={contact}/>

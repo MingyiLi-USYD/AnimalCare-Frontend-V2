@@ -90,7 +90,7 @@ function DetailInfo() {
                         </div>
                     </div>
                     <div className={'detail-info-bottom'}>
-                        <Button className={'send-button'} type={"primary"} onClick={handleSendMsg}>发消息</Button>
+                        <Button className={'send-button'} type={"primary"} onClick={handleSendMsg}>Message</Button>
                     </div>
                 </div>
             }

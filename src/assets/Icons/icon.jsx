@@ -13,7 +13,24 @@ const ServerIcon = (props)=>{
         <use xlinkHref="#icon-jiankong" ></use>
     </svg>
 }
-
+const LogIcon = (props)=>{
+    const { width, height } = props;
+    return <svg className="diy-icon"  aria-hidden="true"  style={{ width, height }}>
+        <use xlinkHref="#icon-rizhijilu" ></use>
+    </svg>
+}
+const ProjectIcon = (props)=>{
+    const { width, height } = props;
+    return <svg className="diy-icon"  aria-hidden="true"  style={{ width, height }}>
+        <use xlinkHref="#icon-xiangmu" ></use>
+    </svg>
+}
+const ProgressIcon = (props)=>{
+    const { width, height } = props;
+    return <svg className="diy-icon"  aria-hidden="true"  style={{ width, height }}>
+        <use xlinkHref="#icon-jindu" ></use>
+    </svg>
+}
 const TemperatureIcon = (props)=>{
     const { width, height } = props;
     return <svg className="diy-icon"  aria-hidden="true"  style={{ width, height }}>
@@ -147,4 +164,4 @@ const NewFriend=()=> {
 export {StatisticsIcon,ServerIcon,TemperatureIcon,CPUIcon,
     RAMIcon,DogIcon,CatIcon,BackForwardIcon,VaccineIcon,
     ConsultationIcon,SurgeryIcon,DentalIcon,NewFriend,MoreInfoIcon
-,PetIcon,PostIcon,FollowerIcon,FollowIcon} ;
+,PetIcon,PostIcon,FollowerIcon,FollowIcon,LogIcon,ProjectIcon,ProgressIcon} ;

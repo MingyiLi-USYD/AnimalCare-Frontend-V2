@@ -73,8 +73,12 @@ export function convertMapToList(chatRecord: ChatRecord) {
 }
 
 export function resetUnread(chatRecord: ChatRecord, contact: User) {
+
     const newChatRecord: ChatRecord = { ...chatRecord };
     const record = newChatRecord[contact.userId];
+    if (!record) {
+        return newChatRecord
+    }
     record.unRead = 0;
     return newChatRecord;
 }
