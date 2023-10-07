@@ -50,9 +50,13 @@ export const getPosts = async (current,pageSize,order,keywords) =>
         }
     })
 
-export const getLoves = async () =>
-    await request('/api/loves', {
+export const getLoves = async (current,pageSize) =>
+    await request('/api/lovePost/myLove', {
         method: 'GET',
+        params:{
+            current,
+            pageSize,
+        }
     });
 export const love = async (postId) =>
     await request(`/api/lovePost/${postId}`, {

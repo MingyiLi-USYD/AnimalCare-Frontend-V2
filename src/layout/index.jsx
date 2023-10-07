@@ -20,7 +20,7 @@ import {
   ChatIcon,
   ConsoleIcon,
   FriendIcon,
-  HospitalIcon,
+  HospitalIcon, LoveIcon,
   MainIcon,
   MessageIcon,
   PostIcon
@@ -73,12 +73,7 @@ const BasicLayout = (props) => {
         },
       ],
     },
-    {
-      key:'6',
-      name: 'Console',
-      path: '/dashboard',
-      icon: <ConsoleIcon/>,
-    },
+
     {
       key:'8',
       path: '/setting',
@@ -117,10 +112,22 @@ const BasicLayout = (props) => {
       icon: <Badge  size={"small"} count={lovesReceived+commentsReceived+mentionsReceived}><MessageIcon /></Badge>,
     },
     {
+      key:'14',
+      path: '/love',
+      name:'Love',
+      icon: <LoveIcon />,
+    },
+    {
       key:'16',
       path: '/medical',
       name: 'Hospital',
       icon: <HospitalIcon/>,
+    },
+    {
+      key:'19',
+      name: 'Console',
+      path: '/dashboard',
+      icon: <ConsoleIcon/>,
     },
     {
       key:'17',

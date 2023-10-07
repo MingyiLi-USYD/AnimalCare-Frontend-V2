@@ -47,13 +47,13 @@ function PostList() {
 
                     <List.Item   actions={[<Switch checked={item.visible} onChange={(open)=>{onChange(item.postId,open)}} />,
                         <Popconfirm
-                            title="Delete pet"
-                            description="Are you sure to delete this pet?"
+                            title="Delete Post"
+                            description="Are you sure to delete this post?"
                             onConfirm={()=>confirm(item.postId)}
                             onCancel={cancel}
                             okText="Yes"
                             cancelText="No">
-                            <Button danger className={style.button} key="list-loadmore-more">Delete</Button>
+                            <Button danger className={'edit-button'} key="list-loadmore-more">Delete</Button>
                         </Popconfirm>
                     ]}>
                         <List.Item.Meta

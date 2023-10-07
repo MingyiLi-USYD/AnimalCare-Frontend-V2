@@ -52,9 +52,9 @@ const MentionIcon = ()=>{
         <use xlinkHref="#icon-guanyu" ></use>
     </svg>
 }
-const LoveIcon = ()=>{
-    return <svg className="diy-icon"  aria-hidden="true"  style={style}>
-        <use xlinkHref="#icon-xihuan" ></use>
+const LoveIcon = (props)=>{
+    return <svg className="diy-icon"  aria-hidden="true" {...props}  style={style}>
+        <use xlinkHref="#icon-xihuan"></use>
     </svg>
 }
 const CommentIcon = ()=>{

@@ -67,7 +67,7 @@ const PetList = () => {
                         <Button type={"primary"} className={'edit-button'} key="list-loadmore-edit"
                                 onClick={() => handleEdit(index)}>Edit</Button>,
                         <Popconfirm
-                            title="Delete pet"
+                            title="Delete Pet"
                             description="Are you sure to delete this pet?"
                             onConfirm={() => confirm(item.petId)}
                             onCancel={cancel}

@@ -129,6 +129,10 @@ export  const routes = [
 
             },
             {
+                path: '/love',
+                component: '@/pages/Love/myLove',
+            },
+            {
                 path: '/medical',
                 component: '@/pages/Medical/medical',
             },
